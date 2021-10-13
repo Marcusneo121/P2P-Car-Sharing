@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "475824868304",
+    "project_id": "p2p-car-sharing",
+    "storage_bucket": "p2p-car-sharing.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:475824868304:android:d45b5ca278d9645ce507d5",
+        "android_client_info": {
+          "package_name": "com.example.p2p_car_sharing_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "475824868304-hoahkth0n685effeql51vj98v5augpok.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBw4j1NhzoQcNeFROfo5qNEpMnRYJUt5s0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "475824868304-hoahkth0n685effeql51vj98v5augpok.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
