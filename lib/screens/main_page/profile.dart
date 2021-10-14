@@ -2,16 +2,19 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get_core/src/get_main.dart';
+import 'package:get/get_navigation/src/extension_navigation.dart';
 import 'package:p2p_car_sharing_app/bindings/authBinding.dart';
 import 'package:p2p_car_sharing_app/components/profile_widget.dart';
 import 'package:p2p_car_sharing_app/controllers/authController.dart';
 import 'package:p2p_car_sharing_app/models/user.dart';
+import 'package:p2p_car_sharing_app/screens/others/edit_profile.dart';
 import 'package:p2p_car_sharing_app/utils/user_preferences.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-FirebaseAuth _auth = FirebaseAuth.instance;
 final _firestore = FirebaseFirestore.instance;
-String imageURL = "";
+String imageURL =
+    "https://firebasestorage.googleapis.com/v0/b/p2p-car-sharing.appspot.com/o/defaultProfilePic.jpg?alt=media&token=998c6836-ad5f-49e2-b915-c8872945acc2";
 String username = "";
 String email = "";
 
@@ -83,7 +86,9 @@ class _ProfileState extends State<Profile> {
                     children: <Widget>[
                       ProfileWidget(
                         imagePath: imageURL,
-                        onClicked: () async {},
+                        onClicked: () async {
+                          Get.toNamed('/login/home/profile/editProfile');
+                        },
                       ),
                       const SizedBox(width: 20),
                       buildName(email, username)

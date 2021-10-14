@@ -8,8 +8,10 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:p2p_car_sharing_app/bindings/authBinding.dart';
 import 'package:p2p_car_sharing_app/screens/adminHome.dart';
 import 'package:p2p_car_sharing_app/screens/authentication/forgot_pass.dart';
+import 'package:p2p_car_sharing_app/screens/authentication/forgot_pass_profile.dart';
 import 'package:p2p_car_sharing_app/screens/home.dart';
 import 'package:p2p_car_sharing_app/screens/authentication/registration.dart';
+import 'package:p2p_car_sharing_app/screens/others/edit_profile.dart';
 import 'package:p2p_car_sharing_app/screens/splashscreen.dart';
 import 'screens/authentication/login.dart';
 
@@ -50,11 +52,23 @@ class MyApp extends StatelessWidget {
           transitionDuration: Duration(milliseconds: 600),
         ),
         GetPage(
+          name: '/login/home/profile/editProfile',
+          page: () => EditProfile(),
+          transition: Transition.cupertino,
+          transitionDuration: Duration(milliseconds: 500),
+        ),
+        GetPage(
+          name: '/login/home/profile/editProfile/changePass',
+          page: () => ForgotPasswordProfile(),
+          transition: Transition.cupertino,
+          transitionDuration: Duration(milliseconds: 500),
+        ),
+        GetPage(
           name: '/login/adminHome',
           page: () => AdminHome(),
           transition: Transition.fadeIn,
           transitionDuration: Duration(milliseconds: 600),
-        )
+        ),
         // GetPage(
         //   name: '/nextScreen',
         //   page: () => NextScreen(),

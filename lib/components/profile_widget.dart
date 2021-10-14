@@ -35,8 +35,6 @@ class _ProfileWidgetState extends State<ProfileWidget> {
 
   Widget buildImage() {
     final image = NetworkImage(widget.imagePath);
-    //final image = NetworkImage(imageURL);
-
     return ClipOval(
       child: Material(
         color: Colors.transparent,
