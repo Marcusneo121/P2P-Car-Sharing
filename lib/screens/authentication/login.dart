@@ -4,11 +4,8 @@ import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_navigation/src/extension_navigation.dart';
 import 'package:p2p_car_sharing_app/components/rounded_button.dart';
-import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:p2p_car_sharing_app/constant.dart';
 import 'package:p2p_car_sharing_app/controllers/authController.dart';
-import 'package:p2p_car_sharing_app/screens/home.dart';
-import 'package:p2p_car_sharing_app/screens/authentication/registration.dart';
 
 class Login extends GetWidget<AuthController> {
   static String id = 'login_screen';
