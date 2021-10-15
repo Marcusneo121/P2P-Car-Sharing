@@ -56,7 +56,7 @@ class _ProfileWidgetState extends State<ProfileWidget> {
           color: color,
           all: 4,
           child: Icon(
-            Icons.edit,
+            Icons.settings_rounded,
             color: Colors.white,
             size: 15,
           ),

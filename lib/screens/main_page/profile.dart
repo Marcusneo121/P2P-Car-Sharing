@@ -97,35 +97,35 @@ class _ProfileState extends State<Profile> {
                 ),
                 Column(
                   children: <Widget>[
-                    ElevatedButton(
-                      onPressed: () {
-                        setState(() {
-                          username = "";
-                          email = "";
-                          imageURL =
-                              "https://firebasestorage.googleapis.com/v0/b/p2p-car-sharing.appspot.com/o/defaultProfilePic.jpg?alt=media&token=998c6836-ad5f-49e2-b915-c8872945acc2";
-                        });
-                        AuthBinding().dependencies();
-                        AuthController().signOut();
-                      },
-                      style: ButtonStyle(
-                        fixedSize: MaterialStateProperty.all(Size(340, 55)),
-                        shape: MaterialStateProperty.all(
-                          RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(15),
-                            side: BorderSide(color: Colors.red, width: 2),
-                          ),
-                        ),
-                        backgroundColor:
-                            MaterialStateProperty.all(Colors.transparent),
-                        shadowColor:
-                            MaterialStateProperty.all(Colors.transparent),
-                      ),
-                      child: Text(
-                        "Logout",
-                        style: TextStyle(fontSize: 21, color: Colors.red),
-                      ),
-                    ),
+                    // ElevatedButton(
+                    //   onPressed: () {
+                    //     setState(() {
+                    //       username = "";
+                    //       email = "";
+                    //       imageURL =
+                    //           "https://firebasestorage.googleapis.com/v0/b/p2p-car-sharing.appspot.com/o/defaultProfilePic.jpg?alt=media&token=998c6836-ad5f-49e2-b915-c8872945acc2";
+                    //     });
+                    //     AuthBinding().dependencies();
+                    //     AuthController().signOut();
+                    //   },
+                    //   style: ButtonStyle(
+                    //     fixedSize: MaterialStateProperty.all(Size(340, 55)),
+                    //     shape: MaterialStateProperty.all(
+                    //       RoundedRectangleBorder(
+                    //         borderRadius: BorderRadius.circular(15),
+                    //         side: BorderSide(color: Colors.red, width: 2),
+                    //       ),
+                    //     ),
+                    //     backgroundColor:
+                    //         MaterialStateProperty.all(Colors.transparent),
+                    //     shadowColor:
+                    //         MaterialStateProperty.all(Colors.transparent),
+                    //   ),
+                    //   child: Text(
+                    //     "Logout",
+                    //     style: TextStyle(fontSize: 21, color: Colors.red),
+                    //   ),
+                    // ),
                     SizedBox(height: 18),
                   ],
                 ),

@@ -1,10 +1,15 @@
 import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_navigation/src/extension_navigation.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:p2p_car_sharing_app/bindings/authBinding.dart';
+import 'package:p2p_car_sharing_app/controllers/authController.dart';
+import 'package:p2p_car_sharing_app/screens/main_page/profile.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 final _firestore = FirebaseFirestore.instance;
@@ -12,6 +17,11 @@ String imageURL =
     "https://firebasestorage.googleapis.com/v0/b/p2p-car-sharing.appspot.com/o/defaultProfilePic.jpg?alt=media&token=998c6836-ad5f-49e2-b915-c8872945acc2";
 String username = "";
 String email = "";
+Timestamp? createdAt;
+String role = "";
+File? _image;
+String url = "";
+String _publicUID = "";
 
 final TextEditingController nameController = TextEditingController();
 
@@ -21,12 +31,20 @@ class EditProfile extends StatefulWidget {
 }
 
 class _EditProfileState extends State<EditProfile> {
-  File? _image;
   final picker = ImagePicker();
   Future getGalleryImage() async {
     var pickedFile = await picker.pickImage(source: ImageSource.gallery);
     setState(() {
       _image = File(pickedFile!.path);
+      EasyLoading.show(status: "Uploading...");
+      saveUpdate();
+      Future.delayed(Duration(seconds: 1)).then((value) async {
+        EasyLoading.showSuccess("Update Saved!");
+        Future.delayed(Duration(seconds: 2)).then((value) async {
+          EasyLoading.dismiss();
+        });
+      });
+      print("Image Path $_image");
     });
   }
 
@@ -43,12 +61,41 @@ class _EditProfileState extends State<EditProfile> {
   //   });
   // }
 
-  void saveUpdate() {}
+  Future saveUpdate() async {
+    var imageFile = FirebaseStorage.instance
+        .ref()
+        .child('profilePic')
+        .child("$email" + "_" + "$_publicUID" + ".jpg");
+    UploadTask task = imageFile.putFile(_image!);
+    TaskSnapshot snapshot = await task;
+    url = await snapshot.ref
+        .getDownloadURL()
+        .whenComplete(() => EasyLoading.dismiss);
+
+    //Create Map
+    Map<String, dynamic> updateUser = {
+      "createdAt": createdAt,
+      "email": email,
+      "profilePic": url,
+      "role": role,
+      "username": username
+    };
+
+    DocumentReference documentReference =
+        _firestore.collection("users").doc(_publicUID.toString());
+
+    documentReference.set(updateUser).whenComplete(
+      () {
+        print('$username updated');
+      },
+    );
+  }
 
   Future readData() async {
     final SharedPreferences authSharedPreferences =
         await SharedPreferences.getInstance();
     final obtainedUID = authSharedPreferences.get('uidShared');
+    _publicUID = obtainedUID.toString();
 
     //final authCurrentUser = _auth.currentUser!;
     DocumentReference documentReference =
@@ -59,7 +106,15 @@ class _EditProfileState extends State<EditProfile> {
         username = datasnapshot.get('username');
         email = datasnapshot.get('email');
         imageURL = datasnapshot.get('profilePic');
+        createdAt = datasnapshot.get('createdAt');
+        role = datasnapshot.get('role');
         nameController.text = username;
+
+        print(username);
+        print(email);
+        print(imageURL);
+        print(createdAt!.toDate());
+        print(role);
       });
     });
   }
@@ -71,8 +126,6 @@ class _EditProfileState extends State<EditProfile> {
 
   @override
   Widget build(BuildContext context) {
-    final color = Theme.of(context).colorScheme.primary;
-
     return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
@@ -116,7 +169,7 @@ class _EditProfileState extends State<EditProfile> {
                               child: ClipOval(
                                 child: Container(
                                   padding: EdgeInsets.all(7),
-                                  color: color,
+                                  color: Color(0xFF7879F1),
                                   child: Icon(
                                     Icons.add_a_photo,
                                     color: Colors.white,
@@ -247,33 +300,49 @@ class _EditProfileState extends State<EditProfile> {
                     padding: const EdgeInsets.only(left: 50.0, right: 50.0),
                     child: ElevatedButton(
                       onPressed: () {
-                        saveUpdate();
+                        AuthBinding().dependencies();
+                        AuthController().signOut();
                       },
                       style: ButtonStyle(
                         fixedSize: MaterialStateProperty.all(Size(340, 55)),
                         shape: MaterialStateProperty.all(
                           RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(15),
-                            side:
-                                BorderSide(color: Color(0xFF7879F1), width: 2),
+                            side: BorderSide(color: Colors.red, width: 2),
                           ),
                         ),
                         backgroundColor:
                             MaterialStateProperty.all(Colors.transparent),
-                        shadowColor: MaterialStateProperty.all(Colors.white12),
+                        shadowColor:
+                            MaterialStateProperty.all(Colors.transparent),
                       ),
                       child: Text(
-                        "Save",
-                        style:
-                            TextStyle(fontSize: 21, color: Color(0xFF7879F1)),
+                        "Logout",
+                        style: TextStyle(fontSize: 21, color: Colors.red),
                       ),
                     ),
-                    // RoundedButton(
-                    //   title: 'Save',
-                    //   colour: Color(0xFF7879F1),
-                    //   textColor: Colors.white,
-                    //   onPressed: () async {},
-                    //   tag: 'saveButton',
+                    // ElevatedButton(
+                    //   onPressed: () {
+                    //     //saveUpdate();
+                    //   },
+                    //   style: ButtonStyle(
+                    //     fixedSize: MaterialStateProperty.all(Size(340, 55)),
+                    //     shape: MaterialStateProperty.all(
+                    //       RoundedRectangleBorder(
+                    //         borderRadius: BorderRadius.circular(15),
+                    //         side:
+                    //             BorderSide(color: Color(0xFF7879F1), width: 2),
+                    //       ),
+                    //     ),
+                    //     backgroundColor:
+                    //         MaterialStateProperty.all(Colors.transparent),
+                    //     shadowColor: MaterialStateProperty.all(Colors.white12),
+                    //   ),
+                    //   child: Text(
+                    //     "Save",
+                    //     style:
+                    //         TextStyle(fontSize: 21, color: Color(0xFF7879F1)),
+                    //   ),
                     // ),
                   ),
                   SizedBox(
