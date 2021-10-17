@@ -2,12 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:p2p_car_sharing_app/models/car_model.dart';
 import 'package:p2p_car_sharing_app/screens/main_page/cars_page/car_details_page.dart';
-import 'package:intl/intl.dart';
-
 import '../constant.dart';
 
 Widget buildCarCard(BuildContext context, int index) {
-  final data = CarList.list[index];
+  final data = CarList.carList[index];
   return Padding(
     padding: const EdgeInsets.only(bottom: 12),
     child: Card(
@@ -23,6 +21,11 @@ Widget buildCarCard(BuildContext context, int index) {
               carName: data.carName,
               carPlate: data.carPlate,
               price: data.price,
+              location: data.location,
+              seat: data.seat,
+              yearMade: data.yearMade,
+              color: data.color,
+              engine: data.engine,
             ),
             transition: Transition.cupertino,
             duration: Duration(milliseconds: 500),
@@ -39,7 +42,8 @@ Widget buildCarCard(BuildContext context, int index) {
                     child: Padding(
                       padding: const EdgeInsets.only(left: 30, right: 30),
                       child: Image(
-                        image: AssetImage(data.imagePath),
+                        //image: AssetImage(data.imagePath),
+                        image: NetworkImage(data.imagePath),
                         height: 130,
                       ),
                     )),
@@ -78,11 +82,11 @@ Widget buildCarCard(BuildContext context, int index) {
                                     ),
                                   )),
                               SizedBox(
-                                width: 5,
+                                width: 10,
                               ),
                               Text(
-                                'RM ${data.price}',
-                                style: pageStyle3,
+                                'RM ${data.price}/day',
+                                style: pageStyle4,
                               ),
                             ],
                           ),
@@ -101,9 +105,14 @@ Widget buildCarCard(BuildContext context, int index) {
                                 carName: data.carName,
                                 carPlate: data.carPlate,
                                 price: data.price,
+                                location: data.location,
+                                seat: data.seat,
+                                yearMade: data.yearMade,
+                                color: data.color,
+                                engine: data.engine,
                               ),
                               transition: Transition.cupertino,
-                              duration: Duration(milliseconds: 500),
+                              duration: Duration(milliseconds: 350),
                             );
                           },
                           icon: Icon(

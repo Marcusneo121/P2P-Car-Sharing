@@ -66,7 +66,7 @@ class _ProfileState extends State<Profile> {
               top: 25.0,
             ),
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              //mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
                 Container(
                   padding:
@@ -90,45 +90,130 @@ class _ProfileState extends State<Profile> {
                           Get.toNamed('/login/home/profile/editProfile');
                         },
                       ),
-                      const SizedBox(width: 20),
+                      const SizedBox(width: 15),
                       buildName(email, username)
                     ],
                   ),
                 ),
-                Column(
-                  children: <Widget>[
-                    // ElevatedButton(
-                    //   onPressed: () {
-                    //     setState(() {
-                    //       username = "";
-                    //       email = "";
-                    //       imageURL =
-                    //           "https://firebasestorage.googleapis.com/v0/b/p2p-car-sharing.appspot.com/o/defaultProfilePic.jpg?alt=media&token=998c6836-ad5f-49e2-b915-c8872945acc2";
-                    //     });
-                    //     AuthBinding().dependencies();
-                    //     AuthController().signOut();
-                    //   },
-                    //   style: ButtonStyle(
-                    //     fixedSize: MaterialStateProperty.all(Size(340, 55)),
-                    //     shape: MaterialStateProperty.all(
-                    //       RoundedRectangleBorder(
-                    //         borderRadius: BorderRadius.circular(15),
-                    //         side: BorderSide(color: Colors.red, width: 2),
-                    //       ),
-                    //     ),
-                    //     backgroundColor:
-                    //         MaterialStateProperty.all(Colors.transparent),
-                    //     shadowColor:
-                    //         MaterialStateProperty.all(Colors.transparent),
-                    //   ),
-                    //   child: Text(
-                    //     "Logout",
-                    //     style: TextStyle(fontSize: 21, color: Colors.red),
-                    //   ),
-                    // ),
-                    SizedBox(height: 18),
-                  ],
+                Padding(
+                  padding: EdgeInsets.only(left: 6, right: 6),
+                  child: Column(
+                    children: <Widget>[
+                      SizedBox(height: 15),
+                      Hero(
+                        tag: 'submit',
+                        child: ElevatedButton(
+                          style: ButtonStyle(
+                            shape: MaterialStateProperty.all<
+                                RoundedRectangleBorder>(
+                              RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10.0),
+                              ),
+                            ),
+                            backgroundColor:
+                                MaterialStateProperty.all(Color(0xFF7477F0)),
+                          ),
+                          onPressed: () {
+                            //To Press for action
+                          },
+                          child: Padding(
+                            padding: EdgeInsets.all(10),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: <Widget>[
+                                Text(
+                                  'My Car',
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w700,
+                                    color: Colors.white,
+                                  ),
+                                ),
+                                Icon(
+                                  Icons.arrow_forward,
+                                  color: Colors.white,
+                                )
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                      SizedBox(height: 10),
+                      Hero(
+                        tag: 'submit',
+                        child: ElevatedButton(
+                          style: ButtonStyle(
+                            shape: MaterialStateProperty.all<
+                                RoundedRectangleBorder>(
+                              RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10.0),
+                              ),
+                            ),
+                            backgroundColor:
+                                MaterialStateProperty.all(Color(0xFF7477F0)),
+                          ),
+                          onPressed: () {
+                            //To Press for action
+                          },
+                          child: Padding(
+                            padding: EdgeInsets.all(10),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: <Widget>[
+                                Text(
+                                  'Others',
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w700,
+                                    color: Colors.white,
+                                  ),
+                                ),
+                                Icon(
+                                  Icons.arrow_forward,
+                                  color: Colors.white,
+                                )
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
+                // Column(
+                //   children: <Widget>[
+                //     ElevatedButton(
+                //       onPressed: () {
+                //         setState(() {
+                //           username = "";
+                //           email = "";
+                //           imageURL =
+                //               "https://firebasestorage.googleapis.com/v0/b/p2p-car-sharing.appspot.com/o/defaultProfilePic.jpg?alt=media&token=998c6836-ad5f-49e2-b915-c8872945acc2";
+                //         });
+                //         AuthBinding().dependencies();
+                //         AuthController().signOut();
+                //       },
+                //       style: ButtonStyle(
+                //         fixedSize: MaterialStateProperty.all(Size(340, 55)),
+                //         shape: MaterialStateProperty.all(
+                //           RoundedRectangleBorder(
+                //             borderRadius: BorderRadius.circular(15),
+                //             side: BorderSide(color: Colors.red, width: 2),
+                //           ),
+                //         ),
+                //         backgroundColor:
+                //             MaterialStateProperty.all(Colors.transparent),
+                //         shadowColor:
+                //             MaterialStateProperty.all(Colors.transparent),
+                //       ),
+                //       child: Text(
+                //         "Logout",
+                //         style: TextStyle(fontSize: 21, color: Colors.red),
+                //       ),
+                //     ),
+                //     SizedBox(height: 18),
+                //   ],
+                // ),
               ],
             ),
           ),
@@ -149,7 +234,7 @@ class _ProfileState extends State<Profile> {
           const SizedBox(height: 1),
           Text(
             email,
-            style: TextStyle(color: Colors.white70, fontSize: 15),
+            style: TextStyle(color: Colors.white70, fontSize: 14),
           )
         ],
       );

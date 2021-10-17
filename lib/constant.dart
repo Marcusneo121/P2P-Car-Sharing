@@ -36,14 +36,14 @@ var pageTitleStyle = GoogleFonts.poppins(
 );
 
 var pageStyle1 = GoogleFonts.poppins(
-  fontSize: 20.0,
+  fontSize: 19.0,
   color: primaryColor,
   fontWeight: FontWeight.bold,
 );
 
 var pageStyle2 = GoogleFonts.poppins(
   color: primaryColor,
-  fontSize: 10,
+  fontSize: 11,
   letterSpacing: 2.6,
   wordSpacing: 1,
 );
@@ -53,3 +53,10 @@ var pageStyle3 = GoogleFonts.poppins(
   letterSpacing: 1,
   wordSpacing: 1,
 );
+
+var pageStyle4 = GoogleFonts.poppins(
+    color: primaryColor,
+    fontSize: 12,
+    letterSpacing: 1,
+    wordSpacing: 1,
+    fontWeight: FontWeight.w700);

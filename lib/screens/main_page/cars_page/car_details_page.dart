@@ -5,7 +5,14 @@ import '../../../constant.dart';
 
 class CarDetailPage extends StatefulWidget {
   final List<String> images;
-  final String carName, carPlate, price;
+  final String carName,
+      carPlate,
+      price,
+      location,
+      seat,
+      yearMade,
+      color,
+      engine;
 
   const CarDetailPage({
     Key? key,
@@ -13,6 +20,11 @@ class CarDetailPage extends StatefulWidget {
     required this.carName,
     required this.carPlate,
     required this.price,
+    required this.location,
+    required this.seat,
+    required this.yearMade,
+    required this.color,
+    required this.engine,
   }) : super(key: key);
 
   @override
@@ -101,343 +113,375 @@ class _CarDetailPageState extends State<CarDetailPage> {
         ),
         color: Colors.white,
       ),
-      child: SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            upperImagesContainer(),
-            SizedBox(
-              height: 10,
-            ),
-            Container(
-              margin: EdgeInsets.symmetric(horizontal: 18),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  Text(
-                    widget.carName,
-                    style: pageTitleStyle,
-                  ),
-                  Container(
-                      decoration: BoxDecoration(
-                        border: Border.all(
-                            width: 0.5, color: primaryColor.withOpacity(0.4)),
-                        borderRadius: BorderRadius.circular(5),
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 5),
-                        child: Text(
-                          widget.carPlate,
-                          style: pageStyle2,
-                        ),
-                      )),
-                  SizedBox(
-                    height: size.height * 0.012,
-                  ),
-                  Text(
-                    'Location',
-                    style: pageStyle3.copyWith(
-                      fontSize: 18,
-                      fontWeight: FontWeight.w900,
-                    ),
-                  ),
-                  SizedBox(
-                    height: 4,
-                  ),
-                  Container(
-                      decoration: BoxDecoration(
-                        border: Border.all(
-                            width: 0.5, color: primaryColor.withOpacity(0.4)),
-                        borderRadius: BorderRadius.circular(5),
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 5, vertical: 5),
-                        child: Row(
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Icon(
-                                Icons.location_on_outlined,
-                                color: tertiaryColor,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              //mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                upperImagesContainer(),
+                SizedBox(
+                  height: 10,
+                ),
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Container(
+                      margin: EdgeInsets.symmetric(horizontal: 18),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          Text(
+                            widget.carName,
+                            style: pageTitleStyle,
+                          ),
+                          Container(
+                              decoration: BoxDecoration(
+                                border: Border.all(
+                                    width: 0.5,
+                                    color: primaryColor.withOpacity(0.4)),
+                                borderRadius: BorderRadius.circular(5),
                               ),
-                            ),
-                            SizedBox(
-                              width: 4,
-                            ),
-                            Expanded(
+                              child: Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 5),
                                 child: Text(
-                              ' '
-                              ' ',
-                              style: pageStyle3.copyWith(fontSize: 12),
-                            )),
-                          ],
-                        ),
-                      )),
-                  SizedBox(
-                    height: size.height * 0.012,
-                  ),
-                  // Text(
-                  //   'Date',
-                  //   style: pageStyle3.copyWith(
-                  //     fontSize: 17,
-                  //     fontWeight: FontWeight.w900,
-                  //   ),
-                  // ),
-                  // SizedBox(
-                  //   height: 4,
-                  // ),
-                  // Row(
-                  //   children: [
-                  //     Expanded(
-                  //       child: Container(
-                  //           decoration: BoxDecoration(
-                  //             border: Border.all(
-                  //                 width: 0.5,
-                  //                 color: primaryColor.withOpacity(0.4)),
-                  //             borderRadius: BorderRadius.circular(5),
-                  //           ),
-                  //           child: Padding(
-                  //             padding: const EdgeInsets.symmetric(vertical: 13),
-                  //             child: Row(
-                  //               children: [
-                  //                 Expanded(
-                  //                   child: Center(
-                  //                     child: Text(
-                  //                       'From',
-                  //                       style: pageStyle3.copyWith(
-                  //                         fontSize: 14,
-                  //                         fontWeight: FontWeight.w900,
-                  //                       ),
-                  //                     ),
-                  //                   ),
-                  //                 ),
-                  //                 Expanded(
-                  //                     flex: 2,
-                  //                     child: Container(
-                  //                       child: Center(
-                  //                         child: Text(
-                  //                           '28 june,\n9.00 a.m',
-                  //                           style: pageStyle3.copyWith(
-                  //                               fontSize: 12),
-                  //                         ),
-                  //                       ),
-                  //                     )),
-                  //               ],
-                  //             ),
-                  //           )),
-                  //     ),
-                  //     SizedBox(
-                  //       width: 10,
-                  //     ),
-                  //     Expanded(
-                  //       child: Container(
-                  //           decoration: BoxDecoration(
-                  //             border: Border.all(
-                  //                 width: 0.5,
-                  //                 color: primaryColor.withOpacity(0.4)),
-                  //             borderRadius: BorderRadius.circular(5),
-                  //           ),
-                  //           child: Padding(
-                  //             padding: const EdgeInsets.symmetric(vertical: 13),
-                  //             child: Row(
-                  //               children: [
-                  //                 Expanded(
-                  //                   child: Center(
-                  //                     child: Text(
-                  //                       'To',
-                  //                       style: pageStyle3.copyWith(
-                  //                         fontSize: 14,
-                  //                         fontWeight: FontWeight.w900,
-                  //                       ),
-                  //                     ),
-                  //                   ),
-                  //                 ),
-                  //                 Expanded(
-                  //                     flex: 2,
-                  //                     child: Container(
-                  //                       child: Center(
-                  //                         child: Text(
-                  //                           '28 june,\n9.00 a.m',
-                  //                           style: pageStyle3.copyWith(
-                  //                               fontSize: 12),
-                  //                         ),
-                  //                       ),
-                  //                     )),
-                  //               ],
-                  //             ),
-                  //           )),
-                  //     ),
-                  //   ],
-                  // ),
-                  SizedBox(
-                    height: size.height * 0.01,
-                  ),
-                  Text(
-                    'Car Description',
-                    style: pageStyle3.copyWith(
-                      fontSize: 18,
-                      fontWeight: FontWeight.w900,
-                    ),
-                  ),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  Padding(
-                    padding: EdgeInsets.only(left: 10.0, right: 10.0),
-                    child: Column(
-                      children: <Widget>[
-                        Row(
-                          children: <Widget>[
-                            Text(
-                              'Year Made :',
-                              style: pageStyle3.copyWith(
-                                fontSize: 15,
-                                fontWeight: FontWeight.w700,
-                                color: Color(0xFF2C2C2C),
-                              ),
-                            ),
-                            SizedBox(width: 10),
-                            Text(
-                              'default',
-                              style: pageStyle3.copyWith(
-                                fontSize: 14,
-                                fontWeight: FontWeight.w700,
-                                color: Color(0xFF787878),
-                              ),
-                            ),
-                          ],
-                        ),
-                        SizedBox(height: 5),
-                        Row(
-                          children: <Widget>[
-                            Text(
-                              'Engine Capacity :',
-                              style: pageStyle3.copyWith(
-                                fontSize: 15,
-                                fontWeight: FontWeight.w700,
-                                color: Color(0xFF2C2C2C),
-                              ),
-                            ),
-                            SizedBox(width: 10),
-                            Text(
-                              'default',
-                              style: pageStyle3.copyWith(
-                                fontSize: 14,
-                                fontWeight: FontWeight.w700,
-                                color: Color(0xFF787878),
-                              ),
-                            ),
-                          ],
-                        ),
-                        SizedBox(height: 5),
-                        Row(
-                          children: <Widget>[
-                            Text(
-                              'Color :',
-                              style: pageStyle3.copyWith(
-                                fontSize: 15,
-                                fontWeight: FontWeight.w700,
-                                color: Color(0xFF2C2C2C),
-                              ),
-                            ),
-                            SizedBox(width: 10),
-                            Text(
-                              'default',
-                              style: pageStyle3.copyWith(
-                                fontSize: 14,
-                                fontWeight: FontWeight.w700,
-                                color: Color(0xFF787878),
-                              ),
-                            ),
-                          ],
-                        ),
-                        SizedBox(height: 5),
-                        Row(
-                          children: <Widget>[
-                            Text(
-                              'Seat Number :',
-                              style: pageStyle3.copyWith(
-                                fontSize: 15,
-                                fontWeight: FontWeight.w700,
-                                color: Color(0xFF2C2C2C),
-                              ),
-                            ),
-                            SizedBox(width: 10),
-                            Text(
-                              'default',
-                              style: pageStyle3.copyWith(
-                                fontSize: 14,
-                                fontWeight: FontWeight.w700,
-                                color: Color(0xFF787878),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                  ),
-                  SizedBox(
-                    height: 30,
-                  ),
-                  Container(
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              'RM ${widget.price}',
-                              style: pageStyle1,
-                            ),
-                            SizedBox(
-                              height: 3,
-                            ),
-                            Text(
-                              'Per Day',
-                              style: pageStyle3.copyWith(fontSize: 11),
-                            ),
-                            SizedBox(
-                              width: 5,
-                            ),
-                            Text(
-                              '*Insurance Included',
-                              style: pageStyle3.copyWith(fontSize: 11),
-                            ),
-                          ],
-                        ),
-                        InkWell(
-                          onTap: () {},
-                          child: Container(
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(10),
-                              color: fourthColor.withOpacity(0.12),
-                            ),
-                            child: Padding(
-                              padding: const EdgeInsets.all(17.0),
-                              child: Text(
-                                'Book Now',
-                                style: pageStyle3.copyWith(
-                                    fontWeight: FontWeight.w900,
-                                    fontSize: 14,
-                                    color: tertiaryColor),
-                              ),
+                                  widget.carPlate,
+                                  style: pageStyle2,
+                                ),
+                              )),
+                          SizedBox(
+                            height: size.height * 0.012,
+                          ),
+                          Text(
+                            'Location',
+                            style: pageStyle3.copyWith(
+                              fontSize: 18,
+                              fontWeight: FontWeight.w900,
                             ),
                           ),
-                        ),
-                      ],
+                          SizedBox(
+                            height: 4,
+                          ),
+                          Container(
+                              decoration: BoxDecoration(
+                                border: Border.all(
+                                    width: 0.5,
+                                    color: primaryColor.withOpacity(0.4)),
+                                borderRadius: BorderRadius.circular(5),
+                              ),
+                              child: Padding(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 5, vertical: 5),
+                                child: Row(
+                                  children: [
+                                    Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Icon(
+                                        Icons.location_on_outlined,
+                                        color: tertiaryColor,
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      width: 4,
+                                    ),
+                                    Flexible(
+                                      child: RichText(
+                                        overflow: TextOverflow.ellipsis,
+                                        text: TextSpan(
+                                            style: pageStyle3.copyWith(
+                                                fontSize: 14),
+                                            text: widget.location),
+                                      ),
+                                    ),
+                                    // Expanded(
+                                    //   child: Text(
+                                    //     widget.location,
+                                    //     style:
+                                    //         pageStyle3.copyWith(fontSize: 14),
+                                    //   ),
+                                    // ),
+                                  ],
+                                ),
+                              )),
+                          SizedBox(
+                            height: size.height * 0.012,
+                          ),
+                          // Text(
+                          //   'Date',
+                          //   style: pageStyle3.copyWith(
+                          //     fontSize: 17,
+                          //     fontWeight: FontWeight.w900,
+                          //   ),
+                          // ),
+                          // SizedBox(
+                          //   height: 4,
+                          // ),
+                          // Row(
+                          //   children: [
+                          //     Expanded(
+                          //       child: Container(
+                          //           decoration: BoxDecoration(
+                          //             border: Border.all(
+                          //                 width: 0.5,
+                          //                 color: primaryColor.withOpacity(0.4)),
+                          //             borderRadius: BorderRadius.circular(5),
+                          //           ),
+                          //           child: Padding(
+                          //             padding: const EdgeInsets.symmetric(vertical: 13),
+                          //             child: Row(
+                          //               children: [
+                          //                 Expanded(
+                          //                   child: Center(
+                          //                     child: Text(
+                          //                       'From',
+                          //                       style: pageStyle3.copyWith(
+                          //                         fontSize: 14,
+                          //                         fontWeight: FontWeight.w900,
+                          //                       ),
+                          //                     ),
+                          //                   ),
+                          //                 ),
+                          //                 Expanded(
+                          //                     flex: 2,
+                          //                     child: Container(
+                          //                       child: Center(
+                          //                         child: Text(
+                          //                           '28 june,\n9.00 a.m',
+                          //                           style: pageStyle3.copyWith(
+                          //                               fontSize: 12),
+                          //                         ),
+                          //                       ),
+                          //                     )),
+                          //               ],
+                          //             ),
+                          //           )),
+                          //     ),
+                          //     SizedBox(
+                          //       width: 10,
+                          //     ),
+                          //     Expanded(
+                          //       child: Container(
+                          //           decoration: BoxDecoration(
+                          //             border: Border.all(
+                          //                 width: 0.5,
+                          //                 color: primaryColor.withOpacity(0.4)),
+                          //             borderRadius: BorderRadius.circular(5),
+                          //           ),
+                          //           child: Padding(
+                          //             padding: const EdgeInsets.symmetric(vertical: 13),
+                          //             child: Row(
+                          //               children: [
+                          //                 Expanded(
+                          //                   child: Center(
+                          //                     child: Text(
+                          //                       'To',
+                          //                       style: pageStyle3.copyWith(
+                          //                         fontSize: 14,
+                          //                         fontWeight: FontWeight.w900,
+                          //                       ),
+                          //                     ),
+                          //                   ),
+                          //                 ),
+                          //                 Expanded(
+                          //                     flex: 2,
+                          //                     child: Container(
+                          //                       child: Center(
+                          //                         child: Text(
+                          //                           '28 june,\n9.00 a.m',
+                          //                           style: pageStyle3.copyWith(
+                          //                               fontSize: 12),
+                          //                         ),
+                          //                       ),
+                          //                     )),
+                          //               ],
+                          //             ),
+                          //           )),
+                          //     ),
+                          //   ],
+                          // ),
+                          SizedBox(
+                            height: size.height * 0.01,
+                          ),
+                          Text(
+                            'Car Description',
+                            style: pageStyle3.copyWith(
+                              fontSize: 18,
+                              fontWeight: FontWeight.w900,
+                            ),
+                          ),
+                          SizedBox(
+                            height: 10,
+                          ),
+                          Padding(
+                            padding: EdgeInsets.only(left: 10.0, right: 10.0),
+                            child: Column(
+                              children: <Widget>[
+                                Row(
+                                  children: <Widget>[
+                                    Text(
+                                      'Year Made :',
+                                      style: pageStyle3.copyWith(
+                                        fontSize: 15,
+                                        fontWeight: FontWeight.w700,
+                                        color: Color(0xFF2C2C2C),
+                                      ),
+                                    ),
+                                    SizedBox(width: 10),
+                                    Text(
+                                      widget.yearMade,
+                                      style: pageStyle3.copyWith(
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.w700,
+                                        color: Color(0xFF787878),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                SizedBox(height: 5),
+                                Row(
+                                  children: <Widget>[
+                                    Text(
+                                      'Engine Capacity :',
+                                      style: pageStyle3.copyWith(
+                                        fontSize: 15,
+                                        fontWeight: FontWeight.w700,
+                                        color: Color(0xFF2C2C2C),
+                                      ),
+                                    ),
+                                    SizedBox(width: 10),
+                                    Text(
+                                      widget.engine,
+                                      style: pageStyle3.copyWith(
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.w700,
+                                        color: Color(0xFF787878),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                SizedBox(height: 5),
+                                Row(
+                                  children: <Widget>[
+                                    Text(
+                                      'Color :',
+                                      style: pageStyle3.copyWith(
+                                        fontSize: 15,
+                                        fontWeight: FontWeight.w700,
+                                        color: Color(0xFF2C2C2C),
+                                      ),
+                                    ),
+                                    SizedBox(width: 10),
+                                    Text(
+                                      widget.color,
+                                      style: pageStyle3.copyWith(
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.w700,
+                                        color: Color(0xFF787878),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                SizedBox(height: 5),
+                                Row(
+                                  children: <Widget>[
+                                    Text(
+                                      'Seat Number :',
+                                      style: pageStyle3.copyWith(
+                                        fontSize: 15,
+                                        fontWeight: FontWeight.w700,
+                                        color: Color(0xFF2C2C2C),
+                                      ),
+                                    ),
+                                    SizedBox(width: 10),
+                                    Text(
+                                      widget.seat,
+                                      style: pageStyle3.copyWith(
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.w700,
+                                        color: Color(0xFF787878),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
+                  ],
+                ),
+              ],
+            ),
+          ),
+          Container(
+            margin: EdgeInsets.symmetric(horizontal: 18),
+            child: lowerPartDetails(),
+          ),
+        ],
+      ),
+    );
+  }
+
+  lowerPartDetails() {
+    return Column(
+      children: <Widget>[
+        Container(
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'RM ${widget.price}',
+                    style: pageStyle1,
                   ),
                   SizedBox(
-                    height: 20,
+                    height: 3,
+                  ),
+                  Text(
+                    'Per Day',
+                    style: pageStyle3.copyWith(fontSize: 11),
+                  ),
+                  SizedBox(
+                    width: 5,
+                  ),
+                  Text(
+                    '*Insurance Included',
+                    style: pageStyle3.copyWith(fontSize: 11),
                   ),
                 ],
               ),
-            ),
-          ],
+              InkWell(
+                onTap: () {},
+                child: Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                    color: fourthColor.withOpacity(0.12),
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.all(17.0),
+                    child: Text(
+                      'Book Now',
+                      style: pageStyle3.copyWith(
+                          fontWeight: FontWeight.w900,
+                          fontSize: 14,
+                          color: tertiaryColor),
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
         ),
-      ),
+        SizedBox(
+          height: 20,
+        ),
+      ],
     );
   }
 
@@ -468,7 +512,7 @@ class _CarDetailPageState extends State<CarDetailPage> {
                       margin: EdgeInsets.all(15),
                       decoration: BoxDecoration(
                           image: DecorationImage(
-                        image: AssetImage(
+                        image: NetworkImage(
                           imgList,
                         ),
                         fit: BoxFit.fitWidth,
