@@ -131,6 +131,7 @@ class _MyCarState extends State<MyCar> {
             ),
             onPressed: () {
               // do something
+              Get.toNamed('/login/home/profile/myCar/addCar');
             },
           )
         ],

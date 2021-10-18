@@ -11,6 +11,7 @@ import 'package:p2p_car_sharing_app/screens/authentication/forgot_pass.dart';
 import 'package:p2p_car_sharing_app/screens/authentication/forgot_pass_profile.dart';
 import 'package:p2p_car_sharing_app/screens/home.dart';
 import 'package:p2p_car_sharing_app/screens/authentication/registration.dart';
+import 'package:p2p_car_sharing_app/screens/main_page/cars_page/addCar.dart';
 import 'package:p2p_car_sharing_app/screens/main_page/cars_page/myCar.dart';
 import 'package:p2p_car_sharing_app/screens/others/edit_profile.dart';
 import 'package:p2p_car_sharing_app/screens/splashscreen.dart';
@@ -73,6 +74,12 @@ class MyApp extends StatelessWidget {
         GetPage(
           name: '/login/home/profile/myCar',
           page: () => MyCar(),
+          transition: Transition.cupertino,
+          transitionDuration: Duration(milliseconds: 600),
+        ),
+        GetPage(
+          name: '/login/home/profile/myCar/addCar',
+          page: () => AddCar(),
           transition: Transition.cupertino,
           transitionDuration: Duration(milliseconds: 600),
         ),

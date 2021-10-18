@@ -46,14 +46,14 @@ class _CarDetailPageState extends State<CarDetailPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: getAppBar(),
-      backgroundColor: secondaryColor,
+      backgroundColor: Color(0xffe3e3e3),
       body: getBody(),
     );
   }
 
   getAppBar() {
     return AppBar(
-      backgroundColor: secondaryColor,
+      backgroundColor: Color(0xffe3e3e3),
       leading: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Container(
