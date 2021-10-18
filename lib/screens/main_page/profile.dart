@@ -8,6 +8,7 @@ import 'package:p2p_car_sharing_app/bindings/authBinding.dart';
 import 'package:p2p_car_sharing_app/components/profile_widget.dart';
 import 'package:p2p_car_sharing_app/controllers/authController.dart';
 import 'package:p2p_car_sharing_app/models/user.dart';
+import 'package:p2p_car_sharing_app/screens/adminHome.dart';
 import 'package:p2p_car_sharing_app/screens/others/edit_profile.dart';
 import 'package:p2p_car_sharing_app/utils/user_preferences.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -17,6 +18,7 @@ String imageURL =
     "https://firebasestorage.googleapis.com/v0/b/p2p-car-sharing.appspot.com/o/defaultProfilePic.jpg?alt=media&token=998c6836-ad5f-49e2-b915-c8872945acc2";
 String username = "";
 String email = "";
+String argumentUID = "";
 
 class Profile extends StatefulWidget {
   @override
@@ -35,7 +37,8 @@ class _ProfileState extends State<Profile> {
     final SharedPreferences authSharedPreferences =
         await SharedPreferences.getInstance();
     final obtainedUID = authSharedPreferences.get('uidShared');
-
+    argumentUID = obtainedUID.toString();
+    print(argumentUID);
     //final authCurrentUser = _auth.currentUser!;
     DocumentReference documentReference =
         _firestore.collection("users").doc(obtainedUID.toString());
@@ -100,80 +103,76 @@ class _ProfileState extends State<Profile> {
                   child: Column(
                     children: <Widget>[
                       SizedBox(height: 15),
-                      Hero(
-                        tag: 'submit',
-                        child: ElevatedButton(
-                          style: ButtonStyle(
-                            shape: MaterialStateProperty.all<
-                                RoundedRectangleBorder>(
-                              RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(10.0),
-                              ),
+                      ElevatedButton(
+                        style: ButtonStyle(
+                          shape:
+                              MaterialStateProperty.all<RoundedRectangleBorder>(
+                            RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10.0),
                             ),
-                            backgroundColor:
-                                MaterialStateProperty.all(Color(0xFF7477F0)),
                           ),
-                          onPressed: () {
-                            //To Press for action
-                          },
-                          child: Padding(
-                            padding: EdgeInsets.all(10),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: <Widget>[
-                                Text(
-                                  'My Car',
-                                  style: TextStyle(
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.w700,
-                                    color: Colors.white,
-                                  ),
-                                ),
-                                Icon(
-                                  Icons.arrow_forward,
+                          backgroundColor:
+                              MaterialStateProperty.all(Color(0xFF7477F0)),
+                        ),
+                        onPressed: () {
+                          //To Press for action
+                          Get.toNamed('/login/home/profile/myCar',
+                              arguments: argumentUID);
+                        },
+                        child: Padding(
+                          padding: EdgeInsets.all(10),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: <Widget>[
+                              Text(
+                                'My Car',
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w700,
                                   color: Colors.white,
-                                )
-                              ],
-                            ),
+                                ),
+                              ),
+                              Icon(
+                                Icons.arrow_forward,
+                                color: Colors.white,
+                              )
+                            ],
                           ),
                         ),
                       ),
                       SizedBox(height: 10),
-                      Hero(
-                        tag: 'submit',
-                        child: ElevatedButton(
-                          style: ButtonStyle(
-                            shape: MaterialStateProperty.all<
-                                RoundedRectangleBorder>(
-                              RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(10.0),
-                              ),
+                      ElevatedButton(
+                        style: ButtonStyle(
+                          shape:
+                              MaterialStateProperty.all<RoundedRectangleBorder>(
+                            RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10.0),
                             ),
-                            backgroundColor:
-                                MaterialStateProperty.all(Color(0xFF7477F0)),
                           ),
-                          onPressed: () {
-                            //To Press for action
-                          },
-                          child: Padding(
-                            padding: EdgeInsets.all(10),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: <Widget>[
-                                Text(
-                                  'Others',
-                                  style: TextStyle(
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.w700,
-                                    color: Colors.white,
-                                  ),
-                                ),
-                                Icon(
-                                  Icons.arrow_forward,
+                          backgroundColor:
+                              MaterialStateProperty.all(Color(0xFF7477F0)),
+                        ),
+                        onPressed: () {
+                          //To Press for action
+                        },
+                        child: Padding(
+                          padding: EdgeInsets.all(10),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: <Widget>[
+                              Text(
+                                'Others',
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w700,
                                   color: Colors.white,
-                                )
-                              ],
-                            ),
+                                ),
+                              ),
+                              Icon(
+                                Icons.arrow_forward,
+                                color: Colors.white,
+                              )
+                            ],
                           ),
                         ),
                       ),

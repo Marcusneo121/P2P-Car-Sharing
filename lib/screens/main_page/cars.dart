@@ -36,15 +36,15 @@ class _CarsState extends State<Cars> {
           .get()
           .then((QuerySnapshot querySnapshot) {
         querySnapshot.docs.forEach((doc) async {
-          print(doc["carName"]);
-          print(doc["carPic"]);
-          print(doc["color"]);
-          print(doc["engineCapacity"]);
-          print(doc["location"]);
-          print(doc["plateNumber"]);
-          print(doc["price"]);
-          print(doc["seat"]);
-          print(doc["yearMade"]);
+          // print(doc["carName"]);
+          // print(doc["carPic"]);
+          // print(doc["color"]);
+          // print(doc["engineCapacity"]);
+          // print(doc["location"]);
+          // print(doc["plateNumber"]);
+          // print(doc["price"]);
+          // print(doc["seat"]);
+          // print(doc["yearMade"]);
 
           setState(() {
             imagePath = doc["carPic"];
@@ -61,7 +61,7 @@ class _CarsState extends State<Cars> {
             Map allImages = doc["carImages"];
             List<String> toListImages = [];
             allImages.forEach((key, value) => toListImages.add(value));
-            print(toListImages);
+            //print(toListImages);
             images = toListImages;
           });
 
