@@ -19,6 +19,8 @@ String yearMade = "";
 String color = "";
 String engine = "";
 String carID = "";
+String fromDate = "";
+String toDate = "";
 final _firestore = FirebaseFirestore.instance;
 
 class MyCar extends StatefulWidget {
@@ -32,7 +34,7 @@ class _MyCarState extends State<MyCar> {
   @override
   void initState() {
     obtainedUID = Get.arguments;
-    //print(obtainedUID);
+    print(obtainedUID);
     //uidShared();
     MyCarList.myCarList.clear();
     readData();
@@ -60,6 +62,7 @@ class _MyCarState extends State<MyCar> {
           //   print(carID);
           // });
           print(doc["carID"]);
+          print(doc.id);
           _firestore
               .collection("cars")
               .doc(doc["carID"])
@@ -74,6 +77,8 @@ class _MyCarState extends State<MyCar> {
             print(doc["price"]);
             print(doc["seat"]);
             print(doc["yearMade"]);
+            print(doc["toDate"]);
+            print(doc["fromDate"]);
 
             setState(() {
               imagePath = doc["carPic"];
@@ -85,6 +90,8 @@ class _MyCarState extends State<MyCar> {
               yearMade = doc["yearMade"];
               color = doc["color"];
               engine = doc["engineCapacity"];
+              fromDate = doc["fromDate"];
+              toDate = doc["toDate"];
 
               //Car list images
               Map allImages = doc["carImages"];
@@ -96,16 +103,19 @@ class _MyCarState extends State<MyCar> {
             });
 
             var eachCarModel = MyCarModel(
-                imagePath: imagePath,
-                carName: carName,
-                carPlate: carPlate,
-                images: images,
-                price: price,
-                location: location,
-                seat: seat,
-                yearMade: yearMade,
-                color: color,
-                engine: engine);
+              imagePath: imagePath,
+              carName: carName,
+              carPlate: carPlate,
+              images: images,
+              price: price,
+              location: location,
+              seat: seat,
+              yearMade: yearMade,
+              color: color,
+              engine: engine,
+              fromDate: fromDate,
+              toDate: toDate,
+            );
             MyCarList.myCarList.add(eachCarModel);
             print("Car List added");
           });
@@ -118,28 +128,35 @@ class _MyCarState extends State<MyCar> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        centerTitle: true,
-        backgroundColor: Color(0xFF7477F0),
-        title: Text('My Car'),
-        actions: <Widget>[
-          IconButton(
-            icon: Icon(
-              Icons.add_rounded,
-              color: Colors.white,
-            ),
-            onPressed: () {
-              // do something
-              Get.toNamed('/login/home/profile/myCar/addCar');
-            },
-          )
-        ],
-      ),
-      body: SafeArea(
-        child: Container(
-          padding: EdgeInsets.only(left: 20.0, right: 20.0, top: 10.0),
-          child: buildBody(),
+    return WillPopScope(
+      onWillPop: () async {
+        Get.back();
+        MyCarList.myCarList.clear();
+        return false;
+      },
+      child: Scaffold(
+        appBar: AppBar(
+          centerTitle: true,
+          backgroundColor: Color(0xFF7477F0),
+          title: Text('My Car'),
+          actions: <Widget>[
+            IconButton(
+              icon: Icon(
+                Icons.add_rounded,
+                color: Colors.white,
+              ),
+              onPressed: () {
+                // do something
+                Get.toNamed('/login/home/profile/myCar/addCar');
+              },
+            )
+          ],
+        ),
+        body: SafeArea(
+          child: Container(
+            padding: EdgeInsets.only(left: 20.0, right: 20.0, top: 10.0),
+            child: buildBody(),
+          ),
         ),
       ),
     );

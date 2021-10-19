@@ -1,9 +1,18 @@
 import 'dart:io';
+//import 'package:path/path.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:file_picker/file_picker.dart';
+import 'package:firebase_storage/firebase_storage.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
+import 'package:p2p_car_sharing_app/components/button_widget.dart';
 import 'package:p2p_car_sharing_app/components/input_widget.dart';
+import 'package:p2p_car_sharing_app/controllers/firebase_api.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../../../constant.dart';
 
 class AddCar extends StatefulWidget {
@@ -18,23 +27,57 @@ class _AddCarState extends State<AddCar> {
   TextEditingController carPlateController = TextEditingController();
   TextEditingController priceController = TextEditingController();
   TextEditingController locationController = TextEditingController();
+  TextEditingController engineController = TextEditingController();
+  TextEditingController seatController = TextEditingController();
+  TextEditingController colorController = TextEditingController();
   DateTime _dateTime = DateTime.now();
   DateTime _dateTime2 = DateTime.now();
   String fromDate = "2021-10-18 12:39:32.581509";
   //static final DateFormat dateFormatter = DateFormat('yyyy-MM-dd');
   File? _image;
+  String mainUrl = "";
+  UploadTask? task;
 
+  File? file;
+  File? file1;
+  File? file2;
+  File? file3;
+  File? file4;
+  String url = "";
+  String url1 = "";
+  String url2 = "";
+  String url3 = "";
+  String url4 = "";
+
+  String carID = "";
+
+  final _firestore = FirebaseFirestore.instance;
+
+  String fileState = "";
   final picker = ImagePicker();
+  String _publicUID = "";
 
   Future getGalleryImage() async {
-    var pickedFile = await picker.pickImage(source: ImageSource.gallery);
+    var pickedFile =
+        await picker.pickImage(source: ImageSource.gallery, imageQuality: 50);
     setState(() {
       _image = File(pickedFile!.path);
     });
   }
 
+  Future getUID() async {
+    final SharedPreferences authSharedPreferences =
+        await SharedPreferences.getInstance();
+    final obtainedUID = authSharedPreferences.get('uidShared');
+    setState(() {
+      _publicUID = obtainedUID.toString();
+      print(_publicUID);
+    });
+  }
+
   void initState() {
-    print(_dateTime);
+    getUID();
+    print(_dateTime.toString());
     print(DateTime.parse(fromDate));
   }
 
@@ -79,6 +122,17 @@ class _AddCarState extends State<AddCar> {
   }
 
   getBody() {
+    final fileFront =
+        file != null ? 'Front Image Selected' : 'Select Front Image';
+    final fileLeft =
+        file1 != null ? 'Left Image Selected' : 'Select Left Side Image';
+    final fileRight =
+        file2 != null ? 'Right Image Selected' : 'Select Right Side Image';
+    final fileRear =
+        file3 != null ? 'Rear End Image Selected' : 'Select Rear End Image';
+    final fileInterior =
+        file4 != null ? 'Interior Image Selected' : 'Select Interior Image';
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -113,8 +167,146 @@ class _AddCarState extends State<AddCar> {
                         height: 20,
                       ),
                       upperImagePicker(),
+                      Text(
+                        'Car Images',
+                        style: pageStyle1.copyWith(
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
                       SizedBox(
-                        height: 8,
+                        height: 10,
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 20.0, right: 20.0),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                // Text(
+                                //   'Front',
+                                //   style: pageStyle5.copyWith(
+                                //     fontSize: 13,
+                                //     fontWeight: FontWeight.bold,
+                                //   ),
+                                // ),
+                                SizedBox(
+                                  height: 8,
+                                ),
+                                ButtonWidget(
+                                  text: fileFront,
+                                  icon: Icons.attach_file,
+                                  onClicked: () {
+                                    setState(() {
+                                      fileState = "front";
+                                    });
+                                    selectFile();
+                                  },
+                                ),
+                                SizedBox(
+                                  height: 2,
+                                ),
+                                // Center(
+                                //   child: Text(
+                                //     fileName,
+                                //     style: TextStyle(
+                                //         fontSize: 12,
+                                //         fontWeight: FontWeight.w500),
+                                //   ),
+                                // ),
+                              ],
+                            ),
+                            SizedBox(
+                              height: 10,
+                            ),
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                SizedBox(
+                                  height: 8,
+                                ),
+                                ButtonWidget(
+                                  text: fileLeft,
+                                  icon: Icons.attach_file,
+                                  onClicked: () {
+                                    setState(() {
+                                      fileState = "left";
+                                    });
+                                    selectFile();
+                                  },
+                                ),
+                              ],
+                            ),
+                            SizedBox(
+                              height: 10,
+                            ),
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                SizedBox(
+                                  height: 8,
+                                ),
+                                ButtonWidget(
+                                  text: fileRight,
+                                  icon: Icons.attach_file,
+                                  onClicked: () {
+                                    setState(() {
+                                      fileState = "right";
+                                    });
+                                    selectFile();
+                                  },
+                                ),
+                              ],
+                            ),
+                            SizedBox(
+                              height: 10,
+                            ),
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                SizedBox(
+                                  height: 8,
+                                ),
+                                ButtonWidget(
+                                  text: fileRear,
+                                  icon: Icons.attach_file,
+                                  onClicked: () {
+                                    setState(() {
+                                      fileState = "rear";
+                                    });
+                                    selectFile();
+                                  },
+                                ),
+                              ],
+                            ),
+                            SizedBox(
+                              height: 10,
+                            ),
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                SizedBox(
+                                  height: 8,
+                                ),
+                                ButtonWidget(
+                                  text: fileInterior,
+                                  icon: Icons.attach_file,
+                                  onClicked: () {
+                                    setState(() {
+                                      fileState = "interior";
+                                    });
+                                    selectFile();
+                                  },
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                      ),
+                      SizedBox(
+                        height: 30,
                       ),
                       Text(
                         'Car Brand',
@@ -124,7 +316,7 @@ class _AddCarState extends State<AddCar> {
                         ),
                       ),
                       SizedBox(
-                        height: 2,
+                        height: 5,
                       ),
                       input('e.g. Honda', carBrandController),
                       SizedBox(
@@ -138,7 +330,7 @@ class _AddCarState extends State<AddCar> {
                         ),
                       ),
                       SizedBox(
-                        height: 2,
+                        height: 5,
                       ),
                       input('e.g. Civic Type R', modelController),
                       SizedBox(
@@ -152,9 +344,51 @@ class _AddCarState extends State<AddCar> {
                         ),
                       ),
                       SizedBox(
-                        height: 2,
+                        height: 5,
                       ),
                       input('e.g. 2020', yearController),
+                      SizedBox(
+                        height: 8,
+                      ),
+                      Text(
+                        'Color',
+                        style: pageStyle1.copyWith(
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      SizedBox(
+                        height: 5,
+                      ),
+                      input('e.g. White', colorController),
+                      SizedBox(
+                        height: 8,
+                      ),
+                      Text(
+                        'Engine Capacity / Electric Motor',
+                        style: pageStyle1.copyWith(
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      SizedBox(
+                        height: 5,
+                      ),
+                      input('e.g. 1500cc / 100kWh', engineController),
+                      SizedBox(
+                        height: 8,
+                      ),
+                      Text(
+                        'Seat Number',
+                        style: pageStyle1.copyWith(
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      SizedBox(
+                        height: 2,
+                      ),
+                      input('e.g. 5', seatController),
                       SizedBox(
                         height: 8,
                       ),
@@ -216,37 +450,36 @@ class _AddCarState extends State<AddCar> {
                         ),
                       ),
                       SizedBox(
-                        height: 2,
+                        height: 5,
                       ),
-                      Container(
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(5),
-                            color: fourthColor.withOpacity(0.1),
-                          ),
-                          child: Padding(
-                            padding: const EdgeInsets.only(
-                                left: 10, right: 10, top: 6, bottom: 6),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text(
-                                  'Select Pickup Location',
-                                  style: TextStyle(
-                                      color: primaryColor.withOpacity(0.8),
-                                      fontSize: 14),
-                                ),
-                                IconButton(
-                                    onPressed: () {},
-                                    icon: Icon(
-                                      Icons.location_on_outlined,
-                                      color: tertiaryColor,
-                                    ))
-                              ],
-                            ),
-                          )),
-                      SizedBox(
-                        height: 8,
-                      ),
+                      input('e.g. KLCC', locationController),
+                      // Container(
+                      //   decoration: BoxDecoration(
+                      //     borderRadius: BorderRadius.circular(5),
+                      //     color: fourthColor.withOpacity(0.1),
+                      //   ),
+                      //   child: Padding(
+                      //     padding: const EdgeInsets.only(
+                      //         left: 10, right: 10, top: 6, bottom: 6),
+                      //     child: Row(
+                      //       mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      //       children: [
+                      //         Text(
+                      //           'Select Pickup Location',
+                      //           style: TextStyle(
+                      //               color: primaryColor.withOpacity(0.8),
+                      //               fontSize: 14),
+                      //         ),
+                      //         IconButton(
+                      //             onPressed: () {},
+                      //             icon: Icon(
+                      //               Icons.location_on_outlined,
+                      //               color: tertiaryColor,
+                      //             ))
+                      //       ],
+                      //     ),
+                      //   ),
+                      // ),
                       // Text(
                       //   'Return Location',
                       //   style: pageStyle1.copyWith(
@@ -284,17 +517,6 @@ class _AddCarState extends State<AddCar> {
                       //     ),
                       //   ),
                       // ),
-                      Text(
-                        'Testing Location',
-                        style: pageStyle1.copyWith(
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      SizedBox(
-                        height: 2,
-                      ),
-                      input('e.g. KLCC Tower', locationController),
                       SizedBox(
                         height: 8,
                       ),
@@ -340,18 +562,40 @@ class _AddCarState extends State<AddCar> {
                       //   ),
                       // ),
                       SizedBox(
-                        height: 50,
+                        height: 30,
                       ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: [
-                          customApplyButton(() {
+                          customApplyButton(() async {
                             //Add button
                             //Get.back();
-                            if (carPlateController.text.isEmpty) {
+                            print("Image Path $file");
+                            print("Image Path $file1");
+                            print("Image Path $file2");
+                            print("Image Path $file3");
+                            print("Image Path $file4");
+                            //validation();
+
+                            if (_image.isNull &&
+                                file.isNull &&
+                                file1.isNull &&
+                                file2.isNull &&
+                                file3.isNull &&
+                                file4.isNull &&
+                                carBrandController.text.isEmpty &&
+                                modelController.text.isEmpty &&
+                                yearController.text.isEmpty &&
+                                carPlateController.text.isEmpty &&
+                                locationController.text.isEmpty &&
+                                priceController.text.isEmpty &&
+                                colorController.text.isEmpty &&
+                                seatController.text.isEmpty &&
+                                engineController.text.isEmpty &&
+                                priceController.text.isEmpty) {
                               Get.snackbar(
                                 "Ensure information is filled",
-                                "Please ensure car plate number is filled.",
+                                "Ensure every field is filled. Include Images",
                                 snackPosition: SnackPosition.BOTTOM,
                                 duration: Duration(milliseconds: 1500),
                                 isDismissible: false,
@@ -366,6 +610,56 @@ class _AddCarState extends State<AddCar> {
                                 overlayBlur: 4,
                                 overlayColor: Colors.white38,
                               );
+                              return;
+                            } else {
+                              // EasyLoading.show(status: "Loading ...");
+                              // print(_image);
+                              // print(file);
+                              // print(file1);
+                              // print(file2);
+                              // print(file3);
+                              // print(file4);
+                              // print(carBrandController.text);
+                              // print(modelController.text);
+                              // print(yearController.text);
+                              // print(carPlateController.text);
+                              // print(locationController.text);
+                              // print(priceController.text);
+                              // EasyLoading.dismiss();
+                              EasyLoading.show(
+                                  status: "Uploading Main Image...",
+                                  dismissOnTap: true);
+                              await uploadCarsImage(_image, 11);
+                              EasyLoading.show(
+                                  status: "Uploading Front Image...",
+                                  dismissOnTap: true);
+                              await uploadCarsImage(file, 0);
+                              EasyLoading.show(
+                                  status: "Uploading Left Image...",
+                                  dismissOnTap: true);
+                              await uploadCarsImage(file1, 1);
+                              EasyLoading.show(
+                                  status: "Uploading Right Image...",
+                                  dismissOnTap: true);
+                              await uploadCarsImage(file2, 2);
+                              EasyLoading.show(
+                                  status: "Uploading Rear Image...",
+                                  dismissOnTap: true);
+                              await uploadCarsImage(file3, 3);
+                              EasyLoading.show(
+                                  status: "Uploading Interior Image...",
+                                  dismissOnTap: true);
+                              await uploadCarsImage(file4, 4);
+                              await addToCarList();
+                              Future.delayed(Duration(seconds: 1))
+                                  .then((value) async {
+                                EasyLoading.showSuccess(
+                                    "Car added! Will take few minutes to update.");
+                                Future.delayed(Duration(seconds: 2))
+                                    .then((value) async {
+                                  EasyLoading.dismiss();
+                                });
+                              });
                             }
                           }),
                         ],
@@ -383,6 +677,163 @@ class _AddCarState extends State<AddCar> {
     );
   }
 
+  // Widget buildUploadStatus(UploadTask task) => StreamBuilder<TaskSnapshot>(
+  //       stream: task.snapshotEvents,
+  //       builder: (context, snapshot) {
+  //         if (snapshot.hasData) {
+  //           final snap = snapshot.data!;
+  //           final progress = snap.bytesTransferred / snap.totalBytes;
+  //           final percentage = (progress * 100).toStringAsFixed(2);
+  //
+  //           return Text(
+  //             '$percentage %',
+  //             style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+  //           );
+  //         } else {
+  //           return Container();
+  //         }
+  //       },
+  //     );
+
+  // Future uploadFile() async {
+  //   if (file == null) return;
+  //
+  //   final fileName = basename(file!.path);
+  //   final destination = 'files/$fileName';
+  //
+  //   task = FirebaseApi.uploadFile(destination, file!);
+  //   setState(() {});
+  //
+  //   if (task == null) return;
+  //
+  //   final snapshot = await task!.whenComplete(() {});
+  //   final urlDownload = await snapshot.ref.getDownloadURL();
+  //
+  //   print('Download-Link: $urlDownload');
+  // }
+
+  Future addPostedCar(String carID) async {
+    Map<String, dynamic> addedCar = {
+      "carID": carID,
+    };
+    DocumentReference documentReference = _firestore
+        .collection("users")
+        .doc(_publicUID)
+        .collection("postedCars")
+        .doc(carID);
+    documentReference.set(addedCar).then((doc) {
+      var addedCarID = documentReference.id;
+      print(addedCarID.toString());
+    });
+  }
+
+  Future addToCarList() async {
+    Map<String, dynamic> carAllImages = {
+      "image1": url,
+      "image2": url1,
+      "image3": url2,
+      "image4": url3,
+      "image5": url4,
+    };
+
+    Map<String, dynamic> carDetails = {
+      "carImages": carAllImages,
+      "carName": carBrandController.text.toString() +
+          " " +
+          modelController.text.toString(),
+      "carPic": mainUrl,
+      "color": colorController.text.toString(),
+      "engineCapacity": engineController.text.toString(),
+      "fromDate": _dateTime.toString(),
+      "toDate": _dateTime2.toString(),
+      "location": locationController.text.toString(),
+      "plateNumber": carPlateController.text.toString(),
+      "price": priceController.text.toString(),
+      "seat": seatController.text.toString(),
+      "yearMade": yearController.text.toString(),
+    };
+
+    DocumentReference documentReference = _firestore.collection("cars").doc();
+
+    documentReference.set(carDetails).then((doc) {
+      carID = documentReference.id;
+      print(carID.toString());
+      addPostedCar(carID.toString());
+    }).whenComplete(
+      () {
+        EasyLoading.dismiss();
+      },
+    );
+  }
+
+  Future uploadCarsImage(File? toUploadImg, int fileNumber) async {
+    var imageFile = FirebaseStorage.instance.ref().child('profilePic').child(
+        "$_publicUID" +
+            "_" +
+            "image$fileNumber" +
+            "_" +
+            carPlateController.text +
+            ".jpg");
+    UploadTask task = imageFile.putFile(toUploadImg!);
+    TaskSnapshot snapshot = await task;
+    var urlGetLink = await snapshot.ref
+        .getDownloadURL()
+        .whenComplete(() => EasyLoading.dismiss);
+    if (fileNumber == 0) {
+      url = urlGetLink;
+    } else if (fileNumber == 1) {
+      url1 = urlGetLink;
+    } else if (fileNumber == 2) {
+      url2 = urlGetLink;
+    } else if (fileNumber == 3) {
+      url3 = urlGetLink;
+    } else if (fileNumber == 4) {
+      url4 = urlGetLink;
+    } else if (fileNumber == 11) {
+      mainUrl = urlGetLink;
+    }
+  }
+
+  Future selectFile() async {
+    final picker = ImagePicker();
+    //final result = await FilePicker.platform.pickFiles(allowMultiple: false);
+    final result =
+        await picker.pickImage(source: ImageSource.gallery, imageQuality: 50);
+    if (result == null) {
+      return;
+    } else if (fileState == "front") {
+      setState(() {
+        file = File(result.path);
+        print("Image Path $file");
+      });
+    } else if (fileState == "left") {
+      setState(() {
+        file1 = File(result.path);
+        print("Image Path $file1");
+      });
+    } else if (fileState == "right") {
+      setState(() {
+        file2 = File(result.path);
+        print("Image Path $file2");
+      });
+    } else if (fileState == "rear") {
+      setState(() {
+        file3 = File(result.path);
+        print("Image Path $file3");
+      });
+    } else if (fileState == "interior") {
+      setState(() {
+        file4 = File(result.path);
+        print("Image Path $file4");
+      });
+    }
+
+    // if (result == null) return;
+    // final path = result.files.single.path!;
+    //
+    // setState(() => file = File(path));
+  }
+
   customApplyButton(function) {
     return Container(
       color: Colors.white,
@@ -397,7 +848,7 @@ class _AddCarState extends State<AddCar> {
             padding:
                 const EdgeInsets.only(left: 30, right: 30, top: 14, bottom: 14),
             child: Text(
-              'Apply',
+              'Add To My Car List',
               style: pageStyle3.copyWith(
                   fontWeight: FontWeight.w900,
                   fontSize: 14,
@@ -416,10 +867,10 @@ class _AddCarState extends State<AddCar> {
       },
       child: Padding(
         padding:
-            const EdgeInsets.only(left: 30, right: 30, top: 14, bottom: 10),
+            const EdgeInsets.only(left: 20, right: 20, top: 14, bottom: 10),
         child: Container(
           width: double.infinity,
-          height: 180.0,
+          height: 190.0,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(15),
             color: fourthColor.withOpacity(0.1),

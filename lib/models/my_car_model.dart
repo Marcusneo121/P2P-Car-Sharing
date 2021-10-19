@@ -7,10 +7,14 @@ class MyCarModel {
       seat,
       yearMade,
       color,
-      engine;
+      engine,
+      toDate,
+      fromDate;
   final List<String> images;
 
   MyCarModel({
+    required this.toDate,
+    required this.fromDate,
     required this.imagePath,
     required this.carName,
     required this.carPlate,

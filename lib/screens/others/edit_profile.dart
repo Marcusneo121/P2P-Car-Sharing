@@ -36,6 +36,7 @@ class _EditProfileState extends State<EditProfile> {
     var pickedFile = await picker.pickImage(source: ImageSource.gallery);
     setState(() {
       _image = File(pickedFile!.path);
+      print("Image Path $_image");
       EasyLoading.show(status: "Uploading...");
       saveUpdate();
       Future.delayed(Duration(seconds: 1)).then((value) async {

@@ -60,3 +60,9 @@ var pageStyle4 = GoogleFonts.poppins(
     letterSpacing: 1,
     wordSpacing: 1,
     fontWeight: FontWeight.w700);
+
+var pageStyle5 = GoogleFonts.poppins(
+  fontSize: 19.0,
+  color: primaryColor.withOpacity(0.8),
+  fontWeight: FontWeight.bold,
+);
