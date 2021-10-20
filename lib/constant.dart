@@ -27,6 +27,8 @@ const secondaryColor = Color(0xFFC4C4C4);
 const testingColor = Color(0xFFF1F1F1);
 const tertiaryColor = Color(0xff7879F1);
 const fourthColor = Color(0xff073FFF);
+const fifthColor = Color(0xffff131b);
+const favouriteColor = Color(0xfff43d45);
 
 var pageTitleStyle = GoogleFonts.poppins(
   fontSize: 23.0,
@@ -36,7 +38,7 @@ var pageTitleStyle = GoogleFonts.poppins(
 );
 
 var pageStyle1 = GoogleFonts.poppins(
-  fontSize: 19.0,
+  fontSize: 20.0,
   color: primaryColor,
   fontWeight: FontWeight.bold,
 );

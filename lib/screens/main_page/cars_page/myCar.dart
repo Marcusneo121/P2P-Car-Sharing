@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_navigation/src/extension_navigation.dart';
 import 'package:p2p_car_sharing_app/components/car_view.dart';
+import 'package:p2p_car_sharing_app/components/my_car_view.dart';
 import 'package:p2p_car_sharing_app/models/my_car_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -92,6 +93,18 @@ class _MyCarState extends State<MyCar> {
               engine = doc["engineCapacity"];
               fromDate = doc["fromDate"];
               toDate = doc["toDate"];
+
+              print(doc["carName"]);
+              print(doc["carPic"]);
+              print(doc["color"]);
+              print(doc["engineCapacity"]);
+              print(doc["location"]);
+              print(doc["plateNumber"]);
+              print(doc["price"]);
+              print(doc["seat"]);
+              print(doc["yearMade"]);
+              print(doc["toDate"]);
+              print(doc["fromDate"]);
 
               //Car list images
               Map allImages = doc["carImages"];
@@ -184,7 +197,7 @@ Widget buildBody() => Container(
                     physics: BouncingScrollPhysics(),
                     itemCount: MyCarList.myCarList.length,
                     itemBuilder: (BuildContext context, int index) =>
-                        buildCarCard(context, index),
+                        buildMyCarCard(context, index),
                   );
                 }
               },

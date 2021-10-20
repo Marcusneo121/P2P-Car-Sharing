@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:p2p_car_sharing_app/models/car_model.dart';
+import 'package:p2p_car_sharing_app/models/favorite_car_model.dart';
 import 'package:p2p_car_sharing_app/screens/main_page/cars_page/car_details_page.dart';
 import '../constant.dart';
 
-Widget buildCarCard(BuildContext context, int index, String uid) {
-  final data = CarList.carList[index];
+Widget buildFavCarCard(BuildContext context, int index, String uid) {
+  final data = FavCarList.favCarList[index];
   return Padding(
     padding: const EdgeInsets.only(bottom: 12),
     child: Card(

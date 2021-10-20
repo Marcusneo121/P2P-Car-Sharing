@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:p2p_car_sharing_app/models/car_model.dart';
-import 'package:p2p_car_sharing_app/screens/main_page/cars_page/car_details_page.dart';
+import 'package:p2p_car_sharing_app/models/my_car_model.dart';
+import 'package:p2p_car_sharing_app/screens/main_page/cars_page/my_car_details_page.dart';
 import '../constant.dart';
 
-Widget buildCarCard(BuildContext context, int index, String uid) {
-  final data = CarList.carList[index];
+Widget buildMyCarCard(BuildContext context, int index) {
+  final data = MyCarList.myCarList[index];
   return Padding(
     padding: const EdgeInsets.only(bottom: 12),
     child: Card(
@@ -16,8 +16,7 @@ Widget buildCarCard(BuildContext context, int index, String uid) {
       child: InkWell(
         onTap: () {
           Get.to(
-            CarDetailPage(
-              carID: data.carID,
+            MyCarDetailPage(
               images: data.images,
               carName: data.carName,
               carPlate: data.carPlate,
@@ -30,7 +29,6 @@ Widget buildCarCard(BuildContext context, int index, String uid) {
             ),
             transition: Transition.cupertino,
             duration: Duration(milliseconds: 500),
-            arguments: uid,
           );
         },
         child: Container(
@@ -102,8 +100,7 @@ Widget buildCarCard(BuildContext context, int index, String uid) {
                         child: IconButton(
                           onPressed: () {
                             Get.to(
-                              CarDetailPage(
-                                carID: data.carID,
+                              MyCarDetailPage(
                                 images: data.images,
                                 carName: data.carName,
                                 carPlate: data.carPlate,
@@ -116,7 +113,6 @@ Widget buildCarCard(BuildContext context, int index, String uid) {
                               ),
                               transition: Transition.cupertino,
                               duration: Duration(milliseconds: 350),
-                              arguments: uid,
                             );
                           },
                           icon: Icon(

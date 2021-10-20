@@ -13,6 +13,9 @@ import 'package:p2p_car_sharing_app/screens/home.dart';
 import 'package:p2p_car_sharing_app/screens/authentication/registration.dart';
 import 'package:p2p_car_sharing_app/screens/main_page/cars_page/addCar.dart';
 import 'package:p2p_car_sharing_app/screens/main_page/cars_page/myCar.dart';
+import 'package:p2p_car_sharing_app/screens/main_page/cars_page/searched_car_details.dart';
+import 'package:p2p_car_sharing_app/screens/main_page/favourites.dart';
+import 'package:p2p_car_sharing_app/screens/main_page/search.dart';
 import 'package:p2p_car_sharing_app/screens/others/edit_profile.dart';
 import 'package:p2p_car_sharing_app/screens/splashscreen.dart';
 import 'screens/authentication/login.dart';
@@ -82,6 +85,24 @@ class MyApp extends StatelessWidget {
           page: () => AddCar(),
           transition: Transition.cupertino,
           transitionDuration: Duration(milliseconds: 600),
+        ),
+        GetPage(
+          name: '/search',
+          page: () => Search(),
+          transition: Transition.fadeIn,
+          transitionDuration: Duration(milliseconds: 200),
+        ),
+        GetPage(
+          name: '/carPage',
+          page: () => Home(),
+          transition: Transition.fadeIn,
+          transitionDuration: Duration(milliseconds: 150),
+        ),
+        GetPage(
+          name: '/searchCarDetails',
+          page: () => SearchCarDetailPage(),
+          transition: Transition.fadeIn,
+          transitionDuration: Duration(milliseconds: 150),
         ),
         // GetPage(
         //   name: '/nextScreen',

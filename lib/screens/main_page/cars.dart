@@ -1,5 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get_core/src/get_main.dart';
+import 'package:get/get_navigation/src/extension_navigation.dart';
 import 'package:p2p_car_sharing_app/bindings/authBinding.dart';
 import 'package:p2p_car_sharing_app/components/car_view.dart';
 import 'package:p2p_car_sharing_app/controllers/authController.dart';
@@ -20,6 +22,7 @@ String color = "";
 String engine = "";
 String fromDate = "";
 String toDate = "";
+String carID = "";
 
 final _firestore = FirebaseFirestore.instance;
 //List<CarModel> carList = [];
@@ -48,8 +51,10 @@ class _CarsState extends State<Cars> {
           // print(doc["price"]);
           // print(doc["seat"]);
           // print(doc["yearMade"]);
+          print(doc.id);
 
           setState(() {
+            carID = doc.id;
             imagePath = doc["carPic"];
             carName = doc["carName"];
             carPlate = doc["plateNumber"];
@@ -71,6 +76,7 @@ class _CarsState extends State<Cars> {
           });
 
           var eachCarModel = CarModel(
+            carID: carID,
             imagePath: imagePath,
             carName: carName,
             carPlate: carPlate,
@@ -128,7 +134,9 @@ class _CarsState extends State<Cars> {
                       Icons.search_rounded,
                       size: 27,
                     ),
-                    onPressed: () {},
+                    onPressed: () {
+                      Get.toNamed('/search');
+                    },
                   ),
                 ],
               ),
@@ -164,7 +172,7 @@ class _CarsState extends State<Cars> {
                           physics: BouncingScrollPhysics(),
                           itemCount: CarList.carList.length,
                           itemBuilder: (BuildContext context, int index) =>
-                              buildCarCard(context, index),
+                              buildCarCard(context, index, obtainedUID),
                         );
                       }
                     },

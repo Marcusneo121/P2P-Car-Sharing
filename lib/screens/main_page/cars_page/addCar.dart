@@ -365,7 +365,7 @@ class _AddCarState extends State<AddCar> {
                         height: 8,
                       ),
                       Text(
-                        'Engine Capacity / Electric Motor',
+                        'Engine Capacity (CC / kWh[Electric])',
                         style: pageStyle1.copyWith(
                           fontSize: 16,
                           fontWeight: FontWeight.bold,
@@ -374,7 +374,7 @@ class _AddCarState extends State<AddCar> {
                       SizedBox(
                         height: 5,
                       ),
-                      input('e.g. 1500cc / 100kWh', engineController),
+                      input('e.g. 1500 / 100', engineController),
                       SizedBox(
                         height: 8,
                       ),
@@ -628,27 +628,27 @@ class _AddCarState extends State<AddCar> {
                               // EasyLoading.dismiss();
                               EasyLoading.show(
                                   status: "Uploading Main Image...",
-                                  dismissOnTap: true);
+                                  dismissOnTap: false);
                               await uploadCarsImage(_image, 11);
                               EasyLoading.show(
                                   status: "Uploading Front Image...",
-                                  dismissOnTap: true);
+                                  dismissOnTap: false);
                               await uploadCarsImage(file, 0);
                               EasyLoading.show(
                                   status: "Uploading Left Image...",
-                                  dismissOnTap: true);
+                                  dismissOnTap: false);
                               await uploadCarsImage(file1, 1);
                               EasyLoading.show(
                                   status: "Uploading Right Image...",
-                                  dismissOnTap: true);
+                                  dismissOnTap: false);
                               await uploadCarsImage(file2, 2);
                               EasyLoading.show(
                                   status: "Uploading Rear Image...",
-                                  dismissOnTap: true);
+                                  dismissOnTap: false);
                               await uploadCarsImage(file3, 3);
                               EasyLoading.show(
                                   status: "Uploading Interior Image...",
-                                  dismissOnTap: true);
+                                  dismissOnTap: false);
                               await uploadCarsImage(file4, 4);
                               await addToCarList();
                               Future.delayed(Duration(seconds: 1))
@@ -767,8 +767,11 @@ class _AddCarState extends State<AddCar> {
   }
 
   Future uploadCarsImage(File? toUploadImg, int fileNumber) async {
-    var imageFile = FirebaseStorage.instance.ref().child('profilePic').child(
-        "$_publicUID" +
+    var imageFile = FirebaseStorage.instance
+        .ref()
+        .child('cars')
+        .child('$_publicUID')
+        .child("$_publicUID" +
             "_" +
             "image$fileNumber" +
             "_" +

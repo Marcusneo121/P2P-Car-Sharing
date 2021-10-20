@@ -6,40 +6,39 @@ import 'package:get/get.dart';
 import '../../../constant.dart';
 
 final _firestore = FirebaseFirestore.instance;
-String obtainedUID = "";
+List<String> obtainedUID = [];
 bool favouriteState = false;
+List<String> images = [];
+String? carID,
+    carName,
+    carPlate,
+    price,
+    location,
+    seat,
+    yearMade,
+    color,
+    engine;
 
-class CarDetailPage extends StatefulWidget {
-  final List<String> images;
-  final String carID,
-      carName,
-      carPlate,
-      price,
-      location,
-      seat,
-      yearMade,
-      color,
-      engine;
-
-  const CarDetailPage({
-    Key? key,
-    required this.carID,
-    required this.images,
-    required this.carName,
-    required this.carPlate,
-    required this.price,
-    required this.location,
-    required this.seat,
-    required this.yearMade,
-    required this.color,
-    required this.engine,
-  }) : super(key: key);
+class SearchCarDetailPage extends StatefulWidget {
+  // const CarDetailPage({
+  //   Key? key,
+  //   required this.carID,
+  //   required this.images,
+  //   required this.carName,
+  //   required this.carPlate,
+  //   required this.price,
+  //   required this.location,
+  //   required this.seat,
+  //   required this.yearMade,
+  //   required this.color,
+  //   required this.engine,
+  // }) : super(key: key);
 
   @override
-  _CarDetailPageState createState() => _CarDetailPageState();
+  _SearchCarDetailPageState createState() => _SearchCarDetailPageState();
 }
 
-class _CarDetailPageState extends State<CarDetailPage> {
+class _SearchCarDetailPageState extends State<SearchCarDetailPage> {
   int _currentIndex = 0;
 
   List<T> map<T>(List list, Function handler) {
@@ -53,6 +52,7 @@ class _CarDetailPageState extends State<CarDetailPage> {
   @override
   void initState() {
     obtainedUID = Get.arguments;
+    readData();
     //uidShared();
     readFavourite();
   }
@@ -66,14 +66,14 @@ class _CarDetailPageState extends State<CarDetailPage> {
 
   bookmark() async {
     Map<String, dynamic> favouriteCar = {
-      "carID": widget.carID,
+      "carID": carID,
     };
 
     await _firestore
         .collection('users')
-        .doc(obtainedUID.toString())
+        .doc(obtainedUID[0].toString())
         .collection("favorites")
-        .doc(widget.carID)
+        .doc(carID)
         .set(favouriteCar)
         .then((doc) => {})
         .whenComplete(() {
@@ -89,12 +89,37 @@ class _CarDetailPageState extends State<CarDetailPage> {
     });
   }
 
+  readData() async {
+    await _firestore
+        .collection('cars')
+        .doc(obtainedUID[1].toString())
+        .get()
+        .then((datasnapshot) async {
+      setState(() {
+        Map allImages = datasnapshot.get('carImages');
+        List<String> toListImages = [];
+        allImages.forEach((key, value) => toListImages.add(value));
+        print(toListImages);
+        images = toListImages;
+        carID = obtainedUID[1].toString();
+        carName = datasnapshot.get('carName');
+        carPlate = datasnapshot.get('plateNumber');
+        price = datasnapshot.get('price');
+        location = datasnapshot.get('location');
+        seat = datasnapshot.get('seat');
+        yearMade = datasnapshot.get('yearMade');
+        color = datasnapshot.get('color');
+        engine = datasnapshot.get('engineCapacity');
+      });
+    });
+  }
+
   unBookmark() async {
     await _firestore
         .collection('users')
-        .doc(obtainedUID.toString())
+        .doc(obtainedUID[0].toString())
         .collection("favorites")
-        .doc(widget.carID)
+        .doc(carID)
         .delete()
         .whenComplete(() {
       setState(() {
@@ -112,16 +137,16 @@ class _CarDetailPageState extends State<CarDetailPage> {
   readFavourite() async {
     await _firestore
         .collection('users')
-        .doc(obtainedUID.toString())
+        .doc(obtainedUID[0].toString())
         .collection("favorites")
         .get()
         .then((QuerySnapshot querySnapshot) {
       querySnapshot.docs.forEach((doc) async {
-        if (doc.id == widget.carID.toString()) {
+        if (doc.id == obtainedUID[1].toString()) {
           setState(() {
             favouriteState = true;
           });
-        } else if (doc.id != widget.carID.toString()) {
+        } else if (doc.id != obtainedUID[1].toString()) {
           setState(() {
             favouriteState = false;
           });
@@ -137,7 +162,8 @@ class _CarDetailPageState extends State<CarDetailPage> {
         setState(() {
           favouriteState = false;
         });
-        return true;
+        Get.offNamed('/search');
+        return false;
       },
       child: Scaffold(
         appBar: getAppBar(),
@@ -270,7 +296,7 @@ class _CarDetailPageState extends State<CarDetailPage> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
                           Text(
-                            widget.carName,
+                            carName!,
                             style: pageTitleStyle,
                           ),
                           Container(
@@ -284,7 +310,7 @@ class _CarDetailPageState extends State<CarDetailPage> {
                                 padding:
                                     const EdgeInsets.symmetric(horizontal: 5),
                                 child: Text(
-                                  widget.carPlate,
+                                  carPlate!,
                                   style: pageStyle2,
                                 ),
                               )),
@@ -329,7 +355,7 @@ class _CarDetailPageState extends State<CarDetailPage> {
                                         text: TextSpan(
                                             style: pageStyle3.copyWith(
                                                 fontSize: 14),
-                                            text: widget.location),
+                                            text: location!),
                                       ),
                                     ),
                                     // Expanded(
@@ -467,7 +493,7 @@ class _CarDetailPageState extends State<CarDetailPage> {
                                     ),
                                     SizedBox(width: 10),
                                     Text(
-                                      widget.yearMade,
+                                      yearMade!,
                                       style: pageStyle3.copyWith(
                                         fontSize: 14,
                                         fontWeight: FontWeight.w700,
@@ -489,7 +515,7 @@ class _CarDetailPageState extends State<CarDetailPage> {
                                     ),
                                     SizedBox(width: 10),
                                     Text(
-                                      widget.engine,
+                                      engine!,
                                       style: pageStyle3.copyWith(
                                         fontSize: 14,
                                         fontWeight: FontWeight.w700,
@@ -511,7 +537,7 @@ class _CarDetailPageState extends State<CarDetailPage> {
                                     ),
                                     SizedBox(width: 10),
                                     Text(
-                                      widget.color,
+                                      color!,
                                       style: pageStyle3.copyWith(
                                         fontSize: 14,
                                         fontWeight: FontWeight.w700,
@@ -533,7 +559,7 @@ class _CarDetailPageState extends State<CarDetailPage> {
                                     ),
                                     SizedBox(width: 10),
                                     Text(
-                                      widget.seat,
+                                      seat!,
                                       style: pageStyle3.copyWith(
                                         fontSize: 14,
                                         fontWeight: FontWeight.w700,
@@ -573,7 +599,7 @@ class _CarDetailPageState extends State<CarDetailPage> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'RM ${widget.price}',
+                    'RM ${price!}',
                     style: pageStyle1,
                   ),
                   // SizedBox(
@@ -642,7 +668,7 @@ class _CarDetailPageState extends State<CarDetailPage> {
               autoPlayInterval: const Duration(seconds: 2),
               autoPlayAnimationDuration: Duration(milliseconds: 2000),
             ),
-            items: widget.images
+            items: images
                 .map((imgList) => Container(
                       height: 320,
                       margin: EdgeInsets.all(15),
@@ -660,7 +686,7 @@ class _CarDetailPageState extends State<CarDetailPage> {
         ),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
-          children: map<Widget>(widget.images, (index, url) {
+          children: map<Widget>(images, (index, url) {
             return Container(
               width: 4.0,
               height: 4.0,

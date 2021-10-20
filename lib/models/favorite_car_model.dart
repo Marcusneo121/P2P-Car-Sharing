@@ -1,6 +1,7 @@
-class CarModel {
+class FavCarModel {
   final String imagePath;
-  final String carID, carName,
+  final String carID,
+      carName,
       carPlate,
       price,
       location,
@@ -12,7 +13,7 @@ class CarModel {
       fromDate;
   final List<String> images;
 
-  CarModel({
+  FavCarModel({
     required this.carID,
     required this.toDate,
     required this.fromDate,
@@ -29,8 +30,8 @@ class CarModel {
   });
 }
 
-class CarList {
-  static List<CarModel> carList = [];
+class FavCarList {
+  static List<FavCarModel> favCarList = [];
 }
 
 // class CarList {

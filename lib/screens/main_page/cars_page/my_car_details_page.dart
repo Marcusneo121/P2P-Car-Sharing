@@ -1,18 +1,11 @@
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import '../../../constant.dart';
 
-final _firestore = FirebaseFirestore.instance;
-String obtainedUID = "";
-bool favouriteState = false;
-
-class CarDetailPage extends StatefulWidget {
+class MyCarDetailPage extends StatefulWidget {
   final List<String> images;
-  final String carID,
-      carName,
+  final String carName,
       carPlate,
       price,
       location,
@@ -21,9 +14,8 @@ class CarDetailPage extends StatefulWidget {
       color,
       engine;
 
-  const CarDetailPage({
+  const MyCarDetailPage({
     Key? key,
-    required this.carID,
     required this.images,
     required this.carName,
     required this.carPlate,
@@ -36,10 +28,10 @@ class CarDetailPage extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  _CarDetailPageState createState() => _CarDetailPageState();
+  _MyCarDetailPageState createState() => _MyCarDetailPageState();
 }
 
-class _CarDetailPageState extends State<CarDetailPage> {
+class _MyCarDetailPageState extends State<MyCarDetailPage> {
   int _currentIndex = 0;
 
   List<T> map<T>(List list, Function handler) {
@@ -51,142 +43,15 @@ class _CarDetailPageState extends State<CarDetailPage> {
   }
 
   @override
-  void initState() {
-    obtainedUID = Get.arguments;
-    //uidShared();
-    readFavourite();
-  }
-  // Future<void> uidShared() async {
-  //   final SharedPreferences stayLoginShared =
-  //       await SharedPreferences.getInstance();
-  //   setState(() {
-  //     obtainedUID = stayLoginShared.get('uidShared').toString();
-  //   });
-  // }
-
-  bookmark() async {
-    Map<String, dynamic> favouriteCar = {
-      "carID": widget.carID,
-    };
-
-    await _firestore
-        .collection('users')
-        .doc(obtainedUID.toString())
-        .collection("favorites")
-        .doc(widget.carID)
-        .set(favouriteCar)
-        .then((doc) => {})
-        .whenComplete(() {
-      setState(() {
-        favouriteState = true;
-      });
-      Future.delayed(Duration(seconds: 1)).then((value) async {
-        EasyLoading.showSuccess("Added to your favourite!");
-        Future.delayed(Duration(seconds: 1)).then((value) async {
-          EasyLoading.dismiss();
-        });
-      });
-    });
-  }
-
-  unBookmark() async {
-    await _firestore
-        .collection('users')
-        .doc(obtainedUID.toString())
-        .collection("favorites")
-        .doc(widget.carID)
-        .delete()
-        .whenComplete(() {
-      setState(() {
-        favouriteState = false;
-      });
-      Future.delayed(Duration(seconds: 1)).then((value) async {
-        EasyLoading.showSuccess("Removed from your favourite!");
-        Future.delayed(Duration(seconds: 1)).then((value) async {
-          EasyLoading.dismiss();
-        });
-      });
-    });
-  }
-
-  readFavourite() async {
-    await _firestore
-        .collection('users')
-        .doc(obtainedUID.toString())
-        .collection("favorites")
-        .get()
-        .then((QuerySnapshot querySnapshot) {
-      querySnapshot.docs.forEach((doc) async {
-        if (doc.id == widget.carID.toString()) {
-          setState(() {
-            favouriteState = true;
-          });
-        } else if (doc.id != widget.carID.toString()) {
-          setState(() {
-            favouriteState = false;
-          });
-        }
-      });
-    });
-  }
-
-  @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-      onWillPop: () async {
-        setState(() {
-          favouriteState = false;
-        });
-        return true;
-      },
-      child: Scaffold(
-        appBar: getAppBar(),
-        backgroundColor: Color(0xffe3e3e3),
-        body: getBody(),
-      ),
+    return Scaffold(
+      appBar: getAppBar(),
+      backgroundColor: Color(0xffe3e3e3),
+      body: getBody(),
     );
   }
 
   getAppBar() {
-    // Icon iconFavorite = favouriteState == false
-    //     ? Icon(
-    //         Icons.favorite_border_outlined,
-    //         color: primaryColor,
-    //       )
-    //     : Icon(
-    //         Icons.favorite_outlined,
-    //         color: favouriteColor,
-    //       );
-
-    Widget iconFavorite = favouriteState == false
-        ? new IconButton(
-            onPressed: () {
-              bookmark();
-            },
-            icon: Icon(
-              Icons.favorite_border_outlined,
-              color: primaryColor,
-            ),
-          )
-        : new IconButton(
-            onPressed: () {
-              // if (favouriteState == false) {
-              //   print("it is false");
-              // } else if (favouriteState == true) {
-              //   print("it is true");
-              // }
-              unBookmark();
-            },
-            icon: Icon(
-              Icons.favorite_outlined,
-              color: favouriteColor,
-            ));
-
-    // Icon(
-    //   Icons.favorite_outlined,
-    //   color: favouriteColor,
-    // );
-
     return AppBar(
       backgroundColor: Color(0xffe3e3e3),
       leading: Padding(
@@ -214,23 +79,6 @@ class _CarDetailPageState extends State<CarDetailPage> {
         ),
       ),
       elevation: 0.0,
-      actions: [
-        // Icon(
-        //   Icons.share_outlined,
-        //   color: primaryColor,
-        // ),
-        // SizedBox(
-        //   width: 12,
-        // ),
-        // Icon(
-        //   Icons.favorite_border_outlined,
-        //   color: primaryColor,
-        // ),
-        iconFavorite,
-        SizedBox(
-          width: 20,
-        ),
-      ],
     );
   }
 
@@ -580,7 +428,7 @@ class _CarDetailPageState extends State<CarDetailPage> {
                   //   height: 3,
                   // ),
                   Text(
-                    'Per Day',
+                    '/Per Day',
                     style: pageStyle3.copyWith(fontSize: 12),
                   ),
                   SizedBox(
@@ -592,6 +440,9 @@ class _CarDetailPageState extends State<CarDetailPage> {
                   ),
                 ],
               ),
+              SizedBox(
+                width: 5,
+              ),
               InkWell(
                 onTap: () {},
                 child: Container(
@@ -602,7 +453,7 @@ class _CarDetailPageState extends State<CarDetailPage> {
                   child: Padding(
                     padding: const EdgeInsets.all(17.0),
                     child: Text(
-                      'Book Now',
+                      '    Edit    ',
                       style: pageStyle3.copyWith(
                           fontWeight: FontWeight.w900,
                           fontSize: 14,
@@ -611,12 +462,29 @@ class _CarDetailPageState extends State<CarDetailPage> {
                   ),
                 ),
               ),
+              InkWell(
+                onTap: () {},
+                child: Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                    color: fifthColor.withOpacity(0.2),
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.all(17.0),
+                    child: Text(
+                      '  Delete  ',
+                      style: pageStyle3.copyWith(
+                          fontWeight: FontWeight.w900,
+                          fontSize: 14,
+                          color: fifthColor.withOpacity(0.6)),
+                    ),
+                  ),
+                ),
+              ),
             ],
           ),
         ),
-        SizedBox(
-          height: 20,
-        ),
+        SizedBox(height: 20),
       ],
     );
   }
