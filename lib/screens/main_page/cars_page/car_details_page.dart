@@ -594,7 +594,7 @@ class _CarDetailPageState extends State<CarDetailPage> {
               ),
               InkWell(
                 onTap: () {
-                  Get.toNamed('/bookNow');
+                  Get.toNamed('/bookNow', arguments: widget.carID);
                 },
                 child: Container(
                   decoration: BoxDecoration(

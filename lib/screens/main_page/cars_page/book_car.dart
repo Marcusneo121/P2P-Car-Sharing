@@ -1,10 +1,14 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_navigation/src/extension_navigation.dart';
 import 'package:intl/intl.dart';
-
+import 'package:p2p_car_sharing_app/components/input_widget.dart';
 import '../../../constant.dart';
+
+final _firestore = FirebaseFirestore.instance;
+String carID = "";
 
 class BookCar extends StatefulWidget {
   const BookCar({Key? key}) : super(key: key);
@@ -16,6 +20,16 @@ class BookCar extends StatefulWidget {
 class _BookCarState extends State<BookCar> {
   DateTime _dateTime = DateTime.now();
   DateTime _dateTime2 = DateTime.now();
+  TextEditingController priceController = TextEditingController();
+
+  @override
+  void initState() {
+    carID = Get.arguments;
+    //uidShared();
+    readData();
+  }
+
+  readData() async {}
 
   @override
   Widget build(BuildContext context) {
@@ -165,12 +179,13 @@ class _BookCarState extends State<BookCar> {
   }
 
   getBody() {
+    Size size = MediaQuery.of(context).size;
     return SafeArea(
       child: Center(
         child: Column(
           children: <Widget>[
             Padding(
-              padding: const EdgeInsets.only(left: 20, right: 20, top: 20),
+              padding: const EdgeInsets.only(left: 20, right: 20, top: 10),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: <Widget>[
@@ -190,6 +205,23 @@ class _BookCarState extends State<BookCar> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
+                  SizedBox(height: 10),
+                  Center(
+                    child: Container(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10),
+                        color: Colors.white,
+                        // boxShadow: [
+                        //   BoxShadow(color: Colors.white, spreadRadius: 3),
+                        // ],
+                      ),
+                      height: size.height - 660,
+                      width: size.width - 70,
+                      child: Image.network(
+                          "https://firebasestorage.googleapis.com/v0/b/p2p-car-sharing.appspot.com/o/cars%2FTesla%20Model%20X.png?alt=media&token=c99aabf4-1662-45f8-9cf5-39c8c2a52f18"),
+                    ),
+                  ),
+                  SizedBox(height: 20),
                   Row(
                     children: <Widget>[
                       Text(
@@ -199,6 +231,37 @@ class _BookCarState extends State<BookCar> {
                           fontWeight: FontWeight.normal,
                         ),
                       ),
+                    ],
+                  ),
+                  SizedBox(height: 5),
+                  // Row(
+                  //   children: <Widget>[
+                  //     Text(
+                  //       'Plate Number',
+                  //       style: TextStyle(
+                  //         fontSize: 17,
+                  //         fontWeight: FontWeight.normal,
+                  //       ),
+                  //     ),
+                  //   ],
+                  // ),
+                  Row(
+                    children: [
+                      Container(
+                          decoration: BoxDecoration(
+                            border: Border.all(
+                                width: 0.8,
+                                color: primaryColor.withOpacity(0.7)),
+                            borderRadius: BorderRadius.circular(5),
+                          ),
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 7, vertical: 1.2),
+                            child: Text(
+                              "carPlate",
+                              style: pageStyle2CarPlate,
+                            ),
+                          )),
                     ],
                   ),
                   SizedBox(height: 15),
@@ -225,7 +288,7 @@ class _BookCarState extends State<BookCar> {
                       ),
                     ],
                   ),
-                  SizedBox(height: 20),
+                  SizedBox(height: 15),
                   Row(
                     children: <Widget>[
                       Text(
@@ -238,7 +301,27 @@ class _BookCarState extends State<BookCar> {
                     ],
                   ),
                   SizedBox(height: 5),
-                  upperDatePicker()
+                  upperDatePicker(),
+                  SizedBox(height: 17),
+                  Text(
+                    'Original Price : RM 98',
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  SizedBox(height: 9),
+                  Text(
+                    'Your Desire Price (RM)',
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.normal,
+                    ),
+                  ),
+                  SizedBox(
+                    height: 2,
+                  ),
+                  input('e.g. 98', priceController),
                 ],
               ),
             ),
