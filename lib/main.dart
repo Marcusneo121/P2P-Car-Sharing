@@ -12,6 +12,7 @@ import 'package:p2p_car_sharing_app/screens/authentication/forgot_pass_profile.d
 import 'package:p2p_car_sharing_app/screens/home.dart';
 import 'package:p2p_car_sharing_app/screens/authentication/registration.dart';
 import 'package:p2p_car_sharing_app/screens/main_page/cars_page/addCar.dart';
+import 'package:p2p_car_sharing_app/screens/main_page/cars_page/book_car.dart';
 import 'package:p2p_car_sharing_app/screens/main_page/cars_page/myCar.dart';
 import 'package:p2p_car_sharing_app/screens/main_page/cars_page/searched_car_details.dart';
 import 'package:p2p_car_sharing_app/screens/main_page/favourites.dart';
@@ -103,6 +104,12 @@ class MyApp extends StatelessWidget {
           page: () => SearchCarDetailPage(),
           transition: Transition.fadeIn,
           transitionDuration: Duration(milliseconds: 150),
+        ),
+        GetPage(
+          name: '/bookNow',
+          page: () => BookCar(),
+          transition: Transition.cupertino,
+          transitionDuration: Duration(milliseconds: 300),
         ),
         // GetPage(
         //   name: '/nextScreen',

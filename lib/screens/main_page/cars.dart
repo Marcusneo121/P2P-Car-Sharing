@@ -135,7 +135,7 @@ class _CarsState extends State<Cars> {
                       size: 27,
                     ),
                     onPressed: () {
-                      Get.toNamed('/search');
+                      Get.offNamed('/search');
                     },
                   ),
                 ],

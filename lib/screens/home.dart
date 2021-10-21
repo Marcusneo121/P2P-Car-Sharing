@@ -1,11 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:get/get_core/src/get_main.dart';
-import 'package:get/get_instance/src/extension_instance.dart';
-import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
-import 'package:get/get_state_manager/src/simple/get_view.dart';
-import 'package:p2p_car_sharing_app/bindings/authBinding.dart';
-import 'package:p2p_car_sharing_app/controllers/authController.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'main_page/mainBottomNavRouter.dart';
 
 class Home extends StatefulWidget {

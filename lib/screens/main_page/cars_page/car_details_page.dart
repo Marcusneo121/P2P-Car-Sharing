@@ -593,7 +593,9 @@ class _CarDetailPageState extends State<CarDetailPage> {
                 ],
               ),
               InkWell(
-                onTap: () {},
+                onTap: () {
+                  Get.toNamed('/bookNow');
+                },
                 child: Container(
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(10),
