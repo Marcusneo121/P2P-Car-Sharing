@@ -1007,25 +1007,25 @@ class _AddCarState extends State<AddCar> {
     );
   }
 
-  // bool _decideWhichDayToEnable(DateTime day) {
-  //   var day1 = DateTime.parse("2021-10-18 12:39:32.581509");
-  //   var day2 = DateTime.parse("2021-10-20 12:39:32.581509");
-  //
-  //   int daysBetween(DateTime from, DateTime to) {
-  //     from = DateTime(from.year, from.month, from.day);
-  //     to = DateTime(to.year, to.month, to.day);
-  //     return (to.difference(from).inHours / 24).round();
-  //   }
-  //
-  //   var difference = daysBetween(day1, day2);
-  //
-  //   if ((day.isAfter(DateTime.now().subtract(Duration(days: 1))) &&
-  //       day.isBefore(DateTime.now().add(Duration(days: 10))))) {
-  //     //DateTime.parse("2021-10-20 12:39:32.581509")
-  //     return true;
-  //   }
-  //   return false;
-  // }
+  bool _decideWhichDayToEnable(DateTime day) {
+    var day1 = DateTime.parse("2021-10-18 12:39:32.581509");
+    var day2 = DateTime.parse("2021-10-20 12:39:32.581509");
+
+    int daysBetween(DateTime from, DateTime to) {
+      from = DateTime(from.year, from.month, from.day);
+      to = DateTime(to.year, to.month, to.day);
+      return (to.difference(from).inHours / 24).round();
+    }
+
+    var difference = daysBetween(day1, day2);
+
+    if ((day.isAfter(DateTime.now().subtract(Duration(days: 1))) &&
+        day.isBefore(DateTime.now().add(Duration(days: 10))))) {
+      //DateTime.parse("2021-10-20 12:39:32.581509")
+      return true;
+    }
+    return false;
+  }
 
   Future<Null> _fromDate(BuildContext context) async {
     final DateTime? picked = await showDatePicker(

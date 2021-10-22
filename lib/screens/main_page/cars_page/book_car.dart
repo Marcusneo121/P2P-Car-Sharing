@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get_core/src/get_main.dart';
@@ -21,15 +22,60 @@ class _BookCarState extends State<BookCar> {
   DateTime _dateTime = DateTime.now();
   DateTime _dateTime2 = DateTime.now();
   TextEditingController priceController = TextEditingController();
+  String uid = "";
+  String? carID,
+      carName,
+      carPlate,
+      price,
+      location,
+      seat,
+      yearMade,
+      color,
+      engine,
+      fromDate,
+      toDate;
+  String carPic =
+      "https://firebasestorage.googleapis.com/v0/b/p2p-car-sharing.appspot.com/o/grayscale-mountain.png?alt=media&token=4e6c1355-6583-4597-a481-7aecd205a2cf";
+  DateTime? fromDateValidation;
 
   @override
   void initState() {
     carID = Get.arguments;
-    //uidShared();
+    setState(() {
+      uid = FirebaseAuth.instance.currentUser!.uid.toString();
+    });
     readData();
   }
 
-  readData() async {}
+  readData() async {
+    await _firestore
+        .collection('cars')
+        .doc(carID.toString())
+        .get()
+        .then((datasnapshot) async {
+      setState(() {
+        carPic = datasnapshot.get('carPic').toString();
+        carName = datasnapshot.get('carName').toString();
+        carPlate = datasnapshot.get('plateNumber').toString();
+        price = datasnapshot.get('price').toString();
+        location = datasnapshot.get('location').toString();
+        seat = datasnapshot.get('seat').toString();
+        yearMade = datasnapshot.get('yearMade').toString();
+        color = datasnapshot.get('color').toString();
+        engine = datasnapshot.get('engineCapacity').toString();
+        fromDate = datasnapshot.get('fromDate').toString();
+        print("$fromDate");
+        DateTime.parse(fromDate!).isBefore(DateTime.now())
+            ? _dateTime = DateTime.now()
+            : _dateTime = DateTime.parse(fromDate!);
+        print("$fromDate");
+        toDate = datasnapshot.get('toDate').toString();
+        DateTime.parse(toDate!).isBefore(DateTime.now())
+            ? _dateTime2 = DateTime.now()
+            : _dateTime2 = DateTime.parse(toDate!);
+      });
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -100,7 +146,7 @@ class _BookCarState extends State<BookCar> {
                     Expanded(
                       child: Center(
                         child: Text(
-                          'To',
+                          'Until',
                           style: pageStyle3.copyWith(
                             fontSize: 14,
                             fontWeight: FontWeight.w900,
@@ -136,6 +182,53 @@ class _BookCarState extends State<BookCar> {
     );
   }
 
+  bool _decideEnable(DateTime day) {
+    int daysBetween(DateTime from, DateTime to) {
+      from = DateTime(from.year, from.month, from.day);
+      to = DateTime(to.year, to.month, to.day);
+      return (to.difference(from).inHours / 24).round();
+    }
+
+    var difference =
+        daysBetween(DateTime.parse(fromDate!), DateTime.parse(toDate!));
+
+    DateTime? dateToSubtract;
+
+    if (_dateTime == DateTime.now()) {
+      if ((day.isAfter(DateTime.now().subtract(Duration(days: 1))) &&
+          day.isBefore(DateTime.now().add(Duration(days: difference))))) {
+        return true;
+      }
+    } else {
+      if ((day.isAfter(DateTime.parse(fromDate!).subtract(Duration(days: 1))) &&
+          day.isBefore(
+              DateTime.parse(fromDate!).add(Duration(days: difference))))) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  bool _decideWhichDayToEnable(DateTime day) {
+    var day1 = DateTime.parse("2021-10-18 12:39:32.581509");
+    var day2 = DateTime.parse("2021-10-20 12:39:32.581509");
+
+    int daysBetween(DateTime from, DateTime to) {
+      from = DateTime(from.year, from.month, from.day);
+      to = DateTime(to.year, to.month, to.day);
+      return (to.difference(from).inHours / 24).round();
+    }
+
+    var difference =
+        daysBetween(DateTime.parse(fromDate!), DateTime.parse(toDate!));
+
+    if ((day.isAfter(DateTime.now().subtract(Duration(days: 1))) &&
+        day.isBefore(DateTime.now().add(Duration(days: difference))))) {
+      return true;
+    }
+    return false;
+  }
+
   Future<Null> _fromDate(BuildContext context) async {
     final DateTime? picked = await showDatePicker(
       context: context,
@@ -143,7 +236,7 @@ class _BookCarState extends State<BookCar> {
       initialDatePickerMode: DatePickerMode.day,
       firstDate: DateTime(2015),
       lastDate: DateTime(2101),
-      //selectableDayPredicate: _decideWhichDayToEnable,
+      selectableDayPredicate: _decideEnable,
     );
     if (picked != null)
       setState(() {
@@ -155,11 +248,13 @@ class _BookCarState extends State<BookCar> {
 
   Future<Null> _toDate(BuildContext context) async {
     final DateTime? picked = await showDatePicker(
-        context: context,
-        initialDate: _dateTime2,
-        initialDatePickerMode: DatePickerMode.day,
-        firstDate: DateTime(2015),
-        lastDate: DateTime(2101));
+      context: context,
+      initialDate: _dateTime2,
+      initialDatePickerMode: DatePickerMode.day,
+      firstDate: DateTime(2015),
+      lastDate: DateTime(2101),
+      selectableDayPredicate: _decideEnable,
+    );
     if (picked != null)
       setState(() {
         _dateTime2 = picked;
@@ -217,15 +312,14 @@ class _BookCarState extends State<BookCar> {
                       ),
                       height: size.height - 660,
                       width: size.width - 70,
-                      child: Image.network(
-                          "https://firebasestorage.googleapis.com/v0/b/p2p-car-sharing.appspot.com/o/cars%2FTesla%20Model%20X.png?alt=media&token=c99aabf4-1662-45f8-9cf5-39c8c2a52f18"),
+                      child: Image.network(carPic.toString()),
                     ),
                   ),
                   SizedBox(height: 20),
                   Row(
                     children: <Widget>[
                       Text(
-                        'Car Name,',
+                        '$carName $yearMade,',
                         style: pageStyle1.copyWith(
                           fontSize: 18.5,
                           fontWeight: FontWeight.normal,
@@ -258,7 +352,7 @@ class _BookCarState extends State<BookCar> {
                             padding: const EdgeInsets.symmetric(
                                 horizontal: 7, vertical: 1.2),
                             child: Text(
-                              "carPlate",
+                              "$carPlate",
                               style: pageStyle2CarPlate,
                             ),
                           )),
@@ -280,7 +374,7 @@ class _BookCarState extends State<BookCar> {
                   Row(
                     children: <Widget>[
                       Text(
-                        '13th, Awana Puri Condominium, Cheras',
+                        '$location',
                         style: TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.bold,
@@ -304,7 +398,7 @@ class _BookCarState extends State<BookCar> {
                   upperDatePicker(),
                   SizedBox(height: 17),
                   Text(
-                    'Original Price : RM 98',
+                    'Original Price : RM $price',
                     style: TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.bold,
