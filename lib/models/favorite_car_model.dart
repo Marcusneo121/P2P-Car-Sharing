@@ -10,7 +10,12 @@ class FavCarModel {
       color,
       engine,
       toDate,
-      fromDate;
+      fromDate,
+      ownerID,
+      ownerEmail,
+      ownerContact,
+      ownerName,
+      ownerImage;
   final List<String> images;
 
   FavCarModel({
@@ -27,6 +32,11 @@ class FavCarModel {
     required this.yearMade,
     required this.color,
     required this.engine,
+    required this.ownerID,
+    required this.ownerEmail,
+    required this.ownerContact,
+    required this.ownerName,
+    required this.ownerImage,
   });
 }
 

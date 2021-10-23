@@ -17,7 +17,11 @@ String? carID,
     seat,
     yearMade,
     color,
-    engine;
+    engine,
+    ownerID,
+    ownerEmail,
+    ownerContact,
+    ownerName;
 
 class SearchCarDetailPage extends StatefulWidget {
   // const CarDetailPage({
@@ -110,6 +114,10 @@ class _SearchCarDetailPageState extends State<SearchCarDetailPage> {
         yearMade = datasnapshot.get('yearMade');
         color = datasnapshot.get('color');
         engine = datasnapshot.get('engineCapacity');
+        ownerID = datasnapshot.get('ownerID');
+        ownerEmail = datasnapshot.get('ownerEmail');
+        ownerContact = datasnapshot.get('ownerContact');
+        ownerName = datasnapshot.get('ownerName');
       });
     });
   }

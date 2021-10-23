@@ -1,8 +1,13 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:p2p_car_sharing_app/models/car_model.dart';
 import 'package:p2p_car_sharing_app/screens/main_page/cars_page/car_details_page.dart';
+import 'package:p2p_car_sharing_app/screens/main_page/cars_page/my_car_details_page.dart';
 import '../constant.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+
+final _firestore = FirebaseFirestore.instance;
 
 Widget buildCarCard(BuildContext context, int index, String uid) {
   final data = CarList.carList[index];
@@ -14,24 +19,65 @@ Widget buildCarCard(BuildContext context, int index, String uid) {
         borderRadius: BorderRadius.circular(20),
       ),
       child: InkWell(
-        onTap: () {
-          Get.to(
-            CarDetailPage(
-              carID: data.carID,
-              images: data.images,
-              carName: data.carName,
-              carPlate: data.carPlate,
-              price: data.price,
-              location: data.location,
-              seat: data.seat,
-              yearMade: data.yearMade,
-              color: data.color,
-              engine: data.engine,
-            ),
-            transition: Transition.cupertino,
-            duration: Duration(milliseconds: 500),
-            arguments: uid,
-          );
+        onTap: () async {
+          try {
+            await _firestore
+                .collection('users')
+                .doc(FirebaseAuth.instance.currentUser!.uid.toString())
+                .collection("postedCars")
+                .doc(data.carID)
+                .get()
+                .then((datasnapshot) async {
+              print(datasnapshot.get('carID').toString());
+              print(data.carID.toString());
+              if (datasnapshot.get('carID').toString() == data.carID) {
+                Get.to(
+                  MyCarDetailPage(
+                    images: data.images,
+                    carName: data.carName,
+                    carPlate: data.carPlate,
+                    price: data.price,
+                    location: data.location,
+                    seat: data.seat,
+                    yearMade: data.yearMade,
+                    color: data.color,
+                    engine: data.engine,
+                    ownerContact: data.ownerContact,
+                    ownerEmail: data.ownerEmail,
+                    ownerID: data.ownerID,
+                    ownerName: data.ownerName,
+                    ownerImage: data.ownerImage,
+                  ),
+                  transition: Transition.cupertino,
+                  duration: Duration(milliseconds: 350),
+                );
+              }
+            });
+          } catch (e) {
+            print(e);
+            Get.to(
+              CarDetailPage(
+                carID: data.carID,
+                images: data.images,
+                carName: data.carName,
+                carPlate: data.carPlate,
+                price: data.price,
+                location: data.location,
+                seat: data.seat,
+                yearMade: data.yearMade,
+                color: data.color,
+                engine: data.engine,
+                ownerContact: data.ownerContact,
+                ownerEmail: data.ownerEmail,
+                ownerID: data.ownerID,
+                ownerName: data.ownerName,
+                ownerImage: data.ownerImage,
+              ),
+              transition: Transition.cupertino,
+              duration: Duration(milliseconds: 350),
+              arguments: uid,
+            );
+          }
         },
         child: Container(
           width: double.infinity,
@@ -100,24 +146,67 @@ Widget buildCarCard(BuildContext context, int index, String uid) {
                           color: fourthColor.withOpacity(0.15),
                         ),
                         child: IconButton(
-                          onPressed: () {
-                            Get.to(
-                              CarDetailPage(
-                                carID: data.carID,
-                                images: data.images,
-                                carName: data.carName,
-                                carPlate: data.carPlate,
-                                price: data.price,
-                                location: data.location,
-                                seat: data.seat,
-                                yearMade: data.yearMade,
-                                color: data.color,
-                                engine: data.engine,
-                              ),
-                              transition: Transition.cupertino,
-                              duration: Duration(milliseconds: 350),
-                              arguments: uid,
-                            );
+                          onPressed: () async {
+                            try {
+                              await _firestore
+                                  .collection('users')
+                                  .doc(FirebaseAuth.instance.currentUser!.uid
+                                      .toString())
+                                  .collection("postedCars")
+                                  .doc(data.carID)
+                                  .get()
+                                  .then((datasnapshot) async {
+                                print(datasnapshot.get('carID').toString());
+                                print(data.carID.toString());
+                                if (datasnapshot.get('carID').toString() ==
+                                    data.carID) {
+                                  Get.to(
+                                    MyCarDetailPage(
+                                      images: data.images,
+                                      carName: data.carName,
+                                      carPlate: data.carPlate,
+                                      price: data.price,
+                                      location: data.location,
+                                      seat: data.seat,
+                                      yearMade: data.yearMade,
+                                      color: data.color,
+                                      engine: data.engine,
+                                      ownerContact: data.ownerContact,
+                                      ownerEmail: data.ownerEmail,
+                                      ownerID: data.ownerID,
+                                      ownerName: data.ownerName,
+                                      ownerImage: data.ownerImage,
+                                    ),
+                                    transition: Transition.cupertino,
+                                    duration: Duration(milliseconds: 350),
+                                  );
+                                }
+                              });
+                            } catch (e) {
+                              print(e);
+                              Get.to(
+                                CarDetailPage(
+                                  carID: data.carID,
+                                  images: data.images,
+                                  carName: data.carName,
+                                  carPlate: data.carPlate,
+                                  price: data.price,
+                                  location: data.location,
+                                  seat: data.seat,
+                                  yearMade: data.yearMade,
+                                  color: data.color,
+                                  engine: data.engine,
+                                  ownerContact: data.ownerContact,
+                                  ownerEmail: data.ownerEmail,
+                                  ownerID: data.ownerID,
+                                  ownerName: data.ownerName,
+                                  ownerImage: data.ownerImage,
+                                ),
+                                transition: Transition.cupertino,
+                                duration: Duration(milliseconds: 350),
+                                arguments: uid,
+                              );
+                            }
                           },
                           icon: Icon(
                             Icons.arrow_forward,
@@ -136,3 +225,48 @@ Widget buildCarCard(BuildContext context, int index, String uid) {
     ),
   );
 }
+
+// await _firestore
+//     .collection('users')
+// .doc(FirebaseAuth.instance.currentUser!.uid
+//     .toString())
+// .collection("postedCars")
+// .doc(data.carID)
+// .get()
+//     .then((datasnapshot) async {
+// if (datasnapshot.id.toString() == data.carID) {
+// Get.to(
+// MyCarDetailPage(
+// images: data.images,
+// carName: data.carName,
+// carPlate: data.carPlate,
+// price: data.price,
+// location: data.location,
+// seat: data.seat,
+// yearMade: data.yearMade,
+// color: data.color,
+// engine: data.engine,
+// ),
+// transition: Transition.cupertino,
+// duration: Duration(milliseconds: 350),
+// );
+// } else {
+// Get.to(
+// CarDetailPage(
+// carID: data.carID,
+// images: data.images,
+// carName: data.carName,
+// carPlate: data.carPlate,
+// price: data.price,
+// location: data.location,
+// seat: data.seat,
+// yearMade: data.yearMade,
+// color: data.color,
+// engine: data.engine,
+// ),
+// transition: Transition.cupertino,
+// duration: Duration(milliseconds: 350),
+// arguments: uid,
+// );
+// }
+// });

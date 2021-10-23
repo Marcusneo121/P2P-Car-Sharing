@@ -3,7 +3,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_navigation/src/extension_navigation.dart';
-import 'package:p2p_car_sharing_app/components/car_view.dart';
 import 'package:p2p_car_sharing_app/components/my_car_view.dart';
 import 'package:p2p_car_sharing_app/models/my_car_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -22,6 +21,12 @@ String engine = "";
 String carID = "";
 String fromDate = "";
 String toDate = "";
+String ownerContact = "";
+String ownerEmail = "";
+String ownerID = "";
+String ownerName = "";
+String ownerImage = "";
+
 final _firestore = FirebaseFirestore.instance;
 
 class MyCar extends StatefulWidget {
@@ -93,6 +98,10 @@ class _MyCarState extends State<MyCar> {
               engine = doc["engineCapacity"];
               fromDate = doc["fromDate"];
               toDate = doc["toDate"];
+              ownerContact = doc["ownerContact"];
+              ownerEmail = doc["ownerEmail"];
+              ownerID = doc["ownerID"];
+              ownerName = doc["ownerName"];
 
               print(doc["carName"]);
               print(doc["carPic"]);
@@ -128,6 +137,11 @@ class _MyCarState extends State<MyCar> {
               engine: engine,
               fromDate: fromDate,
               toDate: toDate,
+              ownerContact: ownerContact,
+              ownerEmail: ownerEmail,
+              ownerID: ownerID,
+              ownerName: ownerName,
+              ownerImage: ownerImage,
             );
             MyCarList.myCarList.add(eachCarModel);
             print("Car List added");

@@ -1,6 +1,7 @@
 class CarModel {
   final String imagePath;
-  final String carID, carName,
+  final String carID,
+      carName,
       carPlate,
       price,
       location,
@@ -9,24 +10,33 @@ class CarModel {
       color,
       engine,
       toDate,
-      fromDate;
+      fromDate,
+      ownerID,
+      ownerEmail,
+      ownerContact,
+      ownerName,
+      ownerImage;
   final List<String> images;
 
-  CarModel({
-    required this.carID,
-    required this.toDate,
-    required this.fromDate,
-    required this.imagePath,
-    required this.carName,
-    required this.carPlate,
-    required this.images,
-    required this.price,
-    required this.location,
-    required this.seat,
-    required this.yearMade,
-    required this.color,
-    required this.engine,
-  });
+  CarModel(
+      {required this.carID,
+      required this.toDate,
+      required this.fromDate,
+      required this.imagePath,
+      required this.carName,
+      required this.carPlate,
+      required this.images,
+      required this.price,
+      required this.location,
+      required this.seat,
+      required this.yearMade,
+      required this.color,
+      required this.engine,
+      required this.ownerID,
+      required this.ownerEmail,
+      required this.ownerContact,
+      required this.ownerName,
+      required this.ownerImage});
 }
 
 class CarList {

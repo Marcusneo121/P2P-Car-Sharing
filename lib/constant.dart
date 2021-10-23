@@ -44,7 +44,7 @@ var pageStyle1 = GoogleFonts.poppins(
 );
 var pageStyle2CarPlate = GoogleFonts.poppins(
   color: primaryColor,
-  fontSize: 15,
+  fontSize: 13,
   letterSpacing: 2.6,
   wordSpacing: 1.2,
 );

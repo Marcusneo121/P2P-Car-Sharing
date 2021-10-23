@@ -1,8 +1,10 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
+import 'package:p2p_car_sharing_app/screens/main_page/cars.dart';
 import '../../../constant.dart';
 
 final _firestore = FirebaseFirestore.instance;
@@ -19,21 +21,31 @@ class CarDetailPage extends StatefulWidget {
       seat,
       yearMade,
       color,
-      engine;
+      engine,
+      ownerID,
+      ownerEmail,
+      ownerContact,
+      ownerName,
+      ownerImage;
 
-  const CarDetailPage({
-    Key? key,
-    required this.carID,
-    required this.images,
-    required this.carName,
-    required this.carPlate,
-    required this.price,
-    required this.location,
-    required this.seat,
-    required this.yearMade,
-    required this.color,
-    required this.engine,
-  }) : super(key: key);
+  const CarDetailPage(
+      {Key? key,
+      required this.carID,
+      required this.images,
+      required this.carName,
+      required this.carPlate,
+      required this.price,
+      required this.location,
+      required this.seat,
+      required this.yearMade,
+      required this.color,
+      required this.engine,
+      required this.ownerID,
+      required this.ownerEmail,
+      required this.ownerContact,
+      required this.ownerName,
+      required this.ownerImage})
+      : super(key: key);
 
   @override
   _CarDetailPageState createState() => _CarDetailPageState();
@@ -252,310 +264,383 @@ class _CarDetailPageState extends State<CarDetailPage> {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          SingleChildScrollView(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              //mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                upperImagesContainer(),
-                SizedBox(
-                  height: 10,
-                ),
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Container(
-                      margin: EdgeInsets.symmetric(horizontal: 18),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          Text(
-                            widget.carName,
-                            style: pageTitleStyle,
-                          ),
-                          Container(
-                              decoration: BoxDecoration(
-                                border: Border.all(
-                                    width: 0.5,
-                                    color: primaryColor.withOpacity(0.4)),
-                                borderRadius: BorderRadius.circular(5),
+          Expanded(
+            flex: 7,
+            child: SingleChildScrollView(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                //mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  upperImagesContainer(),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Container(
+                        margin: EdgeInsets.symmetric(horizontal: 18),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+                            Text(
+                              widget.carName,
+                              style: pageTitleStyle,
+                            ),
+                            Container(
+                                decoration: BoxDecoration(
+                                  border: Border.all(
+                                      width: 0.9,
+                                      color: primaryColor.withOpacity(0.6)),
+                                  borderRadius: BorderRadius.circular(5),
+                                ),
+                                child: Padding(
+                                  padding:
+                                      const EdgeInsets.symmetric(horizontal: 5),
+                                  child: Text(
+                                    widget.carPlate,
+                                    style: pageStyle2,
+                                  ),
+                                )),
+                            SizedBox(
+                              height: size.height * 0.018,
+                            ),
+                            Text(
+                              'Location',
+                              style: pageStyle3.copyWith(
+                                fontSize: 18,
+                                fontWeight: FontWeight.w900,
                               ),
-                              child: Padding(
-                                padding:
-                                    const EdgeInsets.symmetric(horizontal: 5),
-                                child: Text(
-                                  widget.carPlate,
-                                  style: pageStyle2,
-                                ),
-                              )),
-                          SizedBox(
-                            height: size.height * 0.012,
-                          ),
-                          Text(
-                            'Location',
-                            style: pageStyle3.copyWith(
-                              fontSize: 18,
-                              fontWeight: FontWeight.w900,
                             ),
-                          ),
-                          SizedBox(
-                            height: 4,
-                          ),
-                          Container(
-                              decoration: BoxDecoration(
-                                border: Border.all(
-                                    width: 0.5,
-                                    color: primaryColor.withOpacity(0.4)),
-                                borderRadius: BorderRadius.circular(5),
+                            SizedBox(
+                              height: 4,
+                            ),
+                            Container(
+                                decoration: BoxDecoration(
+                                  border: Border.all(
+                                      width: 0.5,
+                                      color: primaryColor.withOpacity(0.4)),
+                                  borderRadius: BorderRadius.circular(5),
+                                ),
+                                child: Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 5, vertical: 5),
+                                  child: Row(
+                                    children: [
+                                      Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: Icon(
+                                          Icons.location_on_outlined,
+                                          color: tertiaryColor,
+                                        ),
+                                      ),
+                                      SizedBox(
+                                        width: 4,
+                                      ),
+                                      Flexible(
+                                        child: RichText(
+                                          overflow: TextOverflow.ellipsis,
+                                          text: TextSpan(
+                                              style: pageStyle3.copyWith(
+                                                  fontSize: 14),
+                                              text: widget.location),
+                                        ),
+                                      ),
+                                      // Expanded(
+                                      //   child: Text(
+                                      //     widget.location,
+                                      //     style:
+                                      //         pageStyle3.copyWith(fontSize: 14),
+                                      //   ),
+                                      // ),
+                                    ],
+                                  ),
+                                )),
+                            SizedBox(
+                              height: size.height * 0.012,
+                            ),
+                            // Text(
+                            //   'Date',
+                            //   style: pageStyle3.copyWith(
+                            //     fontSize: 17,
+                            //     fontWeight: FontWeight.w900,
+                            //   ),
+                            // ),
+                            // SizedBox(
+                            //   height: 4,
+                            // ),
+                            // Row(
+                            //   children: [
+                            //     Expanded(
+                            //       child: Container(
+                            //           decoration: BoxDecoration(
+                            //             border: Border.all(
+                            //                 width: 0.5,
+                            //                 color: primaryColor.withOpacity(0.4)),
+                            //             borderRadius: BorderRadius.circular(5),
+                            //           ),
+                            //           child: Padding(
+                            //             padding: const EdgeInsets.symmetric(vertical: 13),
+                            //             child: Row(
+                            //               children: [
+                            //                 Expanded(
+                            //                   child: Center(
+                            //                     child: Text(
+                            //                       'From',
+                            //                       style: pageStyle3.copyWith(
+                            //                         fontSize: 14,
+                            //                         fontWeight: FontWeight.w900,
+                            //                       ),
+                            //                     ),
+                            //                   ),
+                            //                 ),
+                            //                 Expanded(
+                            //                     flex: 2,
+                            //                     child: Container(
+                            //                       child: Center(
+                            //                         child: Text(
+                            //                           '28 june,\n9.00 a.m',
+                            //                           style: pageStyle3.copyWith(
+                            //                               fontSize: 12),
+                            //                         ),
+                            //                       ),
+                            //                     )),
+                            //               ],
+                            //             ),
+                            //           )),
+                            //     ),
+                            //     SizedBox(
+                            //       width: 10,
+                            //     ),
+                            //     Expanded(
+                            //       child: Container(
+                            //           decoration: BoxDecoration(
+                            //             border: Border.all(
+                            //                 width: 0.5,
+                            //                 color: primaryColor.withOpacity(0.4)),
+                            //             borderRadius: BorderRadius.circular(5),
+                            //           ),
+                            //           child: Padding(
+                            //             padding: const EdgeInsets.symmetric(vertical: 13),
+                            //             child: Row(
+                            //               children: [
+                            //                 Expanded(
+                            //                   child: Center(
+                            //                     child: Text(
+                            //                       'To',
+                            //                       style: pageStyle3.copyWith(
+                            //                         fontSize: 14,
+                            //                         fontWeight: FontWeight.w900,
+                            //                       ),
+                            //                     ),
+                            //                   ),
+                            //                 ),
+                            //                 Expanded(
+                            //                     flex: 2,
+                            //                     child: Container(
+                            //                       child: Center(
+                            //                         child: Text(
+                            //                           '28 june,\n9.00 a.m',
+                            //                           style: pageStyle3.copyWith(
+                            //                               fontSize: 12),
+                            //                         ),
+                            //                       ),
+                            //                     )),
+                            //               ],
+                            //             ),
+                            //           )),
+                            //     ),
+                            //   ],
+                            // ),
+                            SizedBox(
+                              height: size.height * 0.01,
+                            ),
+                            Text(
+                              'Car Description',
+                              style: pageStyle3.copyWith(
+                                fontSize: 18,
+                                fontWeight: FontWeight.w900,
                               ),
-                              child: Padding(
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 5, vertical: 5),
-                                child: Row(
-                                  children: [
-                                    Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: Icon(
-                                        Icons.location_on_outlined,
-                                        color: tertiaryColor,
-                                      ),
-                                    ),
-                                    SizedBox(
-                                      width: 4,
-                                    ),
-                                    Flexible(
-                                      child: RichText(
-                                        overflow: TextOverflow.ellipsis,
-                                        text: TextSpan(
-                                            style: pageStyle3.copyWith(
-                                                fontSize: 14),
-                                            text: widget.location),
-                                      ),
-                                    ),
-                                    // Expanded(
-                                    //   child: Text(
-                                    //     widget.location,
-                                    //     style:
-                                    //         pageStyle3.copyWith(fontSize: 14),
-                                    //   ),
-                                    // ),
-                                  ],
-                                ),
-                              )),
-                          SizedBox(
-                            height: size.height * 0.012,
-                          ),
-                          // Text(
-                          //   'Date',
-                          //   style: pageStyle3.copyWith(
-                          //     fontSize: 17,
-                          //     fontWeight: FontWeight.w900,
-                          //   ),
-                          // ),
-                          // SizedBox(
-                          //   height: 4,
-                          // ),
-                          // Row(
-                          //   children: [
-                          //     Expanded(
-                          //       child: Container(
-                          //           decoration: BoxDecoration(
-                          //             border: Border.all(
-                          //                 width: 0.5,
-                          //                 color: primaryColor.withOpacity(0.4)),
-                          //             borderRadius: BorderRadius.circular(5),
-                          //           ),
-                          //           child: Padding(
-                          //             padding: const EdgeInsets.symmetric(vertical: 13),
-                          //             child: Row(
-                          //               children: [
-                          //                 Expanded(
-                          //                   child: Center(
-                          //                     child: Text(
-                          //                       'From',
-                          //                       style: pageStyle3.copyWith(
-                          //                         fontSize: 14,
-                          //                         fontWeight: FontWeight.w900,
-                          //                       ),
-                          //                     ),
-                          //                   ),
-                          //                 ),
-                          //                 Expanded(
-                          //                     flex: 2,
-                          //                     child: Container(
-                          //                       child: Center(
-                          //                         child: Text(
-                          //                           '28 june,\n9.00 a.m',
-                          //                           style: pageStyle3.copyWith(
-                          //                               fontSize: 12),
-                          //                         ),
-                          //                       ),
-                          //                     )),
-                          //               ],
-                          //             ),
-                          //           )),
-                          //     ),
-                          //     SizedBox(
-                          //       width: 10,
-                          //     ),
-                          //     Expanded(
-                          //       child: Container(
-                          //           decoration: BoxDecoration(
-                          //             border: Border.all(
-                          //                 width: 0.5,
-                          //                 color: primaryColor.withOpacity(0.4)),
-                          //             borderRadius: BorderRadius.circular(5),
-                          //           ),
-                          //           child: Padding(
-                          //             padding: const EdgeInsets.symmetric(vertical: 13),
-                          //             child: Row(
-                          //               children: [
-                          //                 Expanded(
-                          //                   child: Center(
-                          //                     child: Text(
-                          //                       'To',
-                          //                       style: pageStyle3.copyWith(
-                          //                         fontSize: 14,
-                          //                         fontWeight: FontWeight.w900,
-                          //                       ),
-                          //                     ),
-                          //                   ),
-                          //                 ),
-                          //                 Expanded(
-                          //                     flex: 2,
-                          //                     child: Container(
-                          //                       child: Center(
-                          //                         child: Text(
-                          //                           '28 june,\n9.00 a.m',
-                          //                           style: pageStyle3.copyWith(
-                          //                               fontSize: 12),
-                          //                         ),
-                          //                       ),
-                          //                     )),
-                          //               ],
-                          //             ),
-                          //           )),
-                          //     ),
-                          //   ],
-                          // ),
-                          SizedBox(
-                            height: size.height * 0.01,
-                          ),
-                          Text(
-                            'Car Description',
-                            style: pageStyle3.copyWith(
-                              fontSize: 18,
-                              fontWeight: FontWeight.w900,
                             ),
-                          ),
-                          SizedBox(
-                            height: 10,
-                          ),
-                          Padding(
-                            padding: EdgeInsets.only(left: 10.0, right: 10.0),
-                            child: Column(
-                              children: <Widget>[
-                                Row(
-                                  children: <Widget>[
-                                    Text(
-                                      'Year Made :',
-                                      style: pageStyle3.copyWith(
-                                        fontSize: 15,
-                                        fontWeight: FontWeight.w700,
-                                        color: Color(0xFF2C2C2C),
-                                      ),
-                                    ),
-                                    SizedBox(width: 10),
-                                    Text(
-                                      widget.yearMade,
-                                      style: pageStyle3.copyWith(
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.w700,
-                                        color: Color(0xFF787878),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                                SizedBox(height: 5),
-                                Row(
-                                  children: <Widget>[
-                                    Text(
-                                      'Engine Capacity :',
-                                      style: pageStyle3.copyWith(
-                                        fontSize: 15,
-                                        fontWeight: FontWeight.w700,
-                                        color: Color(0xFF2C2C2C),
-                                      ),
-                                    ),
-                                    SizedBox(width: 10),
-                                    Text(
-                                      widget.engine,
-                                      style: pageStyle3.copyWith(
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.w700,
-                                        color: Color(0xFF787878),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                                SizedBox(height: 5),
-                                Row(
-                                  children: <Widget>[
-                                    Text(
-                                      'Color :',
-                                      style: pageStyle3.copyWith(
-                                        fontSize: 15,
-                                        fontWeight: FontWeight.w700,
-                                        color: Color(0xFF2C2C2C),
-                                      ),
-                                    ),
-                                    SizedBox(width: 10),
-                                    Text(
-                                      widget.color,
-                                      style: pageStyle3.copyWith(
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.w700,
-                                        color: Color(0xFF787878),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                                SizedBox(height: 5),
-                                Row(
-                                  children: <Widget>[
-                                    Text(
-                                      'Seat Number :',
-                                      style: pageStyle3.copyWith(
-                                        fontSize: 15,
-                                        fontWeight: FontWeight.w700,
-                                        color: Color(0xFF2C2C2C),
-                                      ),
-                                    ),
-                                    SizedBox(width: 10),
-                                    Text(
-                                      widget.seat,
-                                      style: pageStyle3.copyWith(
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.w700,
-                                        color: Color(0xFF787878),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ],
+                            SizedBox(
+                              height: 10,
                             ),
-                          ),
-                        ],
+                            Padding(
+                              padding: EdgeInsets.only(left: 10.0, right: 10.0),
+                              child: Column(
+                                children: <Widget>[
+                                  Row(
+                                    children: <Widget>[
+                                      Text(
+                                        'Year Made :',
+                                        style: pageStyle3.copyWith(
+                                          fontSize: 15,
+                                          fontWeight: FontWeight.w700,
+                                          color: Color(0xFF2C2C2C),
+                                        ),
+                                      ),
+                                      SizedBox(width: 10),
+                                      Text(
+                                        widget.yearMade,
+                                        style: pageStyle3.copyWith(
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.w700,
+                                          color: Color(0xFF787878),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  SizedBox(height: 5),
+                                  Row(
+                                    children: <Widget>[
+                                      Text(
+                                        'Engine Capacity :',
+                                        style: pageStyle3.copyWith(
+                                          fontSize: 15,
+                                          fontWeight: FontWeight.w700,
+                                          color: Color(0xFF2C2C2C),
+                                        ),
+                                      ),
+                                      SizedBox(width: 10),
+                                      Text(
+                                        widget.engine,
+                                        style: pageStyle3.copyWith(
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.w700,
+                                          color: Color(0xFF787878),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  SizedBox(height: 5),
+                                  Row(
+                                    children: <Widget>[
+                                      Text(
+                                        'Color :',
+                                        style: pageStyle3.copyWith(
+                                          fontSize: 15,
+                                          fontWeight: FontWeight.w700,
+                                          color: Color(0xFF2C2C2C),
+                                        ),
+                                      ),
+                                      SizedBox(width: 10),
+                                      Text(
+                                        widget.color,
+                                        style: pageStyle3.copyWith(
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.w700,
+                                          color: Color(0xFF787878),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  SizedBox(height: 5),
+                                  Row(
+                                    children: <Widget>[
+                                      Text(
+                                        'Seat Number :',
+                                        style: pageStyle3.copyWith(
+                                          fontSize: 15,
+                                          fontWeight: FontWeight.w700,
+                                          color: Color(0xFF2C2C2C),
+                                        ),
+                                      ),
+                                      SizedBox(width: 10),
+                                      Text(
+                                        widget.seat,
+                                        style: pageStyle3.copyWith(
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.w700,
+                                          color: Color(0xFF787878),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              ),
+                            ),
+                            SizedBox(height: 37),
+                            Center(
+                              child: Container(
+                                width: 230,
+                                height: 1.5,
+                                color: Colors.black.withOpacity(0.20),
+                              ),
+                            ),
+                            SizedBox(height: 26),
+                            Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 8.0),
+                              child: Text(
+                                'Owner Details',
+                                style: TextStyle(
+                                    color: Colors.black.withOpacity(0.70),
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.bold),
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.only(
+                                  left: 12.0, right: 12.0, top: 4),
+                              child: Row(
+                                children: [
+                                  CircleAvatar(
+                                    backgroundImage: NetworkImage(
+                                      widget.ownerImage.toString(),
+                                    ),
+                                    radius: 33,
+                                  ),
+                                  SizedBox(width: 22),
+                                  Column(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        widget.ownerName,
+                                        style: TextStyle(
+                                            color:
+                                                Colors.black.withOpacity(0.60),
+                                            fontSize: 14,
+                                            fontWeight: FontWeight.bold),
+                                      ),
+                                      Text(
+                                        widget.ownerEmail,
+                                        style: TextStyle(
+                                            color:
+                                                Colors.black.withOpacity(0.60),
+                                            fontSize: 14,
+                                            fontWeight: FontWeight.bold),
+                                      ),
+                                      Text(
+                                        widget.ownerContact,
+                                        style: TextStyle(
+                                            color:
+                                                Colors.black.withOpacity(0.60),
+                                            fontSize: 14,
+                                            fontWeight: FontWeight.bold),
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              ),
+                            ),
+                            SizedBox(height: 20),
+                          ],
+                        ),
                       ),
-                    ),
-                  ],
-                ),
-              ],
+                    ],
+                  ),
+                ],
+              ),
             ),
           ),
-          Container(
-            margin: EdgeInsets.symmetric(horizontal: 18),
-            child: lowerPartDetails(),
+          Expanded(
+            flex: 1,
+            child: Container(
+              margin: EdgeInsets.symmetric(horizontal: 18),
+              child: lowerPartDetails(),
+            ),
           ),
         ],
       ),
@@ -629,7 +714,8 @@ class _CarDetailPageState extends State<CarDetailPage> {
         Container(
           child: CarouselSlider(
             options: CarouselOptions(
-              autoPlay: false,
+              autoPlay: true,
+              enableInfiniteScroll: true,
               aspectRatio: 16 / 9,
               viewportFraction: 0.8,
               initialPage: 0,
@@ -641,7 +727,7 @@ class _CarDetailPageState extends State<CarDetailPage> {
                   _currentIndex = index;
                 });
               },
-              autoPlayInterval: const Duration(seconds: 2),
+              autoPlayInterval: const Duration(seconds: 6),
               autoPlayAnimationDuration: Duration(milliseconds: 2000),
             ),
             items: widget.images

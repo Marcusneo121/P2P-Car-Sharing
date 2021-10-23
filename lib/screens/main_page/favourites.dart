@@ -20,6 +20,11 @@ String engine = "";
 String fromDate = "";
 String toDate = "";
 String carID = "";
+String ownerContact = "";
+String ownerEmail = "";
+String ownerID = "";
+String ownerName = "";
+String ownerImage = "";
 
 final _firestore = FirebaseFirestore.instance;
 
@@ -92,6 +97,11 @@ class _FavouriteState extends State<Favourite> {
               engine = doc["engineCapacity"];
               fromDate = doc["fromDate"];
               toDate = doc["toDate"];
+              ownerContact = doc["ownerContact"];
+              ownerEmail = doc["ownerEmail"];
+              ownerID = doc["ownerID"];
+              ownerName = doc["ownerName"];
+              ownerImage = doc["ownerImage"];
 
               print(doc["carName"]);
               print(doc["carPic"]);
@@ -128,6 +138,11 @@ class _FavouriteState extends State<Favourite> {
               engine: engine,
               fromDate: fromDate,
               toDate: toDate,
+              ownerContact: ownerContact,
+              ownerEmail: ownerEmail,
+              ownerID: ownerID,
+              ownerName: ownerName,
+              ownerImage: ownerImage
             );
             FavCarList.favCarList.add(eachCarModel);
             print("Car List added");

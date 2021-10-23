@@ -23,6 +23,11 @@ String engine = "";
 String fromDate = "";
 String toDate = "";
 String carID = "";
+String ownerID = "";
+String ownerEmail = "";
+String ownerName = "";
+String ownerContact = "";
+String ownerImage = "";
 
 final _firestore = FirebaseFirestore.instance;
 //List<CarModel> carList = [];
@@ -66,6 +71,11 @@ class _CarsState extends State<Cars> {
             engine = doc["engineCapacity"];
             fromDate = doc["fromDate"];
             toDate = doc["toDate"];
+            ownerID = doc["ownerID"];
+            ownerName = doc["ownerName"];
+            ownerEmail = doc["ownerEmail"];
+            ownerContact = doc["ownerContact"];
+            ownerImage = doc["ownerImage"];
 
             //Car list images
             Map allImages = doc["carImages"];
@@ -76,20 +86,24 @@ class _CarsState extends State<Cars> {
           });
 
           var eachCarModel = CarModel(
-            carID: carID,
-            imagePath: imagePath,
-            carName: carName,
-            carPlate: carPlate,
-            images: images,
-            price: price,
-            location: location,
-            seat: seat,
-            yearMade: yearMade,
-            color: color,
-            engine: engine,
-            fromDate: fromDate,
-            toDate: toDate,
-          );
+              carID: carID,
+              imagePath: imagePath,
+              carName: carName,
+              carPlate: carPlate,
+              images: images,
+              price: price,
+              location: location,
+              seat: seat,
+              yearMade: yearMade,
+              color: color,
+              engine: engine,
+              fromDate: fromDate,
+              toDate: toDate,
+              ownerContact: ownerContact,
+              ownerEmail: ownerEmail,
+              ownerID: ownerID,
+              ownerName: ownerName,
+              ownerImage: ownerImage);
           CarList.carList.add(eachCarModel);
           print("Car List added");
         });

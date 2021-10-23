@@ -1,7 +1,6 @@
 import 'dart:io';
-//import 'package:path/path.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:file_picker/file_picker.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -11,7 +10,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:p2p_car_sharing_app/components/button_widget.dart';
 import 'package:p2p_car_sharing_app/components/input_widget.dart';
-import 'package:p2p_car_sharing_app/controllers/firebase_api.dart';
+import 'package:p2p_car_sharing_app/screens/main_page/cars_page/myCar.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../../constant.dart';
 
@@ -30,6 +29,12 @@ class _AddCarState extends State<AddCar> {
   TextEditingController engineController = TextEditingController();
   TextEditingController seatController = TextEditingController();
   TextEditingController colorController = TextEditingController();
+  TextEditingController contactNoController = TextEditingController();
+  String? ownerName;
+  String? ownerEmail;
+  String? ownerID;
+  TextEditingController ownerContact = TextEditingController();
+
   DateTime _dateTime = DateTime.now();
   DateTime _dateTime2 = DateTime.now();
   String fromDate = "2021-10-18 12:39:32.581509";
@@ -75,8 +80,27 @@ class _AddCarState extends State<AddCar> {
     });
   }
 
+  Future readUserData() async {
+    await _firestore
+        .collection('users')
+        .doc(FirebaseAuth.instance.currentUser!.uid.toString())
+        .get()
+        .then((datasnapshot) async {
+      setState(() {
+        print(datasnapshot.get('username').toString());
+        print(datasnapshot.get('email').toString());
+        print(datasnapshot.get('profilePic').toString());
+        ownerName = datasnapshot.get('username').toString();
+        ownerEmail = datasnapshot.get('email').toString();
+        ownerImage = datasnapshot.get('profilePic').toString();
+        ownerID = FirebaseAuth.instance.currentUser!.uid.toString();
+      });
+    });
+  }
+
   void initState() {
     getUID();
+    readUserData();
     print(_dateTime.toString());
     print(DateTime.parse(fromDate));
   }
@@ -531,6 +555,60 @@ class _AddCarState extends State<AddCar> {
                         height: 2,
                       ),
                       input('e.g. 98', priceController),
+                      SizedBox(
+                        height: 35,
+                      ),
+                      Center(
+                        child: Container(
+                          width: 290,
+                          height: 2,
+                          color: Colors.black.withOpacity(0.22),
+                        ),
+                      ),
+                      SizedBox(
+                        height: 28,
+                      ),
+                      Text(
+                        'Owner Details',
+                        style: pageStyle1.copyWith(
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      SizedBox(
+                        height: 12,
+                      ),
+                      Text(
+                        'Name :   $ownerName',
+                        style: pageStyle1.copyWith(
+                          fontSize: 14,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      SizedBox(
+                        height: 5,
+                      ),
+                      Text(
+                        'Email :   $ownerEmail',
+                        style: pageStyle1.copyWith(
+                          fontSize: 14,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      SizedBox(
+                        height: 8,
+                      ),
+                      Text(
+                        'Phone No.',
+                        style: pageStyle1.copyWith(
+                          fontSize: 14,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      SizedBox(
+                        height: 5,
+                      ),
+                      input('e.g. 0123456785', contactNoController),
                       // Container(
                       //   height: 60,
                       //   decoration: BoxDecoration(
@@ -592,7 +670,8 @@ class _AddCarState extends State<AddCar> {
                                 colorController.text.isEmpty &&
                                 seatController.text.isEmpty &&
                                 engineController.text.isEmpty &&
-                                priceController.text.isEmpty) {
+                                priceController.text.isEmpty &&
+                                contactNoController.text.isEmpty) {
                               Get.snackbar(
                                 "Ensure information is filled",
                                 "Ensure every field is filled. Include Images",
@@ -751,6 +830,11 @@ class _AddCarState extends State<AddCar> {
       "price": priceController.text.toString(),
       "seat": seatController.text.toString(),
       "yearMade": yearController.text.toString(),
+      "ownerName": ownerName.toString,
+      "ownerEmail": ownerEmail.toString(),
+      "ownerContact": ownerContact.text.toString(),
+      "ownerID": ownerID.toString(),
+      "ownerImage": ownerImage.toString()
     };
 
     DocumentReference documentReference = _firestore.collection("cars").doc();

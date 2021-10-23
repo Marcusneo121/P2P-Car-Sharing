@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:p2p_car_sharing_app/models/car_model.dart';
 import 'package:p2p_car_sharing_app/models/favorite_car_model.dart';
 import 'package:p2p_car_sharing_app/screens/main_page/cars_page/car_details_page.dart';
 import '../constant.dart';
@@ -28,6 +27,11 @@ Widget buildFavCarCard(BuildContext context, int index, String uid) {
               yearMade: data.yearMade,
               color: data.color,
               engine: data.engine,
+              ownerContact: data.ownerContact,
+              ownerEmail: data.ownerEmail,
+              ownerID: data.ownerID,
+              ownerName: data.ownerName,
+              ownerImage: data.ownerImage,
             ),
             transition: Transition.cupertino,
             duration: Duration(milliseconds: 500),
@@ -114,6 +118,11 @@ Widget buildFavCarCard(BuildContext context, int index, String uid) {
                                 yearMade: data.yearMade,
                                 color: data.color,
                                 engine: data.engine,
+                                ownerContact: data.ownerContact,
+                                ownerEmail: data.ownerEmail,
+                                ownerID: data.ownerID,
+                                ownerName: data.ownerName,
+                                ownerImage: data.ownerImage,
                               ),
                               transition: Transition.cupertino,
                               duration: Duration(milliseconds: 350),

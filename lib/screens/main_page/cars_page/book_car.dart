@@ -10,6 +10,8 @@ import '../../../constant.dart';
 
 final _firestore = FirebaseFirestore.instance;
 String carID = "";
+String username = "";
+String email = "";
 
 class BookCar extends StatefulWidget {
   const BookCar({Key? key}) : super(key: key);
@@ -22,6 +24,7 @@ class _BookCarState extends State<BookCar> {
   DateTime _dateTime = DateTime.now();
   DateTime _dateTime2 = DateTime.now();
   TextEditingController priceController = TextEditingController();
+  TextEditingController contactNoController = TextEditingController();
   String uid = "";
   String? carID,
       carName,
@@ -75,11 +78,25 @@ class _BookCarState extends State<BookCar> {
             : _dateTime2 = DateTime.parse(toDate!);
       });
     });
+
+    await _firestore
+        .collection('users')
+        .doc(uid.toString())
+        .get()
+        .then((datasnapshot) async {
+      setState(() {
+        username = datasnapshot.get('username').toString();
+        email = datasnapshot.get('email').toString();
+      });
+    });
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(appBar: getAppBar(), body: getBody());
+    return Scaffold(
+      appBar: getAppBar(),
+      body: getBody(),
+    );
   }
 
   upperDatePicker() {
@@ -301,33 +318,52 @@ class _BookCarState extends State<BookCar> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
                   SizedBox(height: 10),
-                  Center(
-                    child: Container(
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
-                        color: Colors.white,
-                        // boxShadow: [
-                        //   BoxShadow(color: Colors.white, spreadRadius: 3),
-                        // ],
-                      ),
-                      height: size.height - 660,
-                      width: size.width - 70,
-                      child: Image.network(carPic.toString()),
-                    ),
-                  ),
-                  SizedBox(height: 20),
                   Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
                     children: <Widget>[
-                      Text(
-                        '$carName $yearMade,',
-                        style: pageStyle1.copyWith(
-                          fontSize: 18.5,
-                          fontWeight: FontWeight.normal,
+                      Container(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10),
+                          color: Colors.white,
+                          // boxShadow: [
+                          //   BoxShadow(color: Colors.white, spreadRadius: 3),
+                          // ],
                         ),
+                        height: size.height - 720,
+                        width: size.width - 290,
+                        child: Image.network(carPic.toString()),
+                      ),
+                      SizedBox(width: 10),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            '$carName $yearMade,',
+                            style: pageStyle1.copyWith(
+                              fontSize: 17,
+                              fontWeight: FontWeight.normal,
+                            ),
+                          ),
+                          SizedBox(height: 3),
+                          Container(
+                              decoration: BoxDecoration(
+                                border: Border.all(
+                                    width: 0.8,
+                                    color: primaryColor.withOpacity(0.7)),
+                                borderRadius: BorderRadius.circular(5),
+                              ),
+                              child: Padding(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 7, vertical: 1.2),
+                                child: Text(
+                                  "$carPlate",
+                                  style: pageStyle2CarPlate,
+                                ),
+                              )),
+                        ],
                       ),
                     ],
                   ),
-                  SizedBox(height: 5),
                   // Row(
                   //   children: <Widget>[
                   //     Text(
@@ -339,32 +375,13 @@ class _BookCarState extends State<BookCar> {
                   //     ),
                   //   ],
                   // ),
-                  Row(
-                    children: [
-                      Container(
-                          decoration: BoxDecoration(
-                            border: Border.all(
-                                width: 0.8,
-                                color: primaryColor.withOpacity(0.7)),
-                            borderRadius: BorderRadius.circular(5),
-                          ),
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 7, vertical: 1.2),
-                            child: Text(
-                              "$carPlate",
-                              style: pageStyle2CarPlate,
-                            ),
-                          )),
-                    ],
-                  ),
                   SizedBox(height: 15),
                   Row(
                     children: <Widget>[
                       Text(
                         'Pick up and Returned at : ',
                         style: TextStyle(
-                          fontSize: 16,
+                          fontSize: 15,
                           fontWeight: FontWeight.normal,
                         ),
                       ),
@@ -388,7 +405,7 @@ class _BookCarState extends State<BookCar> {
                       Text(
                         'Select Your Booking Time : ',
                         style: TextStyle(
-                          fontSize: 16,
+                          fontSize: 15,
                           fontWeight: FontWeight.normal,
                         ),
                       ),
@@ -396,19 +413,44 @@ class _BookCarState extends State<BookCar> {
                   ),
                   SizedBox(height: 5),
                   upperDatePicker(),
-                  SizedBox(height: 17),
+                  SizedBox(height: 23),
                   Text(
-                    'Original Price : RM $price',
+                    'Your Name : $username',
                     style: TextStyle(
-                      fontSize: 16,
+                      fontSize: 15,
+                      fontWeight: FontWeight.normal,
+                    ),
+                  ),
+                  SizedBox(height: 6),
+                  Text(
+                    'Your Email : $email',
+                    style: TextStyle(
+                      fontSize: 15,
+                      fontWeight: FontWeight.normal,
+                    ),
+                  ),
+                  SizedBox(height: 6),
+                  Text(
+                    'Your Contact No.',
+                    style: TextStyle(
+                      fontSize: 15,
+                      fontWeight: FontWeight.normal,
+                    ),
+                  ),
+                  input('e.g. 0123949393', contactNoController),
+                  SizedBox(height: 15),
+                  Text(
+                    'Original Price : RM $price / per day',
+                    style: TextStyle(
+                      fontSize: 15,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  SizedBox(height: 9),
+                  SizedBox(height: 6),
                   Text(
                     'Your Desire Price (RM)',
                     style: TextStyle(
-                      fontSize: 16,
+                      fontSize: 15,
                       fontWeight: FontWeight.normal,
                     ),
                   ),

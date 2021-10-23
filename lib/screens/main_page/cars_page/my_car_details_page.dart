@@ -12,20 +12,30 @@ class MyCarDetailPage extends StatefulWidget {
       seat,
       yearMade,
       color,
-      engine;
+      engine,
+      ownerID,
+      ownerEmail,
+      ownerContact,
+      ownerName,
+      ownerImage;
 
-  const MyCarDetailPage({
-    Key? key,
-    required this.images,
-    required this.carName,
-    required this.carPlate,
-    required this.price,
-    required this.location,
-    required this.seat,
-    required this.yearMade,
-    required this.color,
-    required this.engine,
-  }) : super(key: key);
+  const MyCarDetailPage(
+      {Key? key,
+      required this.images,
+      required this.carName,
+      required this.carPlate,
+      required this.price,
+      required this.location,
+      required this.seat,
+      required this.yearMade,
+      required this.color,
+      required this.engine,
+      required this.ownerID,
+      required this.ownerEmail,
+      required this.ownerContact,
+      required this.ownerName,
+      required this.ownerImage})
+      : super(key: key);
 
   @override
   _MyCarDetailPageState createState() => _MyCarDetailPageState();
