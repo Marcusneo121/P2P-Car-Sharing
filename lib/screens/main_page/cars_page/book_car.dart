@@ -2,8 +2,10 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_navigation/src/extension_navigation.dart';
+import 'package:get/get_navigation/src/snackbar/snack.dart';
 import 'package:intl/intl.dart';
 import 'package:p2p_car_sharing_app/components/input_widget.dart';
 import '../../../constant.dart';
@@ -280,6 +282,62 @@ class _BookCarState extends State<BookCar> {
       });
   }
 
+  bookCarOwnerRequest() async {
+    EasyLoading.show(status: "Booking", dismissOnTap: false);
+    Map<String, dynamic> renterRequest = {
+      "userID": uid,
+      "carID": carID,
+      "renterEmail": email,
+      "renterName": username,
+      "renterContact": contactNoController.text.toString(),
+      "rentFrom": _dateTime.toString(),
+      "rentUntil": _dateTime2.toString(),
+      "desirePrice": priceController.text.toString(),
+      "status": "requesting"
+    };
+
+    DocumentReference documentReference = _firestore
+        .collection('cars')
+        .doc(carID.toString())
+        .collection("renter")
+        .doc(uid.toString());
+
+    documentReference.set(renterRequest).then((doc) async {
+      await bookCarRenterRequest();
+    }).whenComplete(
+      () {
+        Future.delayed(Duration(seconds: 1)).then((value) async {
+          EasyLoading.showSuccess("Car Booked! Wait for owner respond.");
+          Future.delayed(Duration(seconds: 3)).then((value) async {
+            EasyLoading.dismiss();
+            Get.back();
+          });
+        });
+      },
+    );
+  }
+
+  bookCarRenterRequest() async {
+    EasyLoading.show(status: "Booking", dismissOnTap: false);
+    Map<String, dynamic> myRequest = {
+      "carID": carID,
+      "rentFrom": _dateTime.toString(),
+      "rentUntil": _dateTime2.toString(),
+      "desirePrice": priceController.text.toString(),
+      "status": "requesting"
+    };
+
+    DocumentReference documentReference = _firestore
+        .collection('users')
+        .doc(uid.toString())
+        .collection("myRequest")
+        .doc(carID.toString());
+
+    documentReference.set(myRequest).then((doc) {
+      print("Finish Added to my request");
+    });
+  }
+
   getAppBar() {
     return AppBar(
       iconTheme: IconThemeData(color: Colors.black),
@@ -293,206 +351,232 @@ class _BookCarState extends State<BookCar> {
   getBody() {
     Size size = MediaQuery.of(context).size;
     return SafeArea(
-      child: Center(
-        child: Column(
-          children: <Widget>[
-            Padding(
-              padding: const EdgeInsets.only(left: 20, right: 20, top: 10),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: <Widget>[
-                  Text(
-                    'To Book : ',
-                    style: pageStyle1.copyWith(
-                      fontSize: 23,
-                      fontWeight: FontWeight.bold,
+      child: ListView(
+        shrinkWrap: true,
+        reverse: true,
+        children: [
+          Column(
+            children: <Widget>[
+              Padding(
+                padding: const EdgeInsets.only(left: 20, right: 20, top: 10),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: <Widget>[
+                    Text(
+                      'To Book : ',
+                      style: pageStyle1.copyWith(
+                        fontSize: 23,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
-            ),
-            SizedBox(height: 10),
-            Padding(
-              padding: const EdgeInsets.only(left: 30.0, right: 30.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  SizedBox(height: 10),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: <Widget>[
-                      Container(
+              SizedBox(height: 10),
+              Padding(
+                padding: const EdgeInsets.only(left: 30.0, right: 30.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    SizedBox(height: 10),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: <Widget>[
+                        Container(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10),
+                            color: Colors.white,
+                            // boxShadow: [
+                            //   BoxShadow(color: Colors.white, spreadRadius: 3),
+                            // ],
+                          ),
+                          height: size.height - 720,
+                          width: size.width - 290,
+                          child: Image.network(carPic.toString()),
+                        ),
+                        SizedBox(width: 10),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              '$carName $yearMade,',
+                              style: pageStyle1.copyWith(
+                                fontSize: 17,
+                                fontWeight: FontWeight.normal,
+                              ),
+                            ),
+                            SizedBox(height: 3),
+                            Container(
+                                decoration: BoxDecoration(
+                                  border: Border.all(
+                                      width: 0.8,
+                                      color: primaryColor.withOpacity(0.7)),
+                                  borderRadius: BorderRadius.circular(5),
+                                ),
+                                child: Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 7, vertical: 1.2),
+                                  child: Text(
+                                    "$carPlate",
+                                    style: pageStyle2CarPlate,
+                                  ),
+                                )),
+                          ],
+                        ),
+                      ],
+                    ),
+                    // Row(
+                    //   children: <Widget>[
+                    //     Text(
+                    //       'Plate Number',
+                    //       style: TextStyle(
+                    //         fontSize: 17,
+                    //         fontWeight: FontWeight.normal,
+                    //       ),
+                    //     ),
+                    //   ],
+                    // ),
+                    SizedBox(height: 15),
+                    Row(
+                      children: <Widget>[
+                        Text(
+                          'Pick up and Returned at : ',
+                          style: TextStyle(
+                            fontSize: 15,
+                            fontWeight: FontWeight.normal,
+                          ),
+                        ),
+                      ],
+                    ),
+                    SizedBox(height: 5),
+                    Row(
+                      children: <Widget>[
+                        Text(
+                          '$location',
+                          style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ],
+                    ),
+                    SizedBox(height: 15),
+                    Row(
+                      children: <Widget>[
+                        Text(
+                          'Select Your Booking Time : ',
+                          style: TextStyle(
+                            fontSize: 15,
+                            fontWeight: FontWeight.normal,
+                          ),
+                        ),
+                      ],
+                    ),
+                    SizedBox(height: 5),
+                    upperDatePicker(),
+                    SizedBox(height: 23),
+                    Text(
+                      'Your Name : $username',
+                      style: TextStyle(
+                        fontSize: 15,
+                        fontWeight: FontWeight.normal,
+                      ),
+                    ),
+                    SizedBox(height: 6),
+                    Text(
+                      'Your Email : $email',
+                      style: TextStyle(
+                        fontSize: 15,
+                        fontWeight: FontWeight.normal,
+                      ),
+                    ),
+                    SizedBox(height: 6),
+                    Text(
+                      'Your Contact No.',
+                      style: TextStyle(
+                        fontSize: 15,
+                        fontWeight: FontWeight.normal,
+                      ),
+                    ),
+                    input('e.g. 0123949393', contactNoController),
+                    SizedBox(height: 15),
+                    Text(
+                      'Original Price : RM $price / per day',
+                      style: TextStyle(
+                        fontSize: 15,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    SizedBox(height: 6),
+                    Text(
+                      'Your Desire Price (RM)',
+                      style: TextStyle(
+                        fontSize: 15,
+                        fontWeight: FontWeight.normal,
+                      ),
+                    ),
+                    SizedBox(
+                      height: 2,
+                    ),
+                    input('e.g. 98', priceController),
+                  ],
+                ),
+              ),
+              Padding(
+                padding:
+                    const EdgeInsets.only(left: 30.0, right: 30.0, top: 20.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    InkWell(
+                      onTap: () async {
+                        //Get.toNamed('/carPage');
+                        if (contactNoController.text.isEmpty &&
+                            priceController.text.isEmpty) {
+                          Get.snackbar(
+                            "Ensure detail is filled",
+                            "Please ensure that Contact No and Desire Price is filled.",
+                            snackPosition: SnackPosition.BOTTOM,
+                            duration: Duration(milliseconds: 1500),
+                            isDismissible: false,
+                            backgroundColor: Color(0xFF7879F1),
+                            margin: EdgeInsets.all(20),
+                            animationDuration: Duration(milliseconds: 800),
+                            icon: Icon(
+                              Icons.announcement_rounded,
+                              color: Colors.black,
+                            ),
+                            shouldIconPulse: false,
+                            overlayBlur: 4,
+                            overlayColor: Colors.white38,
+                          );
+                        } else {
+                          await bookCarOwnerRequest();
+                        }
+                      },
+                      child: Container(
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(10),
-                          color: Colors.white,
-                          // boxShadow: [
-                          //   BoxShadow(color: Colors.white, spreadRadius: 3),
-                          // ],
+                          color: fourthColor.withOpacity(0.12),
                         ),
-                        height: size.height - 720,
-                        width: size.width - 290,
-                        child: Image.network(carPic.toString()),
-                      ),
-                      SizedBox(width: 10),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            '$carName $yearMade,',
-                            style: pageStyle1.copyWith(
-                              fontSize: 17,
-                              fontWeight: FontWeight.normal,
-                            ),
+                        child: Padding(
+                          padding: const EdgeInsets.all(17.0),
+                          child: Text(
+                            ' Book Now ',
+                            style: pageStyle3.copyWith(
+                                fontWeight: FontWeight.w900,
+                                fontSize: 14,
+                                color: tertiaryColor),
                           ),
-                          SizedBox(height: 3),
-                          Container(
-                              decoration: BoxDecoration(
-                                border: Border.all(
-                                    width: 0.8,
-                                    color: primaryColor.withOpacity(0.7)),
-                                borderRadius: BorderRadius.circular(5),
-                              ),
-                              child: Padding(
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 7, vertical: 1.2),
-                                child: Text(
-                                  "$carPlate",
-                                  style: pageStyle2CarPlate,
-                                ),
-                              )),
-                        ],
-                      ),
-                    ],
-                  ),
-                  // Row(
-                  //   children: <Widget>[
-                  //     Text(
-                  //       'Plate Number',
-                  //       style: TextStyle(
-                  //         fontSize: 17,
-                  //         fontWeight: FontWeight.normal,
-                  //       ),
-                  //     ),
-                  //   ],
-                  // ),
-                  SizedBox(height: 15),
-                  Row(
-                    children: <Widget>[
-                      Text(
-                        'Pick up and Returned at : ',
-                        style: TextStyle(
-                          fontSize: 15,
-                          fontWeight: FontWeight.normal,
                         ),
                       ),
-                    ],
-                  ),
-                  SizedBox(height: 5),
-                  Row(
-                    children: <Widget>[
-                      Text(
-                        '$location',
-                        style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ],
-                  ),
-                  SizedBox(height: 15),
-                  Row(
-                    children: <Widget>[
-                      Text(
-                        'Select Your Booking Time : ',
-                        style: TextStyle(
-                          fontSize: 15,
-                          fontWeight: FontWeight.normal,
-                        ),
-                      ),
-                    ],
-                  ),
-                  SizedBox(height: 5),
-                  upperDatePicker(),
-                  SizedBox(height: 23),
-                  Text(
-                    'Your Name : $username',
-                    style: TextStyle(
-                      fontSize: 15,
-                      fontWeight: FontWeight.normal,
                     ),
-                  ),
-                  SizedBox(height: 6),
-                  Text(
-                    'Your Email : $email',
-                    style: TextStyle(
-                      fontSize: 15,
-                      fontWeight: FontWeight.normal,
-                    ),
-                  ),
-                  SizedBox(height: 6),
-                  Text(
-                    'Your Contact No.',
-                    style: TextStyle(
-                      fontSize: 15,
-                      fontWeight: FontWeight.normal,
-                    ),
-                  ),
-                  input('e.g. 0123949393', contactNoController),
-                  SizedBox(height: 15),
-                  Text(
-                    'Original Price : RM $price / per day',
-                    style: TextStyle(
-                      fontSize: 15,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  SizedBox(height: 6),
-                  Text(
-                    'Your Desire Price (RM)',
-                    style: TextStyle(
-                      fontSize: 15,
-                      fontWeight: FontWeight.normal,
-                    ),
-                  ),
-                  SizedBox(
-                    height: 2,
-                  ),
-                  input('e.g. 98', priceController),
-                ],
+                  ],
+                ),
               ),
-            ),
-            Padding(
-              padding:
-                  const EdgeInsets.only(left: 30.0, right: 30.0, top: 20.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  InkWell(
-                    onTap: () {
-                      Get.toNamed('/carPage');
-                    },
-                    child: Container(
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
-                        color: fourthColor.withOpacity(0.12),
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.all(17.0),
-                        child: Text(
-                          ' Book Now ',
-                          style: pageStyle3.copyWith(
-                              fontWeight: FontWeight.w900,
-                              fontSize: 14,
-                              color: tertiaryColor),
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ],
-        ),
+            ],
+          ),
+        ].reversed.toList(),
       ),
     );
   }
