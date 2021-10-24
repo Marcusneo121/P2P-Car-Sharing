@@ -732,7 +732,7 @@ class _SearchCarDetailPageState extends State<SearchCarDetailPage> {
         Container(
           child: CarouselSlider(
             options: CarouselOptions(
-              autoPlay: false,
+              autoPlay: true,
               aspectRatio: 16 / 9,
               viewportFraction: 0.8,
               initialPage: 0,

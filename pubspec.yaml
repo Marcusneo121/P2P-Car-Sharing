@@ -31,10 +31,16 @@ dependencies:
   http: ^0.13.4
   uuid: ^3.0.5
   file_picker: ^3.0.1
+  flutter_launcher_icons: ^0.9.2
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
+
+flutter_icons:
+  image_path: "images/carroAppLogo.png"
+  android: true
+  ios: true
 
 flutter:
   uses-material-design: true

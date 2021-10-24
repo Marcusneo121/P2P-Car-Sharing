@@ -463,7 +463,7 @@ class _MyCarDetailPageState extends State<MyCarDetailPage> {
                   child: Padding(
                     padding: const EdgeInsets.all(17.0),
                     child: Text(
-                      '    Edit    ',
+                      '   Edit   ',
                       style: pageStyle3.copyWith(
                           fontWeight: FontWeight.w900,
                           fontSize: 14,
@@ -471,6 +471,9 @@ class _MyCarDetailPageState extends State<MyCarDetailPage> {
                     ),
                   ),
                 ),
+              ),
+              SizedBox(
+                width: 5,
               ),
               InkWell(
                 onTap: () {},
@@ -482,7 +485,7 @@ class _MyCarDetailPageState extends State<MyCarDetailPage> {
                   child: Padding(
                     padding: const EdgeInsets.all(17.0),
                     child: Text(
-                      '  Delete  ',
+                      ' Delete ',
                       style: pageStyle3.copyWith(
                           fontWeight: FontWeight.w900,
                           fontSize: 14,

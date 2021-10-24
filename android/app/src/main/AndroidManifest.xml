@@ -2,7 +2,7 @@
     package="com.example.p2p_car_sharing_app">
     <uses-permission android:name="android.permission.INTERNET"/>
    <application
-        android:label="p2p_car_sharing_app"
+        android:label="Carro"
         android:icon="@mipmap/ic_launcher">
        android:requestLegacyExternalStorage="true">
         <activity
