@@ -633,6 +633,7 @@ class _CarDetailPageState extends State<CarDetailPage> {
                   ),
                 ],
               ),
+              physics: BouncingScrollPhysics(),
             ),
           ),
           Expanded(

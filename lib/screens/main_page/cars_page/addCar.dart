@@ -739,6 +739,7 @@ class _AddCarState extends State<AddCar> {
                                   EasyLoading.dismiss();
                                 });
                               });
+                              Get.back();
                             }
                           }),
                         ],

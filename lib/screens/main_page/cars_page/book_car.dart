@@ -38,7 +38,8 @@ class _BookCarState extends State<BookCar> {
       color,
       engine,
       fromDate,
-      toDate;
+      toDate,
+      renterImage;
   String carPic =
       "https://firebasestorage.googleapis.com/v0/b/p2p-car-sharing.appspot.com/o/grayscale-mountain.png?alt=media&token=4e6c1355-6583-4597-a481-7aecd205a2cf";
   DateTime? fromDateValidation;
@@ -89,6 +90,7 @@ class _BookCarState extends State<BookCar> {
       setState(() {
         username = datasnapshot.get('username').toString();
         email = datasnapshot.get('email').toString();
+        renterImage = datasnapshot.get('profilePic').toString();
       });
     });
   }
@@ -292,6 +294,7 @@ class _BookCarState extends State<BookCar> {
       "renterContact": contactNoController.text.toString(),
       "rentFrom": _dateTime.toString(),
       "rentUntil": _dateTime2.toString(),
+      "renterImage": renterImage.toString(),
       "desirePrice": priceController.text.toString(),
       "status": "requesting"
     };

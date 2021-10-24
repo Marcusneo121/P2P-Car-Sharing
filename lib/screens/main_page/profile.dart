@@ -155,6 +155,43 @@ class _ProfileState extends State<Profile> {
                         ),
                         onPressed: () {
                           //To Press for action
+                          Get.toNamed('/login/home/profile/myCar/addCar');
+                        },
+                        child: Padding(
+                          padding: EdgeInsets.all(10),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: <Widget>[
+                              Text(
+                                'Add Car',
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w700,
+                                  color: Colors.white,
+                                ),
+                              ),
+                              Icon(
+                                Icons.arrow_forward,
+                                color: Colors.white,
+                              )
+                            ],
+                          ),
+                        ),
+                      ),
+                      SizedBox(height: 10),
+                      ElevatedButton(
+                        style: ButtonStyle(
+                          shape:
+                              MaterialStateProperty.all<RoundedRectangleBorder>(
+                            RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10.0),
+                            ),
+                          ),
+                          backgroundColor:
+                              MaterialStateProperty.all(Color(0xFF7477F0)),
+                        ),
+                        onPressed: () {
+                          //To Press for action
                         },
                         child: Padding(
                           padding: EdgeInsets.all(10),

@@ -14,7 +14,7 @@ Widget buildCarCard(BuildContext context, int index, String uid) {
   return Padding(
     padding: const EdgeInsets.only(bottom: 12),
     child: Card(
-      elevation: 5,
+      elevation: 7,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(20),
       ),

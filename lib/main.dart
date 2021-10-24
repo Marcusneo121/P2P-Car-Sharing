@@ -11,6 +11,7 @@ import 'package:p2p_car_sharing_app/screens/authentication/forgot_pass.dart';
 import 'package:p2p_car_sharing_app/screens/authentication/forgot_pass_profile.dart';
 import 'package:p2p_car_sharing_app/screens/home.dart';
 import 'package:p2p_car_sharing_app/screens/authentication/registration.dart';
+import 'package:p2p_car_sharing_app/screens/main_page/RenterRequest.dart';
 import 'package:p2p_car_sharing_app/screens/main_page/cars_page/addCar.dart';
 import 'package:p2p_car_sharing_app/screens/main_page/cars_page/book_car.dart';
 import 'package:p2p_car_sharing_app/screens/main_page/cars_page/myCar.dart';
@@ -58,6 +59,12 @@ class MyApp extends StatelessWidget {
           transitionDuration: Duration(milliseconds: 600),
         ),
         GetPage(
+          name: '/login/homeFast',
+          page: () => Home(),
+          transition: Transition.fadeIn,
+          transitionDuration: Duration(milliseconds: 300),
+        ),
+        GetPage(
           name: '/login/home/profile/editProfile',
           page: () => EditProfile(),
           transition: Transition.cupertino,
@@ -102,6 +109,12 @@ class MyApp extends StatelessWidget {
         GetPage(
           name: '/searchCarDetails',
           page: () => SearchCarDetailPage(),
+          transition: Transition.fadeIn,
+          transitionDuration: Duration(milliseconds: 150),
+        ),
+        GetPage(
+          name: '/renterRequest',
+          page: () => RenterRequest(),
           transition: Transition.fadeIn,
           transitionDuration: Duration(milliseconds: 150),
         ),

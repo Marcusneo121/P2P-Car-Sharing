@@ -166,18 +166,18 @@ class _MyCarState extends State<MyCar> {
           centerTitle: true,
           backgroundColor: Color(0xFF7477F0),
           title: Text('My Car'),
-          actions: <Widget>[
-            IconButton(
-              icon: Icon(
-                Icons.add_rounded,
-                color: Colors.white,
-              ),
-              onPressed: () {
-                // do something
-                Get.toNamed('/login/home/profile/myCar/addCar');
-              },
-            )
-          ],
+          // actions: <Widget>[
+          //   IconButton(
+          //     icon: Icon(
+          //       Icons.add_rounded,
+          //       color: Colors.white,
+          //     ),
+          //     onPressed: () {
+          //       // do something
+          //       Get.toNamed('/login/home/profile/myCar/addCar');
+          //     },
+          //   )
+          // ],
         ),
         body: SafeArea(
           child: Container(

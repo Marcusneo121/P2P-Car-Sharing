@@ -57,7 +57,6 @@ class _CarsState extends State<Cars> {
           // print(doc["seat"]);
           // print(doc["yearMade"]);
           print(doc.id);
-
           setState(() {
             carID = doc.id;
             imagePath = doc["carPic"];
@@ -138,7 +137,9 @@ class _CarsState extends State<Cars> {
                       Icons.notifications_rounded,
                       size: 27.0,
                     ),
-                    onPressed: () {},
+                    onPressed: () {
+                      Get.offNamed('/renterRequest');
+                    },
                   ),
                   SizedBox(
                     width: 4.0,

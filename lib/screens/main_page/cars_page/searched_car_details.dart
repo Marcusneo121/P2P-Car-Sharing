@@ -218,11 +218,6 @@ class _SearchCarDetailPageState extends State<SearchCarDetailPage> {
               color: favouriteColor,
             ));
 
-    // Icon(
-    //   Icons.favorite_outlined,
-    //   color: favouriteColor,
-    // );
-
     return AppBar(
       backgroundColor: Color(0xffe3e3e3),
       leading: Padding(
@@ -291,6 +286,7 @@ class _SearchCarDetailPageState extends State<SearchCarDetailPage> {
           Expanded(
             flex: 7,
             child: SingleChildScrollView(
+              physics: BouncingScrollPhysics(),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 //mainAxisAlignment: MainAxisAlignment.spaceBetween,
