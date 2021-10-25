@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:get/get_core/src/get_main.dart';
+import 'package:get/get_navigation/src/extension_navigation.dart';
+import 'package:get/get_navigation/src/routes/transitions_type.dart';
 import 'package:p2p_car_sharing_app/models/renter_request_model.dart';
+import 'package:p2p_car_sharing_app/screens/main_page/cars_page/rent_request_detail_page.dart';
 import '../constant.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
@@ -7,6 +11,41 @@ final _firestore = FirebaseFirestore.instance;
 
 Widget buildRenterRequestCard(BuildContext context, int index, String uid) {
   final data = RenterRequestList.renterList[index];
+  Widget status = data.status == "Requesting"
+      ? new Container(
+          decoration: BoxDecoration(
+            border: Border.all(width: 0.7, color: Color(0xff0ab31d)),
+            borderRadius: BorderRadius.circular(5),
+          ),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+            child: Text(
+              data.status,
+              style: TextStyle(
+                color: Color(0xff0ab31d).withOpacity(0.8),
+                fontSize: 11,
+                letterSpacing: 2.6,
+                wordSpacing: 1,
+              ),
+            ),
+          ),
+        )
+      : new Container(
+          decoration: BoxDecoration(
+            border:
+                Border.all(width: 0.5, color: primaryColor.withOpacity(0.4)),
+            borderRadius: BorderRadius.circular(5),
+          ),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 5),
+            child: Text(
+              data.status,
+              style: pageStyle2,
+            ),
+          ),
+        );
+  Size size = MediaQuery.of(context).size;
+
   return Padding(
     padding: const EdgeInsets.only(bottom: 12),
     child: Card(
@@ -15,7 +54,29 @@ Widget buildRenterRequestCard(BuildContext context, int index, String uid) {
         borderRadius: BorderRadius.circular(20),
       ),
       child: InkWell(
-        onTap: () {},
+        onTap: () {
+          Get.to(
+            RentRequestDetailPage(
+              imagePath: data.imagePath,
+              carID: data.carID,
+              carName: data.carName,
+              carPlate: data.carPlate,
+              price: data.price,
+              originalPrice: data.originalPrice,
+              location: data.location,
+              toDate: data.toDate,
+              fromDate: data.fromDate,
+              renterID: data.renterID,
+              renterEmail: data.renterEmail,
+              renterContact: data.renterContact,
+              renterName: data.renterName,
+              renterImage: data.renterImage,
+              status: data.status,
+            ),
+            transition: Transition.cupertino,
+            duration: Duration(milliseconds: 350),
+          );
+        },
         child: Container(
           width: double.infinity,
           child: Padding(
@@ -23,15 +84,15 @@ Widget buildRenterRequestCard(BuildContext context, int index, String uid) {
             child: Column(
               children: [
                 ClipRRect(
-                    borderRadius: BorderRadius.circular(10),
-                    child: Padding(
-                      padding: const EdgeInsets.only(left: 30, right: 30),
-                      child: Image(
-                        //image: AssetImage(data.imagePath),
-                        image: NetworkImage(data.imagePath),
-                        height: 130,
-                      ),
-                    )),
+                  borderRadius: BorderRadius.circular(10),
+                  child: Padding(
+                    padding: const EdgeInsets.only(left: 30, right: 30),
+                    child: Image(
+                      image: NetworkImage(data.imagePath),
+                      height: 130,
+                    ),
+                  ),
+                ),
                 SizedBox(
                   height: 8,
                 ),
@@ -57,7 +118,7 @@ Widget buildRenterRequestCard(BuildContext context, int index, String uid) {
                                 decoration: BoxDecoration(
                                   border: Border.all(
                                       width: 0.5,
-                                      color: primaryColor.withOpacity(0.4)),
+                                      color: primaryColor.withOpacity(0.7)),
                                   borderRadius: BorderRadius.circular(5),
                                 ),
                                 child: Padding(
@@ -75,6 +136,16 @@ Widget buildRenterRequestCard(BuildContext context, int index, String uid) {
                             ],
                           ),
                           SizedBox(
+                            height: 18,
+                          ),
+                          Center(
+                            child: Container(
+                              width: size.width - 165,
+                              height: 1.5,
+                              color: Colors.black.withOpacity(0.20),
+                            ),
+                          ),
+                          SizedBox(
                             height: 14,
                           ),
                           Row(
@@ -85,7 +156,7 @@ Widget buildRenterRequestCard(BuildContext context, int index, String uid) {
                                 ),
                                 radius: 25,
                               ),
-                              SizedBox(width: 22),
+                              SizedBox(width: 15),
                               Column(
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -97,6 +168,15 @@ Widget buildRenterRequestCard(BuildContext context, int index, String uid) {
                                         fontSize: 14,
                                         fontWeight: FontWeight.bold),
                                   ),
+                                  SizedBox(height: 5),
+                                  status,
+                                  // Text(
+                                  //   data.renterName.toString(),
+                                  //   style: TextStyle(
+                                  //       color: Colors.black.withOpacity(0.60),
+                                  //       fontSize: 14,
+                                  //       fontWeight: FontWeight.bold),
+                                  // ),
                                 ],
                               ),
                             ],
@@ -104,14 +184,36 @@ Widget buildRenterRequestCard(BuildContext context, int index, String uid) {
                         ],
                       ),
                       Container(
-                        padding: const EdgeInsets.only(top: 65),
+                        padding: const EdgeInsets.only(top: 85, right: 5),
                         child: Container(
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(10),
                             color: fourthColor.withOpacity(0.15),
                           ),
                           child: IconButton(
-                            onPressed: () {},
+                            onPressed: () {
+                              Get.to(
+                                RentRequestDetailPage(
+                                  imagePath: data.imagePath,
+                                  carID: data.carID,
+                                  carName: data.carName,
+                                  carPlate: data.carPlate,
+                                  price: data.price,
+                                  originalPrice: data.originalPrice,
+                                  location: data.location,
+                                  toDate: data.toDate,
+                                  fromDate: data.fromDate,
+                                  renterID: data.renterID,
+                                  renterEmail: data.renterEmail,
+                                  renterContact: data.renterContact,
+                                  renterName: data.renterName,
+                                  renterImage: data.renterImage,
+                                  status: data.status,
+                                ),
+                                transition: Transition.cupertino,
+                                duration: Duration(milliseconds: 350),
+                              );
+                            },
                             icon: Icon(
                               Icons.arrow_forward,
                               color: fourthColor,

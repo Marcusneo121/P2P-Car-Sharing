@@ -296,7 +296,7 @@ class _BookCarState extends State<BookCar> {
       "rentUntil": _dateTime2.toString(),
       "renterImage": renterImage.toString(),
       "desirePrice": priceController.text.toString(),
-      "status": "requesting"
+      "status": "Requesting"
     };
 
     DocumentReference documentReference = _firestore

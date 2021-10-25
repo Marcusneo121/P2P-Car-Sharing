@@ -4,7 +4,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
-import 'package:p2p_car_sharing_app/screens/main_page/cars.dart';
 import '../../../constant.dart';
 
 final _firestore = FirebaseFirestore.instance;
@@ -581,7 +580,7 @@ class _CarDetailPageState extends State<CarDetailPage> {
                             ),
                             Padding(
                               padding: const EdgeInsets.only(
-                                  left: 12.0, right: 12.0, top: 4),
+                                  left: 12.0, right: 12.0, top: 8),
                               child: Row(
                                 children: [
                                   CircleAvatar(

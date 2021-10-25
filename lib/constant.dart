@@ -42,6 +42,20 @@ var pageStyle1 = GoogleFonts.poppins(
   color: primaryColor,
   fontWeight: FontWeight.bold,
 );
+
+var pageStyleOriPrice = GoogleFonts.poppins(
+  fontSize: 18.0,
+  color: primaryColor,
+  fontWeight: FontWeight.bold,
+);
+
+var pageStyle2OriPrice = GoogleFonts.poppins(
+  color: primaryColor,
+  fontSize: 15,
+  letterSpacing: 2.0,
+  wordSpacing: 1.2,
+);
+
 var pageStyle2CarPlate = GoogleFonts.poppins(
   color: primaryColor,
   fontSize: 13,
