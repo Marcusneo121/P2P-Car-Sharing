@@ -37,7 +37,6 @@ class _FavouriteState extends State<Favourite> {
   @override
   void initState() {
     obtainedUID = FirebaseAuth.instance.currentUser!.uid;
-    //uidShared();
     FavCarList.favCarList.clear();
     print("car list cleared");
     print(obtainedUID.toString());
@@ -61,10 +60,6 @@ class _FavouriteState extends State<Favourite> {
           .get()
           .then((QuerySnapshot querySnapshot) {
         querySnapshot.docs.forEach((doc) async {
-          // setState(() {
-          //   carID = doc["carID"];
-          //   print(carID);
-          // });
           print(doc["carID"]);
           print(doc.id);
           _firestore
@@ -125,25 +120,24 @@ class _FavouriteState extends State<Favourite> {
             });
 
             var eachCarModel = FavCarModel(
-              carID: carID,
-              imagePath: imagePath,
-              carName: carName,
-              carPlate: carPlate,
-              images: images,
-              price: price,
-              location: location,
-              seat: seat,
-              yearMade: yearMade,
-              color: color,
-              engine: engine,
-              fromDate: fromDate,
-              toDate: toDate,
-              ownerContact: ownerContact,
-              ownerEmail: ownerEmail,
-              ownerID: ownerID,
-              ownerName: ownerName,
-              ownerImage: ownerImage
-            );
+                carID: carID,
+                imagePath: imagePath,
+                carName: carName,
+                carPlate: carPlate,
+                images: images,
+                price: price,
+                location: location,
+                seat: seat,
+                yearMade: yearMade,
+                color: color,
+                engine: engine,
+                fromDate: fromDate,
+                toDate: toDate,
+                ownerContact: ownerContact,
+                ownerEmail: ownerEmail,
+                ownerID: ownerID,
+                ownerName: ownerName,
+                ownerImage: ownerImage);
             FavCarList.favCarList.add(eachCarModel);
             print("Car List added");
           });
@@ -186,12 +180,15 @@ class _FavouriteState extends State<Favourite> {
         : Center(
             child: Column(
               children: [
-                SizedBox(height: 180),
-                Lottie.asset('assets/nothinghere.json',
-                    width: 150, height: 150),
-                SizedBox(height: 10),
+                SizedBox(height: 200),
+                Lottie.asset('assets/favorite.json', width: 160, height: 160),
                 Text(
-                  "Oops! Nothing here.",
+                  "Oops! No favourite yet.",
+                  style: TextStyle(fontSize: 14),
+                ),
+                SizedBox(height: 7),
+                Text(
+                  "Find a car you like and Favourite it !",
                   style: TextStyle(fontSize: 14),
                 ),
               ],
@@ -221,11 +218,6 @@ class _FavouriteState extends State<Favourite> {
                 ],
               ),
               SizedBox(height: 10),
-              // Column(
-              //   children: <Widget>[
-              //
-              //   ],
-              // ),
               listViewOrNot,
             ],
           ),

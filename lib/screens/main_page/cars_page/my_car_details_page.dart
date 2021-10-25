@@ -451,7 +451,7 @@ class _MyCarDetailPageState extends State<MyCarDetailPage> {
                 ],
               ),
               SizedBox(
-                width: 5,
+                width: 15,
               ),
               InkWell(
                 onTap: () {},
@@ -471,9 +471,6 @@ class _MyCarDetailPageState extends State<MyCarDetailPage> {
                     ),
                   ),
                 ),
-              ),
-              SizedBox(
-                width: 5,
               ),
               InkWell(
                 onTap: () {},

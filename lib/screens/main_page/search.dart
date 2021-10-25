@@ -193,7 +193,8 @@ class _SearchState extends State<Search> {
             padding: const EdgeInsets.only(left: 8),
             child: InkWell(
               onTap: () {
-                Get.offNamed('/login/home');
+                //Get.offNamed('/login/home');
+                Get.back();
               },
               child: Icon(
                 Icons.arrow_back_ios,

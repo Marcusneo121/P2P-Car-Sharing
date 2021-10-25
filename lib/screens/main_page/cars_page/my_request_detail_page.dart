@@ -1,5 +1,6 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
@@ -9,12 +10,12 @@ import 'package:p2p_car_sharing_app/controllers/launcherController.dart';
 import '../../../constant.dart';
 
 final _firestore = FirebaseFirestore.instance;
-String obtainedUID = "";
 bool favouriteState = false;
 String acceptedOrDeclined = "none";
 String liveStatus = "";
+String uid = "";
 
-class RentRequestDetailPage extends StatefulWidget {
+class MyRequestDetailPage extends StatefulWidget {
   final String imagePath,
       carID,
       carName,
@@ -24,14 +25,13 @@ class RentRequestDetailPage extends StatefulWidget {
       location,
       toDate,
       fromDate,
-      renterID,
-      renterEmail,
-      renterContact,
-      renterName,
-      renterImage,
+      ownerID,
+      ownerEmail,
+      ownerName,
+      ownerImage,
       status;
 
-  const RentRequestDetailPage(
+  const MyRequestDetailPage(
       {Key? key,
       required this.imagePath,
       required this.carID,
@@ -42,19 +42,18 @@ class RentRequestDetailPage extends StatefulWidget {
       required this.location,
       required this.toDate,
       required this.fromDate,
-      required this.renterID,
-      required this.renterEmail,
-      required this.renterContact,
-      required this.renterName,
-      required this.renterImage,
+      required this.ownerID,
+      required this.ownerEmail,
+      required this.ownerName,
+      required this.ownerImage,
       required this.status})
       : super(key: key);
 
   @override
-  _RentRequestDetailPageState createState() => _RentRequestDetailPageState();
+  _MyRequestDetailPageState createState() => _MyRequestDetailPageState();
 }
 
-class _RentRequestDetailPageState extends State<RentRequestDetailPage> {
+class _MyRequestDetailPageState extends State<MyRequestDetailPage> {
   int _currentIndex = 0;
   Widget? bottomNavButton;
 
@@ -70,6 +69,9 @@ class _RentRequestDetailPageState extends State<RentRequestDetailPage> {
   void initState() {
     //obtainedUID = Get.arguments;
     //acceptedOrDeclined = "none";
+    setState(() {
+      uid = FirebaseAuth.instance.currentUser!.uid.toString();
+    });
     readAcceptDecline();
     // setState(() {
     //   bottomNavButton = lowerPartDetails();
@@ -91,22 +93,23 @@ class _RentRequestDetailPageState extends State<RentRequestDetailPage> {
 
   readAcceptDecline() {
     _firestore
-        .collection("cars")
+        .collection("users")
+        .doc(uid.toString())
+        .collection("myRequest")
         .doc(widget.carID)
-        .collection("renter")
-        .doc(widget.renterID)
-      ..get().then((dataSnapshot) {
-        setState(() {
-          liveStatus = dataSnapshot.get('status').toString();
-          if (liveStatus == "Requesting") {
-            bottomNavButton = lowerPartDetails();
-          } else if (liveStatus == "Accepted") {
-            bottomNavButton = acceptedDetails();
-          } else if (liveStatus == "Declined") {
-            bottomNavButton = declinedDetails();
-          }
-        });
+        .get()
+        .then((dataSnapshot) {
+      setState(() {
+        liveStatus = dataSnapshot.get('status').toString();
+        if (liveStatus == "Requesting") {
+          bottomNavButton = lowerPartDetails();
+        } else if (liveStatus == "Accepted") {
+          bottomNavButton = acceptedDetails();
+        } else if (liveStatus == "Declined") {
+          bottomNavButton = declinedDetails();
+        }
       });
+    });
   }
 
   @override
@@ -282,7 +285,7 @@ class _RentRequestDetailPageState extends State<RentRequestDetailPage> {
                               height: size.height * 0.03,
                             ),
                             Text(
-                              'Rent Request Details',
+                              'My Request Details',
                               style: pageStyle3.copyWith(
                                 fontSize: 15.5,
                                 fontWeight: FontWeight.w900,
@@ -303,7 +306,7 @@ class _RentRequestDetailPageState extends State<RentRequestDetailPage> {
                                   Row(
                                     children: <Widget>[
                                       Text(
-                                        'Renter Desire Price: RM',
+                                        'My Desire Price: RM',
                                         style: pageStyle3.copyWith(
                                           fontSize: 14,
                                           fontWeight: FontWeight.w700,
@@ -356,12 +359,12 @@ class _RentRequestDetailPageState extends State<RentRequestDetailPage> {
                                 color: Colors.black.withOpacity(0.20),
                               ),
                             ),
-                            SizedBox(height: 20),
+                            SizedBox(height: 23),
                             Padding(
                               padding:
                                   const EdgeInsets.symmetric(horizontal: 8.0),
                               child: Text(
-                                'Renter Details',
+                                'Owner Details',
                                 style: TextStyle(
                                     color: Colors.black.withOpacity(0.70),
                                     fontSize: 16,
@@ -375,7 +378,7 @@ class _RentRequestDetailPageState extends State<RentRequestDetailPage> {
                                 children: [
                                   CircleAvatar(
                                     backgroundImage: NetworkImage(
-                                      widget.renterImage.toString(),
+                                      widget.ownerImage.toString(),
                                     ),
                                     radius: 33,
                                   ),
@@ -386,7 +389,7 @@ class _RentRequestDetailPageState extends State<RentRequestDetailPage> {
                                         CrossAxisAlignment.start,
                                     children: [
                                       Text(
-                                        widget.renterName,
+                                        widget.ownerName,
                                         style: TextStyle(
                                             color:
                                                 Colors.black.withOpacity(0.60),
@@ -395,7 +398,7 @@ class _RentRequestDetailPageState extends State<RentRequestDetailPage> {
                                       ),
                                       GestureDetector(
                                         child: Text(
-                                          widget.renterEmail,
+                                          widget.ownerEmail,
                                           style: TextStyle(
                                               color: tertiaryColor
                                                   .withOpacity(0.90),
@@ -403,21 +406,9 @@ class _RentRequestDetailPageState extends State<RentRequestDetailPage> {
                                               fontWeight: FontWeight.bold),
                                         ),
                                         onTap: () => LaunchUtils.openEmail(
-                                            toEmail: widget.renterEmail,
+                                            toEmail: widget.ownerEmail,
                                             subject: widget.carName +
-                                                " Car Rent Respond"),
-                                      ),
-                                      GestureDetector(
-                                        child: Text(
-                                          widget.renterContact,
-                                          style: TextStyle(
-                                              color: tertiaryColor
-                                                  .withOpacity(0.90),
-                                              fontSize: 14,
-                                              fontWeight: FontWeight.bold),
-                                        ),
-                                        onTap: () => LaunchUtils.openPhoneCall(
-                                            phoneNumber: widget.renterContact),
+                                                " Car Rent Inquiry"),
                                       ),
                                     ],
                                   ),
@@ -425,7 +416,7 @@ class _RentRequestDetailPageState extends State<RentRequestDetailPage> {
                               ),
                             ),
                             SizedBox(
-                              height: size.height * 0.04,
+                              height: size.height * 0.02,
                             ),
                           ],
                         ),
@@ -666,22 +657,21 @@ class _RentRequestDetailPageState extends State<RentRequestDetailPage> {
       "desirePrice": widget.price.toString(),
       "rentFrom": widget.fromDate.toString(),
       "rentUntil": widget.toDate.toString(),
-      "renterContact": widget.renterContact.toString(),
-      "renterEmail": widget.renterEmail.toString(),
-      "renterImage": widget.renterImage.toString(),
-      "renterName": widget.renterName.toString(),
+      "renterEmail": widget.ownerEmail.toString(),
+      "renterImage": widget.ownerImage.toString(),
+      "renterName": widget.ownerName.toString(),
       "status": "Accepted",
-      "userID": widget.renterID.toString(),
+      "userID": widget.ownerID.toString(),
     };
 
     DocumentReference documentReference = _firestore
         .collection("cars")
         .doc(widget.carID)
         .collection("renter")
-        .doc(widget.renterID);
+        .doc(widget.ownerID);
 
-    documentReference.set(carDetails).then((doc) async {
-      await setMyRequestAccept();
+    documentReference.set(carDetails).then((doc) {
+      //addPostedCar(carID.toString());
     }).whenComplete(
       () {
         setState(() {
@@ -698,46 +688,24 @@ class _RentRequestDetailPageState extends State<RentRequestDetailPage> {
     );
   }
 
-  setMyRequestAccept() {
-    Map<String, dynamic> myRequestDetails = {
-      "carID": widget.carID.toString(),
-      "desirePrice": widget.price.toString(),
-      "rentFrom": widget.fromDate.toString(),
-      "rentUntil": widget.toDate.toString(),
-      "status": "Accepted",
-    };
-
-    DocumentReference documentReference = _firestore
-        .collection("users")
-        .doc(widget.renterID)
-        .collection("myRequest")
-        .doc(widget.carID);
-    documentReference.set(myRequestDetails).whenComplete(
-      () {
-        print("Accept My Request Complete");
-      },
-    );
-  }
-
   setDecline() {
     Map<String, dynamic> renterDetails = {
       "carID": widget.carID.toString(),
       "desirePrice": widget.price.toString(),
       "rentFrom": widget.fromDate.toString(),
       "rentUntil": widget.toDate.toString(),
-      "renterContact": widget.renterContact.toString(),
-      "renterEmail": widget.renterEmail.toString(),
-      "renterImage": widget.renterImage.toString(),
-      "renterName": widget.renterName.toString(),
+      "renterEmail": widget.ownerEmail.toString(),
+      "renterImage": widget.ownerImage.toString(),
+      "renterName": widget.ownerName.toString(),
       "status": "Declined",
-      "userID": widget.renterID.toString(),
+      "userID": widget.ownerID.toString(),
     };
 
     DocumentReference documentReference = _firestore
         .collection("cars")
         .doc(widget.carID)
         .collection("renter")
-        .doc(widget.renterID);
+        .doc(widget.ownerID);
 
     documentReference.set(renterDetails).then((doc) async {
       await setMyRequestDecline();
@@ -768,7 +736,7 @@ class _RentRequestDetailPageState extends State<RentRequestDetailPage> {
 
     DocumentReference documentReference = _firestore
         .collection("users")
-        .doc(widget.renterID)
+        .doc(widget.ownerID)
         .collection("myRequest")
         .doc(widget.carID);
     documentReference.set(myRequestDetails).whenComplete(
@@ -785,33 +753,25 @@ class _RentRequestDetailPageState extends State<RentRequestDetailPage> {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
-              // Column(
-              //   crossAxisAlignment: CrossAxisAlignment.start,
-              //   children: [
-              //     Text(
-              //       'Original Price : RM ${widget.price}',
-              //       style: pageStyleOriPrice,
-              //     ),
-              //     // SizedBox(
-              //     //   height: 3,
-              //     // ),
-              //     Text(
-              //       'Per Day',
-              //       style: pageStyle3.copyWith(fontSize: 12),
-              //     ),
-              //     SizedBox(
-              //       width: 5,
-              //     ),
-              //   ],
-              // ),
               InkWell(
                 onTap: () {
-                  // Get.toNamed('/bookNow', arguments: widget.carID);
-                  // setState(() {
-                  //   //acceptedOrDeclined = "none";
-                  //   bottomNavButton = acceptedDetails();
-                  // });
-                  setAccept();
+                  Get.snackbar(
+                    "Request Pending",
+                    "Your request is pending for review by the owner. The owner will get back to you soon.",
+                    snackPosition: SnackPosition.BOTTOM,
+                    duration: Duration(milliseconds: 2000),
+                    isDismissible: true,
+                    backgroundColor: Color(0xFF7879F1),
+                    margin: EdgeInsets.all(20),
+                    animationDuration: Duration(milliseconds: 800),
+                    icon: Icon(
+                      Icons.announcement_rounded,
+                      color: Colors.black,
+                    ),
+                    shouldIconPulse: true,
+                    overlayBlur: 4,
+                    overlayColor: Colors.white38,
+                  );
                 },
                 child: Container(
                   decoration: BoxDecoration(
@@ -821,37 +781,11 @@ class _RentRequestDetailPageState extends State<RentRequestDetailPage> {
                   child: Padding(
                     padding: const EdgeInsets.all(17.0),
                     child: Text(
-                      ' Accept ',
+                      ' Wait Respond ',
                       style: pageStyle3.copyWith(
                           fontWeight: FontWeight.w900,
                           fontSize: 14,
                           color: tertiaryColor),
-                    ),
-                  ),
-                ),
-              ),
-              SizedBox(width: 10),
-              InkWell(
-                onTap: () {
-                  // Get.toNamed('/bookNow', arguments: widget.carID);
-                  // setState(() {
-                  //   bottomNavButton = declinedDetails();
-                  // });
-                  setDecline();
-                },
-                child: Container(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10),
-                    color: fifthColor.withOpacity(0.2),
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.all(17.0),
-                    child: Text(
-                      ' Decline ',
-                      style: pageStyle3.copyWith(
-                          fontWeight: FontWeight.w900,
-                          fontSize: 14,
-                          color: fifthColor.withOpacity(0.6)),
                     ),
                   ),
                 ),
@@ -882,7 +816,7 @@ class _RentRequestDetailPageState extends State<RentRequestDetailPage> {
                   child: Padding(
                     padding: const EdgeInsets.all(17.0),
                     child: Text(
-                      ' Accepted ',
+                      ' Pay Now ',
                       style: pageStyle3.copyWith(
                           fontWeight: FontWeight.w900,
                           fontSize: 14,
@@ -909,11 +843,11 @@ class _RentRequestDetailPageState extends State<RentRequestDetailPage> {
                 onTap: () {
                   // Get.toNamed('/bookNow', arguments: widget.carID);
                   Get.snackbar(
-                    "Car Rent Request Declined",
-                    "You declined this offer.",
+                    "Your request has been declined.",
+                    "Try submit new request. Maybe try higher offer.",
                     snackPosition: SnackPosition.BOTTOM,
-                    duration: Duration(milliseconds: 1500),
-                    isDismissible: false,
+                    duration: Duration(milliseconds: 2000),
+                    isDismissible: true,
                     backgroundColor: Color(0xFF7879F1),
                     margin: EdgeInsets.all(20),
                     animationDuration: Duration(milliseconds: 800),

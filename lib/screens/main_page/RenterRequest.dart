@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_navigation/src/extension_navigation.dart';
+import 'package:lottie/lottie.dart';
 import 'package:p2p_car_sharing_app/components/renterRequest_view.dart';
 import 'package:p2p_car_sharing_app/models/renter_request_model.dart';
 import '../../constant.dart';
@@ -34,6 +35,48 @@ class RenterRequest extends StatefulWidget {
 class _RenterRequestState extends State<RenterRequest> {
   @override
   Widget build(BuildContext context) {
+    Widget listViewOrNot = RenterRequestList.renterList.isNotEmpty
+        ? Expanded(
+            child: Container(
+              child: StreamBuilder<QuerySnapshot>(
+                stream: _firestore.collection('cars').snapshots(),
+                builder: (ctx, snapshot) {
+                  if (snapshot.hasError) {
+                    return Text('Some Error');
+                  }
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return Center(
+                        child: Padding(
+                      padding: const EdgeInsets.only(top: 90.0),
+                      child: CircularProgressIndicator(),
+                    ));
+                  } else {
+                    return ListView.builder(
+                      physics: BouncingScrollPhysics(),
+                      itemCount: RenterRequestList.renterList.length,
+                      itemBuilder: (BuildContext context, int index) =>
+                          buildRenterRequestCard(context, index, uid),
+                    );
+                  }
+                },
+              ),
+            ),
+          )
+        : Center(
+            child: Column(
+              children: [
+                SizedBox(height: 180),
+                Lottie.asset('assets/nothinghere.json',
+                    width: 150, height: 150),
+                SizedBox(height: 10),
+                Text(
+                  "Oops! Nothing here.",
+                  style: TextStyle(fontSize: 14),
+                ),
+              ],
+            ),
+          );
+
     return Scaffold(
       appBar: getAppBar(),
       body: SafeArea(
@@ -47,33 +90,7 @@ class _RenterRequestState extends State<RenterRequest> {
             child: Column(
               children: [
                 SizedBox(height: 10),
-                Expanded(
-                  child: Container(
-                    child: StreamBuilder<QuerySnapshot>(
-                      stream: _firestore.collection('cars').snapshots(),
-                      builder: (ctx, snapshot) {
-                        if (snapshot.hasError) {
-                          return Text('Some Error');
-                        }
-                        if (snapshot.connectionState ==
-                            ConnectionState.waiting) {
-                          return Center(
-                              child: Padding(
-                            padding: const EdgeInsets.only(top: 90.0),
-                            child: CircularProgressIndicator(),
-                          ));
-                        } else {
-                          return ListView.builder(
-                            physics: BouncingScrollPhysics(),
-                            itemCount: RenterRequestList.renterList.length,
-                            itemBuilder: (BuildContext context, int index) =>
-                                buildRenterRequestCard(context, index, uid),
-                          );
-                        }
-                      },
-                    ),
-                  ),
-                ),
+                listViewOrNot,
               ],
             ),
           ),
@@ -182,7 +199,7 @@ class _RenterRequestState extends State<RenterRequest> {
     return AppBar(
       backgroundColor: Color(0xffFAFAFA),
       title: Text(
-        'Pending Request',
+        'Booking Request',
         style: TextStyle(
           color: Colors.black,
         ),
@@ -196,7 +213,8 @@ class _RenterRequestState extends State<RenterRequest> {
             padding: const EdgeInsets.only(left: 8),
             child: InkWell(
               onTap: () {
-                Get.offNamed('/login/homeFast');
+                //Get.offNamed('/login/homeFast');
+                Get.back();
               },
               child: Icon(
                 Icons.arrow_back_ios,

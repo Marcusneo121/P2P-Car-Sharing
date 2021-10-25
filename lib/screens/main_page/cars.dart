@@ -2,10 +2,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_navigation/src/extension_navigation.dart';
-import 'package:p2p_car_sharing_app/bindings/authBinding.dart';
+import 'package:lottie/lottie.dart';
 import 'package:p2p_car_sharing_app/components/car_view.dart';
-import 'package:p2p_car_sharing_app/controllers/authController.dart';
-import 'package:p2p_car_sharing_app/models/car_model.dart';
 import 'package:p2p_car_sharing_app/models/car_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -47,15 +45,6 @@ class _CarsState extends State<Cars> {
           .get()
           .then((QuerySnapshot querySnapshot) {
         querySnapshot.docs.forEach((doc) async {
-          // print(doc["carName"]);
-          // print(doc["carPic"]);
-          // print(doc["color"]);
-          // print(doc["engineCapacity"]);
-          // print(doc["location"]);
-          // print(doc["plateNumber"]);
-          // print(doc["price"]);
-          // print(doc["seat"]);
-          // print(doc["yearMade"]);
           print(doc.id);
           setState(() {
             carID = doc.id;
@@ -80,7 +69,6 @@ class _CarsState extends State<Cars> {
             Map allImages = doc["carImages"];
             List<String> toListImages = [];
             allImages.forEach((key, value) => toListImages.add(value));
-            //print(toListImages);
             images = toListImages;
           });
 
@@ -114,6 +102,48 @@ class _CarsState extends State<Cars> {
 
   @override
   Widget build(BuildContext context) {
+    Widget listViewOrNot = CarList.carList.isNotEmpty
+        ? Expanded(
+            child: Container(
+              child: StreamBuilder<QuerySnapshot>(
+                stream: _firestore.collection('cars').snapshots(),
+                builder: (ctx, snapshot) {
+                  if (snapshot.hasError) {
+                    return Text('Some Error');
+                  }
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return Center(
+                        child: Padding(
+                      padding: const EdgeInsets.only(top: 90.0),
+                      child: CircularProgressIndicator(),
+                    ));
+                  } else {
+                    return ListView.builder(
+                      physics: BouncingScrollPhysics(),
+                      itemCount: CarList.carList.length,
+                      itemBuilder: (BuildContext context, int index) =>
+                          buildCarCard(context, index, obtainedUID),
+                    );
+                  }
+                },
+              ),
+            ),
+          )
+        : Center(
+            child: Column(
+              children: [
+                SizedBox(height: 180),
+                Lottie.asset('assets/nothinghere.json',
+                    width: 150, height: 150),
+                SizedBox(height: 10),
+                Text(
+                  "Oops! Nothing here.",
+                  style: TextStyle(fontSize: 14),
+                ),
+              ],
+            ),
+          );
+
     return Scaffold(
       body: SafeArea(
         child: Container(
@@ -138,7 +168,7 @@ class _CarsState extends State<Cars> {
                       size: 27.0,
                     ),
                     onPressed: () {
-                      Get.offNamed('/renterRequest');
+                      Get.toNamed('/renterRequest');
                     },
                   ),
                   SizedBox(
@@ -150,50 +180,13 @@ class _CarsState extends State<Cars> {
                       size: 27,
                     ),
                     onPressed: () {
-                      Get.offNamed('/search');
+                      Get.toNamed('/search');
                     },
                   ),
                 ],
               ),
-              // Column(
-              //   children: <Widget>[
-              //     Text(
-              //       'Normal Home',
-              //       style: TextStyle(fontSize: 20),
-              //     ),
-              //     Text(
-              //       obtainedUID,
-              //       style: TextStyle(fontSize: 20),
-              //     ),
-              //   ],
-              // ),
               SizedBox(height: 10),
-              Expanded(
-                child: Container(
-                  child: StreamBuilder<QuerySnapshot>(
-                    stream: _firestore.collection('cars').snapshots(),
-                    builder: (ctx, snapshot) {
-                      if (snapshot.hasError) {
-                        return Text('Some Error');
-                      }
-                      if (snapshot.connectionState == ConnectionState.waiting) {
-                        return Center(
-                            child: Padding(
-                          padding: const EdgeInsets.only(top: 90.0),
-                          child: CircularProgressIndicator(),
-                        ));
-                      } else {
-                        return ListView.builder(
-                          physics: BouncingScrollPhysics(),
-                          itemCount: CarList.carList.length,
-                          itemBuilder: (BuildContext context, int index) =>
-                              buildCarCard(context, index, obtainedUID),
-                        );
-                      }
-                    },
-                  ),
-                ),
-              ),
+              listViewOrNot,
             ],
           ),
         ),
