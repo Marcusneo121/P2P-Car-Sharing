@@ -87,6 +87,7 @@ class _MyCarState extends State<MyCar> {
             print(doc["fromDate"]);
 
             setState(() {
+              carID = doc.id.toString();
               imagePath = doc["carPic"];
               carName = doc["carName"];
               carPlate = doc["plateNumber"];
@@ -103,6 +104,7 @@ class _MyCarState extends State<MyCar> {
               ownerID = doc["ownerID"];
               ownerName = doc["ownerName"];
 
+              print(carID);
               print(doc["carName"]);
               print(doc["carPic"]);
               print(doc["color"]);
@@ -121,11 +123,11 @@ class _MyCarState extends State<MyCar> {
               allImages.forEach((key, value) => toListImages.add(value));
               print(toListImages);
               images = toListImages;
-              carID = "";
             });
 
             var eachCarModel = MyCarModel(
               imagePath: imagePath,
+              carID: carID,
               carName: carName,
               carPlate: carPlate,
               images: images,

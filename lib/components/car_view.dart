@@ -34,6 +34,7 @@ Widget buildCarCard(BuildContext context, int index, String uid) {
                 Get.to(
                   MyCarDetailPage(
                     images: data.images,
+                    carID: data.carID,
                     carName: data.carName,
                     carPlate: data.carPlate,
                     price: data.price,
@@ -163,6 +164,7 @@ Widget buildCarCard(BuildContext context, int index, String uid) {
                                   Get.to(
                                     MyCarDetailPage(
                                       images: data.images,
+                                      carID: data.carID,
                                       carName: data.carName,
                                       carPlate: data.carPlate,
                                       price: data.price,

@@ -14,6 +14,7 @@ import 'package:p2p_car_sharing_app/screens/authentication/registration.dart';
 import 'package:p2p_car_sharing_app/screens/main_page/RenterRequest.dart';
 import 'package:p2p_car_sharing_app/screens/main_page/cars_page/addCar.dart';
 import 'package:p2p_car_sharing_app/screens/main_page/cars_page/book_car.dart';
+import 'package:p2p_car_sharing_app/screens/main_page/cars_page/editCar.dart';
 import 'package:p2p_car_sharing_app/screens/main_page/cars_page/myCar.dart';
 import 'package:p2p_car_sharing_app/screens/main_page/cars_page/rent_request_detail_page.dart';
 import 'package:p2p_car_sharing_app/screens/main_page/cars_page/searched_car_details.dart';
@@ -122,6 +123,12 @@ class MyApp extends StatelessWidget {
         GetPage(
           name: '/bookNow',
           page: () => BookCar(),
+          transition: Transition.cupertino,
+          transitionDuration: Duration(milliseconds: 300),
+        ),
+        GetPage(
+          name: '/editCar',
+          page: () => EditCar(),
           transition: Transition.cupertino,
           transitionDuration: Duration(milliseconds: 300),
         ),

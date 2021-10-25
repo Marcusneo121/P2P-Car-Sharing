@@ -569,7 +569,7 @@ class _AddCarState extends State<AddCar> {
                         height: 28,
                       ),
                       Text(
-                        'Owner Details',
+                        'My Details',
                         style: pageStyle1.copyWith(
                           fontSize: 16,
                           fontWeight: FontWeight.bold,

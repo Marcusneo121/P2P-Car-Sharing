@@ -100,117 +100,186 @@ class _ProfileState extends State<Profile> {
                   ),
                 ),
                 Padding(
-                  padding: EdgeInsets.only(left: 6, right: 6),
+                  padding: EdgeInsets.only(left: 3, right: 3),
                   child: Column(
                     children: <Widget>[
-                      SizedBox(height: 15),
+                      SizedBox(height: 13),
                       ElevatedButton(
-                        style: ButtonStyle(
-                          shape:
-                              MaterialStateProperty.all<RoundedRectangleBorder>(
-                            RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(10.0),
-                            ),
-                          ),
-                          backgroundColor:
-                              MaterialStateProperty.all(Color(0xFF7477F0)),
-                        ),
                         onPressed: () {
-                          //To Press for action
                           Get.toNamed('/login/home/profile/myCar',
                               arguments: argumentUID);
                         },
-                        child: Padding(
-                          padding: EdgeInsets.all(10),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: <Widget>[
-                              Text(
-                                'My Car',
-                                style: TextStyle(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w700,
-                                  color: Colors.white,
-                                ),
+                        style: ElevatedButton.styleFrom(
+                            padding: EdgeInsets.zero,
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10.0))),
+                        child: Ink(
+                          decoration: BoxDecoration(
+                              gradient: LinearGradient(colors: [
+                                Color(0xFF647dee),
+                                Color(0xffb362f9),
+                                //Color(0xFF7879F1)
+                              ]),
+                              borderRadius: BorderRadius.circular(10)),
+                          child: Padding(
+                            padding: EdgeInsets.only(
+                                left: 25, right: 25, top: 10, bottom: 10),
+                            child: Container(
+                              height: 33,
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: <Widget>[
+                                  Text(
+                                    'My Car',
+                                    style: TextStyle(
+                                      fontSize: 17,
+                                      fontWeight: FontWeight.w700,
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                  Icon(
+                                    Icons.arrow_forward,
+                                    color: Colors.white,
+                                    size: 27,
+                                  )
+                                ],
                               ),
-                              Icon(
-                                Icons.arrow_forward,
-                                color: Colors.white,
-                              )
-                            ],
+                            ),
                           ),
                         ),
                       ),
-                      SizedBox(height: 10),
+                      SizedBox(height: 13),
                       ElevatedButton(
-                        style: ButtonStyle(
-                          shape:
-                              MaterialStateProperty.all<RoundedRectangleBorder>(
-                            RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(10.0),
-                            ),
-                          ),
-                          backgroundColor:
-                              MaterialStateProperty.all(Color(0xFF7477F0)),
-                        ),
                         onPressed: () {
-                          //To Press for action
                           Get.toNamed('/login/home/profile/myCar/addCar');
                         },
-                        child: Padding(
-                          padding: EdgeInsets.all(10),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: <Widget>[
-                              Text(
-                                'Add Car',
-                                style: TextStyle(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w700,
-                                  color: Colors.white,
-                                ),
+                        style: ElevatedButton.styleFrom(
+                            padding: EdgeInsets.zero,
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10.0))),
+                        child: Ink(
+                          decoration: BoxDecoration(
+                              gradient: LinearGradient(colors: [
+                                Color(0xFF647dee),
+                                Color(0xffb362f9),
+                                //Color(0xFF7879F1)
+                              ]),
+                              borderRadius: BorderRadius.circular(10)),
+                          child: Padding(
+                            padding: EdgeInsets.only(
+                                left: 25, right: 25, top: 10, bottom: 10),
+                            child: Container(
+                              height: 33,
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: <Widget>[
+                                  Text(
+                                    'Add Car',
+                                    style: TextStyle(
+                                      fontSize: 17,
+                                      fontWeight: FontWeight.w700,
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                  Icon(
+                                    Icons.arrow_forward,
+                                    color: Colors.white,
+                                    size: 27,
+                                  )
+                                ],
                               ),
-                              Icon(
-                                Icons.arrow_forward,
-                                color: Colors.white,
-                              )
-                            ],
+                            ),
                           ),
                         ),
                       ),
-                      SizedBox(height: 10),
+                      SizedBox(height: 13),
                       ElevatedButton(
-                        style: ButtonStyle(
-                          shape:
-                              MaterialStateProperty.all<RoundedRectangleBorder>(
-                            RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(10.0),
+                        onPressed: () {
+                          print('Hi there');
+                        },
+                        style: ElevatedButton.styleFrom(
+                            padding: EdgeInsets.zero,
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10.0))),
+                        child: Ink(
+                          decoration: BoxDecoration(
+                              gradient: LinearGradient(colors: [
+                                Color(0xFF647dee),
+                                Color(0xffb362f9),
+                                //Color(0xFF7879F1)
+                              ]),
+                              borderRadius: BorderRadius.circular(10)),
+                          child: Padding(
+                            padding: EdgeInsets.only(
+                                left: 25, right: 25, top: 10, bottom: 10),
+                            child: Container(
+                              height: 33,
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: <Widget>[
+                                  Text(
+                                    'About the app',
+                                    style: TextStyle(
+                                      fontSize: 17,
+                                      fontWeight: FontWeight.w700,
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                  Icon(
+                                    Icons.arrow_forward,
+                                    color: Colors.white,
+                                    size: 27,
+                                  )
+                                ],
+                              ),
                             ),
                           ),
-                          backgroundColor:
-                              MaterialStateProperty.all(Color(0xFF7477F0)),
                         ),
+                      ),
+                      SizedBox(height: 13),
+                      ElevatedButton(
                         onPressed: () {
-                          //To Press for action
+                          print('Hi there');
                         },
-                        child: Padding(
-                          padding: EdgeInsets.all(10),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: <Widget>[
-                              Text(
-                                'Others',
-                                style: TextStyle(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w700,
-                                  color: Colors.white,
-                                ),
+                        style: ElevatedButton.styleFrom(
+                            padding: EdgeInsets.zero,
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10.0))),
+                        child: Ink(
+                          decoration: BoxDecoration(
+                              gradient: LinearGradient(colors: [
+                                Color(0xFF647dee),
+                                Color(0xffb362f9),
+                              ]),
+                              borderRadius: BorderRadius.circular(10)),
+                          child: Padding(
+                            padding: EdgeInsets.only(
+                                left: 25, right: 25, top: 10, bottom: 10),
+                            child: Container(
+                              height: 33,
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: <Widget>[
+                                  Text(
+                                    'Others',
+                                    style: TextStyle(
+                                      fontSize: 17,
+                                      fontWeight: FontWeight.w700,
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                  Icon(
+                                    Icons.arrow_forward,
+                                    color: Colors.white,
+                                    size: 27,
+                                  )
+                                ],
                               ),
-                              Icon(
-                                Icons.arrow_forward,
-                                color: Colors.white,
-                              )
-                            ],
+                            ),
                           ),
                         ),
                       ),
@@ -275,21 +344,4 @@ class _ProfileState extends State<Profile> {
           )
         ],
       );
-
-  // Widget buildName(UserProfile user) => Column(
-  //       mainAxisAlignment: MainAxisAlignment.center,
-  //       crossAxisAlignment: CrossAxisAlignment.start,
-  //       children: <Widget>[
-  //         Text(
-  //           user.name,
-  //           style: TextStyle(
-  //               fontWeight: FontWeight.bold, fontSize: 24, color: Colors.white),
-  //         ),
-  //         const SizedBox(height: 1),
-  //         Text(
-  //           user.email,
-  //           style: TextStyle(color: Colors.white70, fontSize: 15),
-  //         )
-  //       ],
-  //     );
 }

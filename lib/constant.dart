@@ -43,6 +43,12 @@ var pageStyle1 = GoogleFonts.poppins(
   fontWeight: FontWeight.bold,
 );
 
+var pageStyle1Extra = GoogleFonts.poppins(
+  fontSize: 20.0,
+  color: primaryColor,
+  fontWeight: FontWeight.normal,
+);
+
 var pageStyleOriPrice = GoogleFonts.poppins(
   fontSize: 18.0,
   color: primaryColor,

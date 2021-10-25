@@ -1,6 +1,7 @@
 class MyCarModel {
   final String imagePath;
-  final String carName,
+  final String carID,
+      carName,
       carPlate,
       price,
       location,
@@ -21,6 +22,7 @@ class MyCarModel {
     required this.toDate,
     required this.fromDate,
     required this.imagePath,
+    required this.carID,
     required this.carName,
     required this.carPlate,
     required this.images,

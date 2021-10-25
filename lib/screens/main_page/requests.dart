@@ -6,6 +6,8 @@ import 'package:p2p_car_sharing_app/components/myrequest_car_view.dart';
 import 'package:p2p_car_sharing_app/models/my_request_model.dart';
 
 final _firestore = FirebaseFirestore.instance;
+
+List<String> images = [];
 String uid = "";
 String imagePath = "",
     carID = "",
@@ -76,7 +78,7 @@ class _RequestState extends State<Request> {
                 ),
                 SizedBox(height: 7),
                 Text(
-                  "Find a car you like, book & request it !",
+                  "Find a car you Like, Book & Drive it !",
                   style: TextStyle(fontSize: 14),
                 ),
               ],

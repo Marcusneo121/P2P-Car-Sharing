@@ -5,7 +5,8 @@ import '../../../constant.dart';
 
 class MyCarDetailPage extends StatefulWidget {
   final List<String> images;
-  final String carName,
+  final String carID,
+      carName,
       carPlate,
       price,
       location,
@@ -22,6 +23,7 @@ class MyCarDetailPage extends StatefulWidget {
   const MyCarDetailPage(
       {Key? key,
       required this.images,
+      required this.carID,
       required this.carName,
       required this.carPlate,
       required this.price,
@@ -454,7 +456,9 @@ class _MyCarDetailPageState extends State<MyCarDetailPage> {
                 width: 15,
               ),
               InkWell(
-                onTap: () {},
+                onTap: () {
+                  Get.toNamed('/editCar', arguments: widget.carID);
+                },
                 child: Container(
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(10),
