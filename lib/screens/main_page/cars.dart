@@ -145,6 +145,7 @@ class _CarsState extends State<Cars> {
           );
 
     return Scaffold(
+      backgroundColor: Colors.white,
       body: SafeArea(
         child: Container(
           padding: EdgeInsets.only(

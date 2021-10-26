@@ -78,6 +78,7 @@ class _RenterRequestState extends State<RenterRequest> {
           );
 
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: getAppBar(),
       body: SafeArea(
         child: Container(

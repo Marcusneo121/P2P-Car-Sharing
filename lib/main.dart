@@ -1,6 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
 import 'package:get/get_navigation/src/routes/get_route.dart';
 import 'package:get/get_navigation/src/routes/transitions_type.dart';
@@ -16,9 +17,7 @@ import 'package:p2p_car_sharing_app/screens/main_page/cars_page/addCar.dart';
 import 'package:p2p_car_sharing_app/screens/main_page/cars_page/book_car.dart';
 import 'package:p2p_car_sharing_app/screens/main_page/cars_page/editCar.dart';
 import 'package:p2p_car_sharing_app/screens/main_page/cars_page/myCar.dart';
-import 'package:p2p_car_sharing_app/screens/main_page/cars_page/rent_request_detail_page.dart';
 import 'package:p2p_car_sharing_app/screens/main_page/cars_page/searched_car_details.dart';
-import 'package:p2p_car_sharing_app/screens/main_page/favourites.dart';
 import 'package:p2p_car_sharing_app/screens/main_page/search.dart';
 import 'package:p2p_car_sharing_app/screens/others/edit_profile.dart';
 import 'package:p2p_car_sharing_app/screens/splashscreen.dart';
@@ -26,6 +25,8 @@ import 'screens/authentication/login.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  Stripe.publishableKey =
+      'pk_test_51JofQJF0ihJ2wcebWHseDcTbPbp3qi26KldhgBxrEQRwxDcMu9f1lQPNah2wRuhZZPc0IJo3dBc1S7jEnIG5cQIu0045QYNkKC';
   await Firebase.initializeApp();
   runApp(MyApp());
 }

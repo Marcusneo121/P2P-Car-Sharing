@@ -196,6 +196,7 @@ class _FavouriteState extends State<Favourite> {
           );
 
     return Scaffold(
+      backgroundColor: Colors.white,
       body: SafeArea(
         child: Container(
           padding: EdgeInsets.only(

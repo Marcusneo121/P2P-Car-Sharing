@@ -1,13 +1,16 @@
-import 'package:carousel_slider/carousel_slider.dart';
+import 'dart:convert';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:p2p_car_sharing_app/controllers/launcherController.dart';
 import '../../../constant.dart';
+import 'package:http/http.dart' as http;
 
 final _firestore = FirebaseFirestore.instance;
 bool favouriteState = false;
@@ -56,6 +59,8 @@ class MyRequestDetailPage extends StatefulWidget {
 class _MyRequestDetailPageState extends State<MyRequestDetailPage> {
   int _currentIndex = 0;
   Widget? bottomNavButton;
+
+  Map<String, dynamic>? paymentIntentData;
 
   List<T> map<T>(List list, Function handler) {
     List<T> result = [];
@@ -122,6 +127,7 @@ class _MyRequestDetailPageState extends State<MyRequestDetailPage> {
         return true;
       },
       child: Scaffold(
+        resizeToAvoidBottomInset: false,
         appBar: getAppBar(),
         backgroundColor: Color(0xffe3e3e3),
         body: getBody(),
@@ -800,33 +806,43 @@ class _MyRequestDetailPageState extends State<MyRequestDetailPage> {
   acceptedDetails() {
     return Column(
       children: <Widget>[
-        Container(
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: [
-              InkWell(
-                onTap: () {
-                  // Get.toNamed('/bookNow', arguments: widget.carID);
-                },
-                child: Container(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10),
-                    color: fourthColor.withOpacity(0.12),
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.all(17.0),
-                    child: Text(
-                      ' Pay Now ',
-                      style: pageStyle3.copyWith(
-                          fontWeight: FontWeight.w900,
-                          fontSize: 14,
-                          color: tertiaryColor),
-                    ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            Column(
+              children: [
+                SizedBox(height: 25),
+                Image.asset(
+                  'assets/stripe.png',
+                  width: 140.0,
+                  height: 40.0,
+                  fit: BoxFit.cover,
+                ),
+              ],
+            ),
+            InkWell(
+              onTap: () async {
+                // Get.toNamed('/bookNow', arguments: widget.carID);
+                await makePayment();
+              },
+              child: Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10),
+                  color: fourthColor.withOpacity(0.12),
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.all(17.0),
+                  child: Text(
+                    ' Pay Now ',
+                    style: pageStyle3.copyWith(
+                        fontWeight: FontWeight.w900,
+                        fontSize: 14,
+                        color: tertiaryColor),
                   ),
                 ),
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ],
     );
@@ -882,5 +898,81 @@ class _MyRequestDetailPageState extends State<MyRequestDetailPage> {
         ),
       ],
     );
+  }
+
+  Future<void> makePayment() async {
+    try {
+      paymentIntentData = await createPaymentIntent(widget.price + '00', 'MYR');
+
+      await Stripe.instance.initPaymentSheet(
+        paymentSheetParameters: SetupPaymentSheetParameters(
+            paymentIntentClientSecret: paymentIntentData!['client_secret'],
+            applePay: true,
+            googlePay: true,
+            style: ThemeMode.light,
+            merchantCountryCode: 'MYR',
+            merchantDisplayName: 'Carro P2P'),
+      );
+      displayPaymentSheet();
+    } catch (e) {
+      print('Exception' + e.toString());
+    }
+  }
+
+  displayPaymentSheet() async {
+    try {
+      await Stripe.instance.presentPaymentSheet(
+        parameters: PresentPaymentSheetParameters(
+          clientSecret: paymentIntentData!['client_secret'],
+          confirmPayment: true,
+        ),
+      );
+
+      setState(() {
+        paymentIntentData = null;
+      });
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text("Paid Successfully"),
+        ),
+      );
+    } on StripeException catch (e) {
+      print(e.toString());
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text("Cancelled!"),
+        ),
+      );
+    }
+  }
+
+  createPaymentIntent(String amount, String currency) async {
+    try {
+      String finalAmount = '$amount.00';
+
+      Map<String, dynamic> body = {
+        'amount': amount,
+        'currency': currency,
+        'payment_method_types[]': 'card'
+      };
+
+      var response = await http.post(
+          Uri.parse('https://api.stripe.com/v1/payment_intents'),
+          body: body,
+          headers: {
+            'Authorization':
+                'Bearer sk_test_51JofQJF0ihJ2wcebdQ6f1wDpCNJ1VA0rfcMYOViljcZkMPvJYuDyNcJ24Netljs0ZbOArK15RasXCsBWReYWEUsy00hJ6oqLKx',
+            'Content-Type': 'application/x-www-form-urlencoded',
+          });
+
+      return jsonDecode(response.body.toString());
+    } catch (e) {
+      print('Exception' + e.toString());
+    }
+  }
+
+  calculateAmount(String amount) {
+    final price = int.parse(amount) * 100;
+    return price;
   }
 }
