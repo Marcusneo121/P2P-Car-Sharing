@@ -36,6 +36,7 @@ class _EditCarState extends State<EditCar> {
   TextEditingController contactNoController = TextEditingController();
 
   List<String> images = [];
+  late Map allImages;
   String carPic =
       "https://firebasestorage.googleapis.com/v0/b/p2p-car-sharing.appspot.com/o/grayscale-mountain.png?alt=media&token=4e6c1355-6583-4597-a481-7aecd205a2cf";
   String? carID,
@@ -83,7 +84,8 @@ class _EditCarState extends State<EditCar> {
         .get()
         .then((datasnapshot) async {
       setState(() {
-        Map allImages = datasnapshot.get('carImages');
+        allImages = datasnapshot.get('carImages');
+        print("this is all image $allImages");
         List<String> toListImages = [];
         allImages.forEach((key, value) => toListImages.add(value));
         print(toListImages);
@@ -138,7 +140,45 @@ class _EditCarState extends State<EditCar> {
     });
   }
 
-  updateData() {}
+  updateData() {
+    Map<String, dynamic> carDetails = {
+      "carImages": allImages,
+      "carName": carBrandController.text.toString(),
+      "carPic": carPic.toString(),
+      "color": colorController.text.toString(),
+      "engineCapacity": engineController.text.toString(),
+      "fromDate": _dateTime.toString(),
+      "toDate": _dateTime2.toString(),
+      "location": locationController.text.toString(),
+      "plateNumber": carPlateController.text.toString(),
+      "price": priceController.text.toString(),
+      "seat": seatController.text.toString(),
+      "yearMade": yearController.text.toString(),
+      "ownerName": ownerName.toString(),
+      "ownerEmail": ownerEmail.toString(),
+      "ownerContact": contactNoController.text.toString(),
+      "ownerID": ownerID.toString(),
+      "ownerImage": ownerImage.toString()
+    };
+
+    DocumentReference documentReference =
+        _firestore.collection("cars").doc(carID.toString());
+
+    documentReference.set(carDetails).then((doc) {
+      print("Update successful");
+    }).whenComplete(
+      () {
+        Future.delayed(Duration(seconds: 1)).then((value) async {
+          EasyLoading.showSuccess(
+              "Car updated! Will take few minutes to update.");
+          Future.delayed(Duration(seconds: 2)).then((value) async {
+            EasyLoading.dismiss();
+            Get.offNamed("/carPage");
+          });
+        });
+      },
+    );
+  }
 
   getAppBar() {
     return AppBar(
@@ -448,7 +488,7 @@ class _EditCarState extends State<EditCar> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: [
-                          customApplyButton(() async {}),
+                          customApplyButton(),
                         ],
                       ),
                       SizedBox(
@@ -596,11 +636,13 @@ class _EditCarState extends State<EditCar> {
       });
   }
 
-  customApplyButton(function) {
+  customApplyButton() {
     return Container(
       color: Colors.white,
       child: InkWell(
-        onTap: function,
+        onTap: () async {
+          await updateData();
+        },
         child: Container(
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(10),

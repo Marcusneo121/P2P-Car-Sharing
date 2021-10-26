@@ -70,7 +70,7 @@ class _RenterRequestState extends State<RenterRequest> {
                     width: 150, height: 150),
                 SizedBox(height: 10),
                 Text(
-                  "Oops! Nothing here.",
+                  "Oops! No Booking Request Yet.",
                   style: TextStyle(fontSize: 14),
                 ),
               ],

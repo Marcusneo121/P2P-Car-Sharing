@@ -729,6 +729,9 @@ class _AddCarState extends State<AddCar> {
                                   status: "Uploading Interior Image...",
                                   dismissOnTap: false);
                               await uploadCarsImage(file4, 4);
+                              EasyLoading.show(
+                                  status: "Saving data...",
+                                  dismissOnTap: false);
                               await addToCarList();
                               Future.delayed(Duration(seconds: 1))
                                   .then((value) async {
@@ -737,9 +740,12 @@ class _AddCarState extends State<AddCar> {
                                 Future.delayed(Duration(seconds: 2))
                                     .then((value) async {
                                   EasyLoading.dismiss();
+                                  Future.delayed(Duration(milliseconds: 700))
+                                      .then((value) async {
+                                    Get.back();
+                                  });
                                 });
                               });
-                              Get.back();
                             }
                           }),
                         ],
@@ -831,7 +837,7 @@ class _AddCarState extends State<AddCar> {
       "price": priceController.text.toString(),
       "seat": seatController.text.toString(),
       "yearMade": yearController.text.toString(),
-      "ownerName": ownerName.toString,
+      "ownerName": ownerName.toString(),
       "ownerEmail": ownerEmail.toString(),
       "ownerContact": ownerContact.text.toString(),
       "ownerID": ownerID.toString(),

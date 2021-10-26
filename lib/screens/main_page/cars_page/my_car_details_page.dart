@@ -1,5 +1,8 @@
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import '../../../constant.dart';
 
@@ -45,6 +48,8 @@ class MyCarDetailPage extends StatefulWidget {
 
 class _MyCarDetailPageState extends State<MyCarDetailPage> {
   int _currentIndex = 0;
+  final _firestore = FirebaseFirestore.instance;
+  String uid = "";
 
   List<T> map<T>(List list, Function handler) {
     List<T> result = [];
@@ -55,12 +60,43 @@ class _MyCarDetailPageState extends State<MyCarDetailPage> {
   }
 
   @override
+  void initState() {
+    setState(() {
+      uid = FirebaseAuth.instance.currentUser!.uid.toString();
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: getAppBar(),
       backgroundColor: Color(0xffe3e3e3),
       body: getBody(),
     );
+  }
+
+  deleteCar() async {
+    await _firestore
+        .collection('cars')
+        .doc(widget.carID.toString())
+        .delete()
+        .whenComplete(() async {
+      await _firestore
+          .collection('users')
+          .doc(uid.toString())
+          .collection('postedCars')
+          .doc(widget.carID.toString())
+          .delete()
+          .whenComplete(() {
+        Future.delayed(Duration(seconds: 1)).then((value) async {
+          EasyLoading.showSuccess("Car deleted! I will take a few minutes.");
+          Future.delayed(Duration(seconds: 2)).then((value) async {
+            EasyLoading.dismiss();
+            Get.offNamed("/carPage");
+          });
+        });
+      });
+    });
   }
 
   getAppBar() {
@@ -422,6 +458,50 @@ class _MyCarDetailPageState extends State<MyCarDetailPage> {
     );
   }
 
+  _showDialog() {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: true,
+      // false = user must tap button, true = tap outside dialog
+      builder: (BuildContext dialogContext) {
+        return AlertDialog(
+          contentPadding:
+              EdgeInsets.only(left: 25, top: 15, right: 10, bottom: 5),
+          elevation: 10.0,
+          backgroundColor: Color(0xFFcfdaff),
+          title: Text('Are you sure?'),
+          content: Text(
+            'You will not be able to recover once deleted. This process cannot be undone.',
+            style: TextStyle(
+              fontSize: 15,
+            ),
+          ),
+          actions: <Widget>[
+            TextButton(
+              child: Text(
+                'No',
+                style: TextStyle(color: Color(0xFF6c6deb), fontSize: 17),
+              ),
+              onPressed: () {
+                Get.back();
+              },
+            ),
+            TextButton(
+              child: Text(
+                'Yes',
+                style: TextStyle(color: Color(0xFF6c6deb), fontSize: 17),
+              ),
+              onPressed: () {
+                deleteCar();
+                Get.back();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   lowerPartDetails() {
     return Column(
       children: <Widget>[
@@ -477,7 +557,9 @@ class _MyCarDetailPageState extends State<MyCarDetailPage> {
                 ),
               ),
               InkWell(
-                onTap: () {},
+                onTap: () {
+                  _showDialog();
+                },
                 child: Container(
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(10),
