@@ -54,7 +54,7 @@ class _AdminHomeState extends State<AdminHome> {
                     ),
                     IconButton(
                       icon: new Icon(
-                        Icons.notifications_rounded,
+                        Icons.settings_rounded,
                         size: 27.0,
                       ),
                       onPressed: () {},
@@ -64,7 +64,7 @@ class _AdminHomeState extends State<AdminHome> {
                     ),
                     IconButton(
                       icon: new Icon(
-                        Icons.search_rounded,
+                        Icons.logout_rounded,
                         size: 27,
                       ),
                       onPressed: () {},

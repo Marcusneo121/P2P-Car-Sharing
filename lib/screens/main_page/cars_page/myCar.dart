@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_navigation/src/extension_navigation.dart';
+import 'package:lottie/lottie.dart';
 import 'package:p2p_car_sharing_app/components/my_car_view.dart';
 import 'package:p2p_car_sharing_app/models/my_car_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -157,45 +158,8 @@ class _MyCarState extends State<MyCar> {
 
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-      onWillPop: () async {
-        Get.back();
-        MyCarList.myCarList.clear();
-        return false;
-      },
-      child: Scaffold(
-        appBar: AppBar(
-          centerTitle: true,
-          backgroundColor: Color(0xFF7477F0),
-          title: Text('My Car'),
-          // actions: <Widget>[
-          //   IconButton(
-          //     icon: Icon(
-          //       Icons.add_rounded,
-          //       color: Colors.white,
-          //     ),
-          //     onPressed: () {
-          //       // do something
-          //       Get.toNamed('/login/home/profile/myCar/addCar');
-          //     },
-          //   )
-          // ],
-        ),
-        body: SafeArea(
-          child: Container(
-            padding: EdgeInsets.only(left: 20.0, right: 20.0, top: 10.0),
-            child: buildBody(),
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-Widget buildBody() => Container(
-      child: Column(
-        children: <Widget>[
-          Expanded(
+    Widget listViewOrNot = MyCarList.myCarList.isNotEmpty
+        ? Expanded(
             child: StreamBuilder<QuerySnapshot>(
               stream: _firestore.collection('cars').snapshots(),
               builder: (ctx, snapshot) {
@@ -218,7 +182,69 @@ Widget buildBody() => Container(
                 }
               },
             ),
+          )
+        : Center(
+            child: Column(
+              children: [
+                SizedBox(height: 180),
+                Lottie.asset('assets/nothinghere.json',
+                    width: 160, height: 160),
+                SizedBox(height: 20),
+                Text(
+                  "Oops! No car added yet.",
+                  style: TextStyle(fontSize: 14),
+                ),
+                SizedBox(height: 7),
+                Text(
+                  "Add your car, to earn extra money !",
+                  style: TextStyle(fontSize: 14),
+                ),
+              ],
+            ),
+          );
+
+    return WillPopScope(
+      onWillPop: () async {
+        Get.back();
+        MyCarList.myCarList.clear();
+        return false;
+      },
+      child: Scaffold(
+        appBar: AppBar(
+          centerTitle: false,
+          foregroundColor: Colors.black,
+          backgroundColor: Color(0xFFFFFFFF),
+          shadowColor: Colors.transparent,
+          title: Text(
+            'My Car',
+            style: TextStyle(
+              color: Colors.black,
+            ),
           ),
-        ],
+          // actions: <Widget>[
+          //   IconButton(
+          //     icon: Icon(
+          //       Icons.add_rounded,
+          //       color: Colors.white,
+          //     ),
+          //     onPressed: () {
+          //       // do something
+          //       Get.toNamed('/login/home/profile/myCar/addCar');
+          //     },
+          //   )
+          // ],
+        ),
+        body: SafeArea(
+          child: Container(
+            padding: EdgeInsets.only(left: 20.0, right: 20.0, top: 10.0),
+            child: Column(
+              children: [
+                listViewOrNot,
+              ],
+            ),
+          ),
+        ),
       ),
     );
+  }
+}

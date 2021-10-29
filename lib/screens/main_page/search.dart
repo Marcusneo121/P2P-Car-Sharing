@@ -6,7 +6,6 @@ import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_navigation/src/extension_navigation.dart';
 import 'package:lottie/lottie.dart';
 import 'package:p2p_car_sharing_app/controllers/searchController.dart';
-
 import '../../constant.dart';
 
 class Search extends StatefulWidget {

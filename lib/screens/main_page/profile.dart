@@ -119,25 +119,37 @@ class _ProfileState extends State<Profile> {
                               gradient: LinearGradient(colors: [
                                 Color(0xFF647dee),
                                 Color(0xffb362f9),
-                                //Color(0xFF7879F1)
                               ]),
                               borderRadius: BorderRadius.circular(10)),
                           child: Padding(
                             padding: EdgeInsets.only(
-                                left: 25, right: 25, top: 10, bottom: 10),
+                                left: 17, right: 25, top: 10, bottom: 10),
                             child: Container(
                               height: 33,
                               child: Row(
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
                                 children: <Widget>[
-                                  Text(
-                                    'My Car',
-                                    style: TextStyle(
-                                      fontSize: 17,
-                                      fontWeight: FontWeight.w700,
-                                      color: Colors.white,
-                                    ),
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    children: [
+                                      Icon(
+                                        Icons.directions_car_outlined,
+                                        color: Colors.white,
+                                        size: 24,
+                                      ),
+                                      SizedBox(width: 18),
+                                      Text(
+                                        'My Car',
+                                        style: TextStyle(
+                                          fontSize: 17,
+                                          fontWeight: FontWeight.w700,
+                                          color: Colors.white,
+                                        ),
+                                      ),
+                                    ],
                                   ),
                                   Icon(
                                     Icons.arrow_forward,
@@ -164,70 +176,37 @@ class _ProfileState extends State<Profile> {
                               gradient: LinearGradient(colors: [
                                 Color(0xFF647dee),
                                 Color(0xffb362f9),
-                                //Color(0xFF7879F1)
                               ]),
                               borderRadius: BorderRadius.circular(10)),
                           child: Padding(
                             padding: EdgeInsets.only(
-                                left: 25, right: 25, top: 10, bottom: 10),
+                                left: 17, right: 25, top: 10, bottom: 10),
                             child: Container(
                               height: 33,
                               child: Row(
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
                                 children: <Widget>[
-                                  Text(
-                                    'Add Car',
-                                    style: TextStyle(
-                                      fontSize: 17,
-                                      fontWeight: FontWeight.w700,
-                                      color: Colors.white,
-                                    ),
-                                  ),
-                                  Icon(
-                                    Icons.arrow_forward,
-                                    color: Colors.white,
-                                    size: 27,
-                                  )
-                                ],
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                      SizedBox(height: 13),
-                      ElevatedButton(
-                        onPressed: () {
-                          print('Hi there');
-                        },
-                        style: ElevatedButton.styleFrom(
-                            padding: EdgeInsets.zero,
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(10.0))),
-                        child: Ink(
-                          decoration: BoxDecoration(
-                              gradient: LinearGradient(colors: [
-                                Color(0xFF647dee),
-                                Color(0xffb362f9),
-                                //Color(0xFF7879F1)
-                              ]),
-                              borderRadius: BorderRadius.circular(10)),
-                          child: Padding(
-                            padding: EdgeInsets.only(
-                                left: 25, right: 25, top: 10, bottom: 10),
-                            child: Container(
-                              height: 33,
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: <Widget>[
-                                  Text(
-                                    'About the app',
-                                    style: TextStyle(
-                                      fontSize: 17,
-                                      fontWeight: FontWeight.w700,
-                                      color: Colors.white,
-                                    ),
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    children: [
+                                      Icon(
+                                        Icons.add_circle_outline_outlined,
+                                        color: Colors.white,
+                                        size: 24,
+                                      ),
+                                      SizedBox(width: 18),
+                                      Text(
+                                        'Add Car',
+                                        style: TextStyle(
+                                          fontSize: 17,
+                                          fontWeight: FontWeight.w700,
+                                          color: Colors.white,
+                                        ),
+                                      ),
+                                    ],
                                   ),
                                   Icon(
                                     Icons.arrow_forward,
@@ -258,20 +237,135 @@ class _ProfileState extends State<Profile> {
                               borderRadius: BorderRadius.circular(10)),
                           child: Padding(
                             padding: EdgeInsets.only(
-                                left: 25, right: 25, top: 10, bottom: 10),
+                                left: 17, right: 25, top: 10, bottom: 10),
                             child: Container(
                               height: 33,
                               child: Row(
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
                                 children: <Widget>[
-                                  Text(
-                                    'Others',
-                                    style: TextStyle(
-                                      fontSize: 17,
-                                      fontWeight: FontWeight.w700,
-                                      color: Colors.white,
-                                    ),
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    children: [
+                                      Icon(
+                                        Icons.help_outline_outlined,
+                                        color: Colors.white,
+                                        size: 24,
+                                      ),
+                                      SizedBox(width: 18),
+                                      Text(
+                                        'Help',
+                                        style: TextStyle(
+                                          fontSize: 17,
+                                          fontWeight: FontWeight.w700,
+                                          color: Colors.white,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  Icon(
+                                    Icons.arrow_forward,
+                                    color: Colors.white,
+                                    size: 27,
+                                  )
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                      SizedBox(height: 13),
+                      // ElevatedButton(
+                      //   onPressed: () {
+                      //     Get.toNamed('/myTrans');
+                      //   },
+                      //   style: ElevatedButton.styleFrom(
+                      //       padding: EdgeInsets.zero,
+                      //       shape: RoundedRectangleBorder(
+                      //           borderRadius: BorderRadius.circular(10.0))),
+                      //   child: Ink(
+                      //     decoration: BoxDecoration(
+                      //         gradient: LinearGradient(colors: [
+                      //           Color(0xFF647dee),
+                      //           Color(0xffb362f9),
+                      //           //Color(0xFF7879F1)
+                      //         ]),
+                      //         borderRadius: BorderRadius.circular(10)),
+                      //     child: Padding(
+                      //       padding: EdgeInsets.only(
+                      //           left: 25, right: 25, top: 10, bottom: 10),
+                      //       child: Container(
+                      //         height: 33,
+                      //         child: Row(
+                      //           mainAxisAlignment:
+                      //               MainAxisAlignment.spaceBetween,
+                      //           children: <Widget>[
+                      //             Text(
+                      //               'My Transactions',
+                      //               style: TextStyle(
+                      //                 fontSize: 17,
+                      //                 fontWeight: FontWeight.w700,
+                      //                 color: Colors.white,
+                      //               ),
+                      //             ),
+                      //             Icon(
+                      //               Icons.arrow_forward,
+                      //               color: Colors.white,
+                      //               size: 27,
+                      //             )
+                      //           ],
+                      //         ),
+                      //       ),
+                      //     ),
+                      //   ),
+                      // ),
+                      // SizedBox(height: 13),
+                      ElevatedButton(
+                        onPressed: () {
+                          print('Hi there');
+                        },
+                        style: ElevatedButton.styleFrom(
+                            padding: EdgeInsets.zero,
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10.0))),
+                        child: Ink(
+                          decoration: BoxDecoration(
+                              gradient: LinearGradient(colors: [
+                                Color(0xFF647dee),
+                                Color(0xffb362f9),
+                              ]),
+                              borderRadius: BorderRadius.circular(10)),
+                          child: Padding(
+                            padding: EdgeInsets.only(
+                                left: 17, right: 25, top: 10, bottom: 10),
+                            child: Container(
+                              height: 33,
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: <Widget>[
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    children: [
+                                      Icon(
+                                        Icons.info_outlined,
+                                        color: Colors.white,
+                                        size: 24,
+                                      ),
+                                      SizedBox(width: 18),
+                                      Text(
+                                        'About the app',
+                                        style: TextStyle(
+                                          fontSize: 17,
+                                          fontWeight: FontWeight.w700,
+                                          color: Colors.white,
+                                        ),
+                                      ),
+                                    ],
                                   ),
                                   Icon(
                                     Icons.arrow_forward,
@@ -287,40 +381,6 @@ class _ProfileState extends State<Profile> {
                     ],
                   ),
                 ),
-                // Column(
-                //   children: <Widget>[
-                //     ElevatedButton(
-                //       onPressed: () {
-                //         setState(() {
-                //           username = "";
-                //           email = "";
-                //           imageURL =
-                //               "https://firebasestorage.googleapis.com/v0/b/p2p-car-sharing.appspot.com/o/defaultProfilePic.jpg?alt=media&token=998c6836-ad5f-49e2-b915-c8872945acc2";
-                //         });
-                //         AuthBinding().dependencies();
-                //         AuthController().signOut();
-                //       },
-                //       style: ButtonStyle(
-                //         fixedSize: MaterialStateProperty.all(Size(340, 55)),
-                //         shape: MaterialStateProperty.all(
-                //           RoundedRectangleBorder(
-                //             borderRadius: BorderRadius.circular(15),
-                //             side: BorderSide(color: Colors.red, width: 2),
-                //           ),
-                //         ),
-                //         backgroundColor:
-                //             MaterialStateProperty.all(Colors.transparent),
-                //         shadowColor:
-                //             MaterialStateProperty.all(Colors.transparent),
-                //       ),
-                //       child: Text(
-                //         "Logout",
-                //         style: TextStyle(fontSize: 21, color: Colors.red),
-                //       ),
-                //     ),
-                //     SizedBox(height: 18),
-                //   ],
-                // ),
               ],
             ),
           ),

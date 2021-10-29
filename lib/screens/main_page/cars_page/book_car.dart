@@ -321,13 +321,13 @@ class _BookCarState extends State<BookCar> {
   }
 
   bookCarRenterRequest() async {
-    EasyLoading.show(status: "Booking", dismissOnTap: false);
+    EasyLoading.show(status: "Booking...", dismissOnTap: false);
     Map<String, dynamic> myRequest = {
       "carID": carID,
       "rentFrom": _dateTime.toString(),
       "rentUntil": _dateTime2.toString(),
       "desirePrice": priceController.text.toString(),
-      "status": "requesting"
+      "status": "Requesting"
     };
 
     DocumentReference documentReference = _firestore

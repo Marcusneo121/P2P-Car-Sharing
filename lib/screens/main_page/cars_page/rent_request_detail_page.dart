@@ -90,23 +90,29 @@ class _RentRequestDetailPageState extends State<RentRequestDetailPage> {
   }
 
   readAcceptDecline() {
+    print(widget.renterID);
+
     _firestore
         .collection("cars")
         .doc(widget.carID)
         .collection("renter")
         .doc(widget.renterID)
-      ..get().then((dataSnapshot) {
-        setState(() {
-          liveStatus = dataSnapshot.get('status').toString();
-          if (liveStatus == "Requesting") {
-            bottomNavButton = lowerPartDetails();
-          } else if (liveStatus == "Accepted") {
-            bottomNavButton = acceptedDetails();
-          } else if (liveStatus == "Declined") {
-            bottomNavButton = declinedDetails();
-          }
-        });
+        //.doc("3FitQFF1naVCUymrnrLDqzhhkme2")
+        .get()
+        .then((dataSnapshot) {
+      setState(() {
+        liveStatus = dataSnapshot.get('status').toString();
+        if (liveStatus == "Requesting") {
+          bottomNavButton = lowerPartDetails();
+        } else if (liveStatus == "Accepted") {
+          bottomNavButton = acceptedDetails();
+        } else if (liveStatus == "Declined") {
+          bottomNavButton = declinedDetails();
+        } else if (liveStatus == "Paid") {
+          bottomNavButton = doneDetails();
+        }
       });
+    });
   }
 
   @override
@@ -939,6 +945,58 @@ class _RentRequestDetailPageState extends State<RentRequestDetailPage> {
                           fontWeight: FontWeight.w900,
                           fontSize: 14,
                           color: fifthColor.withOpacity(0.6)),
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ],
+    );
+  }
+
+  doneDetails() {
+    return Column(
+      children: <Widget>[
+        Container(
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              InkWell(
+                onTap: () {
+                  // Get.toNamed('/bookNow', arguments: widget.carID);
+                  Get.snackbar(
+                    "Paid Booking",
+                    "Renter had paid, they are ready to enjoy the ride.",
+                    snackPosition: SnackPosition.BOTTOM,
+                    duration: Duration(milliseconds: 1500),
+                    isDismissible: false,
+                    backgroundColor: Color(0xFF7879F1),
+                    margin: EdgeInsets.all(20),
+                    animationDuration: Duration(milliseconds: 800),
+                    icon: Icon(
+                      Icons.announcement_rounded,
+                      color: Colors.black,
+                    ),
+                    shouldIconPulse: false,
+                    overlayBlur: 4,
+                    overlayColor: Colors.white38,
+                  );
+                },
+                child: Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                    color: fourthColor.withOpacity(0.12),
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.all(17.0),
+                    child: Text(
+                      ' Done ',
+                      style: pageStyle3.copyWith(
+                          fontWeight: FontWeight.w900,
+                          fontSize: 14,
+                          color: tertiaryColor),
                     ),
                   ),
                 ),

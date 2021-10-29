@@ -17,6 +17,12 @@ bool favouriteState = false;
 String acceptedOrDeclined = "none";
 String liveStatus = "";
 String uid = "";
+String renterName = "";
+String renterID = "";
+String renterEmail = "";
+String renterContact = "";
+String renterImage = "";
+String transactionID = "";
 
 class MyRequestDetailPage extends StatefulWidget {
   final String imagePath,
@@ -96,8 +102,8 @@ class _MyRequestDetailPageState extends State<MyRequestDetailPage> {
     // }
   }
 
-  readAcceptDecline() {
-    _firestore
+  readAcceptDecline() async {
+    await _firestore
         .collection("users")
         .doc(uid.toString())
         .collection("myRequest")
@@ -112,8 +118,40 @@ class _MyRequestDetailPageState extends State<MyRequestDetailPage> {
           bottomNavButton = acceptedDetails();
         } else if (liveStatus == "Declined") {
           bottomNavButton = declinedDetails();
+        } else if (liveStatus == "Paid") {
+          bottomNavButton = paidDetails();
         }
       });
+    });
+
+    await _firestore
+        .collection("users")
+        .doc(uid.toString())
+        .get()
+        .then((dataSnapshot) async {
+      setState(() {
+        renterID = dataSnapshot.id.toString();
+        renterName = dataSnapshot.get('username').toString();
+        renterEmail = dataSnapshot.get('email').toString();
+        renterImage = dataSnapshot.get('profilePic').toString();
+      });
+      await _firestore
+          .collection("cars")
+          .doc(widget.carID)
+          .collection("renter")
+          .doc(renterID.toString())
+          .get()
+          .then((dataSnapshot) {
+        setState(() {
+          renterContact = dataSnapshot.get('renterContact').toString();
+        });
+      });
+
+      print(renterID.toString());
+      print(renterName.toString());
+      print(renterEmail.toString());
+      print(renterImage.toString());
+      print(renterContact.toString());
     });
   }
 
@@ -556,102 +594,104 @@ class _MyRequestDetailPageState extends State<MyRequestDetailPage> {
       children: [
         Expanded(
           child: Container(
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(5),
-                color: fourthColor.withOpacity(0.1),
-              ),
-              child: Padding(
-                padding: const EdgeInsets.symmetric(vertical: 11),
-                child: Row(
-                  children: [
-                    Expanded(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(5),
+              color: fourthColor.withOpacity(0.1),
+            ),
+            child: Padding(
+              padding: const EdgeInsets.symmetric(vertical: 11),
+              child: Row(
+                children: [
+                  Expanded(
+                    child: Center(
+                      child: Text(
+                        'From',
+                        style: pageStyle3.copyWith(
+                          fontSize: 14,
+                          fontWeight: FontWeight.w900,
+                        ),
+                      ),
+                    ),
+                  ),
+                  Expanded(
+                    flex: 2,
+                    child: Container(
                       child: Center(
-                        child: Text(
-                          'From',
-                          style: pageStyle3.copyWith(
-                            fontSize: 14,
-                            fontWeight: FontWeight.w900,
+                        child: InkWell(
+                          onTap: () {
+                            //_fromDate(context);
+                          },
+                          child: Text(
+                            DateFormat.yMEd().format(
+                                        DateTime.parse(widget.fromDate)) ==
+                                    null
+                                ? '28 june,\n9.00 a.m'
+                                : DateFormat('yyyy-MM-dd')
+                                    .format(DateTime.parse(widget.fromDate)),
+                            style: pageStyle3.copyWith(
+                                fontSize: 12,
+                                color: primaryColor.withOpacity(0.7)),
                           ),
                         ),
                       ),
                     ),
-                    Expanded(
-                      flex: 2,
-                      child: Container(
-                        child: Center(
-                          child: InkWell(
-                            onTap: () {
-                              //_fromDate(context);
-                            },
-                            child: Text(
-                              DateFormat.yMEd().format(
-                                          DateTime.parse(widget.fromDate)) ==
-                                      null
-                                  ? '28 june,\n9.00 a.m'
-                                  : DateFormat('yyyy-MM-dd')
-                                      .format(DateTime.parse(widget.fromDate)),
-                              style: pageStyle3.copyWith(
-                                  fontSize: 12,
-                                  color: primaryColor.withOpacity(0.7)),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              )),
+                  ),
+                ],
+              ),
+            ),
+          ),
         ),
         SizedBox(
           width: 10,
         ),
         Expanded(
           child: Container(
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(5),
-                color: fourthColor.withOpacity(0.1),
-              ),
-              child: Padding(
-                padding: const EdgeInsets.symmetric(vertical: 11),
-                child: Row(
-                  children: [
-                    Expanded(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(5),
+              color: fourthColor.withOpacity(0.1),
+            ),
+            child: Padding(
+              padding: const EdgeInsets.symmetric(vertical: 11),
+              child: Row(
+                children: [
+                  Expanded(
+                    child: Center(
+                      child: Text(
+                        'Until',
+                        style: pageStyle3.copyWith(
+                          fontSize: 14,
+                          fontWeight: FontWeight.w900,
+                        ),
+                      ),
+                    ),
+                  ),
+                  Expanded(
+                    flex: 2,
+                    child: Container(
                       child: Center(
-                        child: Text(
-                          'Until',
-                          style: pageStyle3.copyWith(
-                            fontSize: 14,
-                            fontWeight: FontWeight.w900,
+                        child: InkWell(
+                          onTap: () {
+                            //_toDate(context);
+                          },
+                          child: Text(
+                            DateFormat.yMEd().format(
+                                        DateTime.parse(widget.toDate)) ==
+                                    null
+                                ? '28 june,\n9.00 a.m'
+                                : DateFormat('yyyy-MM-dd')
+                                    .format(DateTime.parse(widget.toDate)),
+                            style: pageStyle3.copyWith(
+                                fontSize: 12,
+                                color: primaryColor.withOpacity(0.7)),
                           ),
                         ),
                       ),
                     ),
-                    Expanded(
-                      flex: 2,
-                      child: Container(
-                        child: Center(
-                          child: InkWell(
-                            onTap: () {
-                              //_toDate(context);
-                            },
-                            child: Text(
-                              DateFormat.yMEd().format(
-                                          DateTime.parse(widget.toDate)) ==
-                                      null
-                                  ? '28 june,\n9.00 a.m'
-                                  : DateFormat('yyyy-MM-dd')
-                                      .format(DateTime.parse(widget.toDate)),
-                              style: pageStyle3.copyWith(
-                                  fontSize: 12,
-                                  color: primaryColor.withOpacity(0.7)),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              )),
+                  ),
+                ],
+              ),
+            ),
+          ),
         ),
       ],
     );
@@ -900,6 +940,55 @@ class _MyRequestDetailPageState extends State<MyRequestDetailPage> {
     );
   }
 
+  paidDetails() {
+    return Column(
+      children: <Widget>[
+        Row(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            InkWell(
+              onTap: () async {
+                Get.snackbar(
+                  "Your had made the payment.",
+                  "Payment had been made. It's time to enjoy your ride.",
+                  snackPosition: SnackPosition.BOTTOM,
+                  duration: Duration(milliseconds: 2000),
+                  isDismissible: true,
+                  backgroundColor: Color(0xFF7879F1),
+                  margin: EdgeInsets.all(20),
+                  animationDuration: Duration(milliseconds: 800),
+                  icon: Icon(
+                    Icons.announcement_rounded,
+                    color: Colors.black,
+                  ),
+                  shouldIconPulse: false,
+                  overlayBlur: 4,
+                  overlayColor: Colors.white38,
+                );
+              },
+              child: Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10),
+                  color: fourthColor.withOpacity(0.12),
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.all(17.0),
+                  child: Text(
+                    ' Paid ',
+                    style: pageStyle3.copyWith(
+                        fontWeight: FontWeight.w900,
+                        fontSize: 14,
+                        color: tertiaryColor),
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
+      ],
+    );
+  }
+
   Future<void> makePayment() async {
     try {
       paymentIntentData = await createPaymentIntent(widget.price + '00', 'MYR');
@@ -927,7 +1016,6 @@ class _MyRequestDetailPageState extends State<MyRequestDetailPage> {
           confirmPayment: true,
         ),
       );
-
       setState(() {
         paymentIntentData = null;
       });
@@ -936,6 +1024,7 @@ class _MyRequestDetailPageState extends State<MyRequestDetailPage> {
           content: Text("Paid Successfully"),
         ),
       );
+      uploadTransaction();
     } on StripeException catch (e) {
       print(e.toString());
       ScaffoldMessenger.of(context).showSnackBar(
@@ -974,5 +1063,121 @@ class _MyRequestDetailPageState extends State<MyRequestDetailPage> {
   calculateAmount(String amount) {
     final price = int.parse(amount) * 100;
     return price;
+  }
+
+  uploadTransaction() {
+    EasyLoading.show(status: "Saving transaction...", dismissOnTap: false);
+    Map<String, dynamic> transactionDetails = {
+      "carID": widget.carID.toString(),
+      "date": DateTime.now().toString(),
+      "from": widget.fromDate.toString(),
+      "method": "Credit Card",
+      "ownerID": widget.ownerID.toString(),
+      "ownerName": widget.ownerName.toString(),
+      "price": widget.price.toString(),
+      "renterID": uid.toString(),
+      "renterName": renterName.toString(),
+      "until": widget.toDate.toString()
+    };
+
+    DocumentReference documentReference =
+        _firestore.collection('transactions').doc();
+
+    documentReference.set(transactionDetails).then((doc) async {
+      transactionID = documentReference.id;
+      await saveToRenter(transactionID);
+      await updateCarOwnerRequest();
+    }).whenComplete(
+      () {
+        setState(() {
+          bottomNavButton = paidDetails();
+        });
+        Future.delayed(Duration(seconds: 1)).then((value) async {
+          EasyLoading.showSuccess("Payment Successful. Enjoy your ride!");
+          Future.delayed(Duration(seconds: 3)).then((value) async {
+            EasyLoading.dismiss();
+            Get.offNamed("/carPage");
+          });
+        });
+      },
+    );
+  }
+
+  saveToRenter(transactionPass) {
+    Map<String, dynamic> transactionDetailRenter = {
+      "transactionID": transactionPass.toString(),
+    };
+
+    DocumentReference documentReferenceRenter = _firestore
+        .collection('users')
+        .doc(uid.toString())
+        .collection("transactions")
+        .doc(transactionPass);
+
+    documentReferenceRenter.set(transactionDetailRenter).then((doc) async {
+      await saveToOwner(transactionPass.toString());
+    });
+  }
+
+  saveToOwner(transactionPass2) {
+    Map<String, dynamic> transactionDetailOwner = {
+      "transactionID": transactionPass2.toString(),
+    };
+
+    DocumentReference documentReferenceOwner = _firestore
+        .collection('users')
+        .doc(widget.ownerID.toString())
+        .collection("transactions")
+        .doc(transactionPass2);
+
+    documentReferenceOwner.set(transactionDetailOwner).then((doc) {
+      print('Save to owner done');
+    });
+  }
+
+  updateCarOwnerRequest() async {
+    Map<String, dynamic> renterRequest = {
+      "userID": renterID.toString(),
+      "carID": widget.carID,
+      "renterEmail": renterEmail.toString(),
+      "renterName": renterName.toString(),
+      "renterContact": renterContact.toString(),
+      "rentFrom": widget.fromDate.toString(),
+      "rentUntil": widget.toDate.toString(),
+      "renterImage": renterImage.toString(),
+      "desirePrice": widget.price.toString(),
+      "status": "Paid",
+    };
+
+    DocumentReference documentReference = _firestore
+        .collection('cars')
+        .doc(widget.carID)
+        .collection("renter")
+        .doc(renterID.toString());
+
+    documentReference.set(renterRequest).then((doc) async {
+      print("Finish Paid to owner request");
+      await updateCarRenterRequest();
+    });
+  }
+
+  updateCarRenterRequest() async {
+    Map<String, dynamic> myRequest = {
+      "carID": widget.carID,
+      "rentFrom": widget.fromDate.toString(),
+      "rentUntil": widget.toDate.toString(),
+      "desirePrice": widget.price.toString(),
+      "status": "Paid"
+    };
+
+    DocumentReference documentReference = _firestore
+        .collection('users')
+        .doc(uid.toString())
+        .collection("myRequest")
+        .doc(widget.carID);
+
+    documentReference.set(myRequest).then((doc) {
+      print("Finish Paid to renter request");
+    });
   }
 }

@@ -33,7 +33,7 @@ Widget buildMyRequestCard(BuildContext context, int index, String uid) {
       : new Container(
           decoration: BoxDecoration(
             border:
-                Border.all(width: 0.5, color: primaryColor.withOpacity(0.4)),
+                Border.all(width: 0.7, color: primaryColor.withOpacity(0.4)),
             borderRadius: BorderRadius.circular(5),
           ),
           child: Padding(

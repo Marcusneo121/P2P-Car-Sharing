@@ -44,7 +44,8 @@ class AuthController extends GetxController {
         "email": email,
         "createdAt": Timestamp.now(),
         "role": "normal",
-        "profilePic": null,
+        "profilePic":
+            "https://firebasestorage.googleapis.com/v0/b/p2p-car-sharing.appspot.com/o/defaultProfilePic.jpg?alt=media&token=998c6836-ad5f-49e2-b915-c8872945acc2",
       };
 
       documentReference.set(userDetails).whenComplete(
