@@ -9,7 +9,7 @@ import 'package:p2p_car_sharing_app/bindings/authBinding.dart';
 import 'package:p2p_car_sharing_app/components/profile_widget.dart';
 import 'package:p2p_car_sharing_app/controllers/authController.dart';
 import 'package:p2p_car_sharing_app/models/user.dart';
-import 'package:p2p_car_sharing_app/screens/adminHome.dart';
+import 'package:p2p_car_sharing_app/screens/admin_page/adminHome.dart';
 import 'package:p2p_car_sharing_app/screens/others/edit_profile.dart';
 import 'package:p2p_car_sharing_app/utils/user_preferences.dart';
 import 'package:shared_preferences/shared_preferences.dart';

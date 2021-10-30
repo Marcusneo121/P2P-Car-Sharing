@@ -24,12 +24,12 @@ String _publicUID = "";
 
 final TextEditingController nameController = TextEditingController();
 
-class EditProfile extends StatefulWidget {
+class AdminProfile extends StatefulWidget {
   @override
-  _EditProfileState createState() => _EditProfileState();
+  _AdminProfileState createState() => _AdminProfileState();
 }
 
-class _EditProfileState extends State<EditProfile> {
+class _AdminProfileState extends State<AdminProfile> {
   final picker = ImagePicker();
   Future getGalleryImage() async {
     var pickedFile = await picker.pickImage(source: ImageSource.gallery);
@@ -133,7 +133,7 @@ class _EditProfileState extends State<EditProfile> {
         backgroundColor: Colors.white,
         elevation: 0,
         title: Text(
-          'Edit Profile',
+          'Settings',
           style: TextStyle(
             color: Colors.black,
             fontFamily: 'Poppins',
@@ -286,6 +286,106 @@ class _EditProfileState extends State<EditProfile> {
                       ),
                     ),
                   ),
+                  // Container(
+                  //   child: Padding(
+                  //     padding: EdgeInsets.only(left: 50, right: 50),
+                  //     child: Column(
+                  //       crossAxisAlignment: CrossAxisAlignment.start,
+                  //       children: <Widget>[
+                  //         SizedBox(
+                  //           height: 10.0,
+                  //         ),
+                  //         Hero(
+                  //           tag: 'submit',
+                  //           child: ElevatedButton(
+                  //             onPressed: () {
+                  //               Get.toNamed(
+                  //                   '/login/home/profile/editProfile/changePass',
+                  //                   arguments: email);
+                  //             },
+                  //             style: ElevatedButton.styleFrom(
+                  //                 padding: EdgeInsets.zero,
+                  //                 shape: RoundedRectangleBorder(
+                  //                     borderRadius:
+                  //                         BorderRadius.circular(10.0))),
+                  //             child: Ink(
+                  //               decoration: BoxDecoration(
+                  //                   gradient: LinearGradient(colors: [
+                  //                     Color(0xFF647dee),
+                  //                     Color(0xffb362f9),
+                  //                   ]),
+                  //                   borderRadius: BorderRadius.circular(10)),
+                  //               child: Padding(
+                  //                 padding: EdgeInsets.only(
+                  //                     left: 25, right: 25, top: 10, bottom: 10),
+                  //                 child: Container(
+                  //                   height: 33,
+                  //                   child: Row(
+                  //                     mainAxisAlignment:
+                  //                         MainAxisAlignment.spaceBetween,
+                  //                     children: <Widget>[
+                  //                       Text(
+                  //                         'Change Password',
+                  //                         style: TextStyle(
+                  //                           fontSize: 17,
+                  //                           fontWeight: FontWeight.w700,
+                  //                           color: Colors.white,
+                  //                         ),
+                  //                       ),
+                  //                       Icon(
+                  //                         Icons.arrow_forward,
+                  //                         color: Colors.white,
+                  //                         size: 27,
+                  //                       )
+                  //                     ],
+                  //                   ),
+                  //                 ),
+                  //               ),
+                  //             ),
+                  //           ),
+                  //           // ElevatedButton(
+                  //           //   style: ButtonStyle(
+                  //           //     shape: MaterialStateProperty.all<
+                  //           //         RoundedRectangleBorder>(
+                  //           //       RoundedRectangleBorder(
+                  //           //         borderRadius: BorderRadius.circular(10.0),
+                  //           //       ),
+                  //           //     ),
+                  //           //     backgroundColor: MaterialStateProperty.all(
+                  //           //         Color(0xFF7879F1)),
+                  //           //   ),
+                  //           //   onPressed: () {
+                  //           //     Get.toNamed(
+                  //           //         '/login/home/profile/editProfile/changePass',
+                  //           //         arguments: email);
+                  //           //   },
+                  //           //   child: Padding(
+                  //           //     padding: EdgeInsets.all(10),
+                  //           //     child: Row(
+                  //           //       mainAxisAlignment:
+                  //           //           MainAxisAlignment.spaceBetween,
+                  //           //       children: <Widget>[
+                  //           //         Text(
+                  //           //           'Change Password',
+                  //           //           style: TextStyle(
+                  //           //             fontSize: 16,
+                  //           //             fontWeight: FontWeight.w700,
+                  //           //             color: Colors.white,
+                  //           //           ),
+                  //           //         ),
+                  //           //         Icon(
+                  //           //           Icons.arrow_forward,
+                  //           //           color: Colors.white,
+                  //           //         )
+                  //           //       ],
+                  //           //     ),
+                  //           //   ),
+                  //           // ),
+                  //         ),
+                  //       ],
+                  //     ),
+                  //   ),
+                  // ),
                 ],
               ),
               Column(

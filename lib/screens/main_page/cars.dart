@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_navigation/src/extension_navigation.dart';
 import 'package:lottie/lottie.dart';
@@ -145,7 +146,7 @@ class _CarsState extends State<Cars> {
           );
 
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: Color(0xFFFFFFFF),
       body: SafeArea(
         child: Container(
           padding: EdgeInsets.only(
@@ -163,26 +164,51 @@ class _CarsState extends State<Cars> {
                   SizedBox(
                     width: 4.0,
                   ),
-                  IconButton(
-                    icon: new Icon(
-                      Icons.notifications_rounded,
-                      size: 27.0,
-                    ),
+                  NeumorphicButton(
                     onPressed: () {
                       Get.toNamed('/renterRequest');
                     },
+                    style: NeumorphicStyle(
+                      shadowDarkColor: Color(0xFFBABABA),
+                      shadowLightColor: Color(0xFFFFFFFF),
+                      color: Color(0xFFFFFFFF),
+                      lightSource: LightSource.topLeft,
+                      shape: NeumorphicShape.flat,
+                      boxShape: NeumorphicBoxShape.circle(),
+                      depth: 5,
+                    ),
+                    padding: const EdgeInsets.all(12.0),
+                    child: Icon(
+                      Icons.notifications_rounded,
+                      size: 27.0,
+                      color: Colors.black,
+                    ),
                   ),
                   SizedBox(
-                    width: 4.0,
+                    width: 10.0,
                   ),
-                  IconButton(
-                    icon: new Icon(
-                      Icons.search_rounded,
-                      size: 27,
-                    ),
+                  NeumorphicButton(
                     onPressed: () {
                       Get.toNamed('/search');
                     },
+                    style: NeumorphicStyle(
+                      shadowDarkColor: Color(0xFFBABABA),
+                      shadowLightColor: Color(0xFFFFFFFF),
+                      color: Color(0xFFFFFFFF),
+                      lightSource: LightSource.topLeft,
+                      shape: NeumorphicShape.flat,
+                      boxShape: NeumorphicBoxShape.circle(),
+                      depth: 14,
+                    ),
+                    padding: const EdgeInsets.all(12.0),
+                    child: Icon(
+                      Icons.search_rounded,
+                      size: 27,
+                      color: Colors.black,
+                    ),
+                  ),
+                  SizedBox(
+                    width: 10.0,
                   ),
                 ],
               ),

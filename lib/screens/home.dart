@@ -34,7 +34,7 @@ class _HomeState extends State<Home> {
         return true;
       },
       child: Scaffold(
-        backgroundColor: Color(0xFFF1F1F1),
+        backgroundColor: Color(0xFFEDEDED),
         body: _children[_currentIndex],
         bottomNavigationBar: BottomNavigationBar(
           onTap: onTabTapped,

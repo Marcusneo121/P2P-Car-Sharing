@@ -302,7 +302,7 @@ class _CarDetailPageState extends State<CarDetailPage> {
                                   ),
                                 )),
                             SizedBox(
-                              height: size.height * 0.018,
+                              height: size.height * 0.012,
                             ),
                             Text(
                               'Location',
@@ -356,7 +356,7 @@ class _CarDetailPageState extends State<CarDetailPage> {
                                   ),
                                 )),
                             SizedBox(
-                              height: size.height * 0.012,
+                              height: size.height * 0.014,
                             ),
                             // Text(
                             //   'Date',
@@ -451,9 +451,9 @@ class _CarDetailPageState extends State<CarDetailPage> {
                             //     ),
                             //   ],
                             // ),
-                            SizedBox(
-                              height: size.height * 0.01,
-                            ),
+                            // SizedBox(
+                            //   height: size.height * 0.01,
+                            // ),
                             Text(
                               'Car Description',
                               style: pageStyle3.copyWith(
@@ -669,7 +669,7 @@ class _CarDetailPageState extends State<CarDetailPage> {
                     style: pageStyle3.copyWith(fontSize: 12),
                   ),
                   SizedBox(
-                    width: 5,
+                    width: 4,
                   ),
                   Text(
                     '*Insurance Included',
@@ -702,7 +702,7 @@ class _CarDetailPageState extends State<CarDetailPage> {
           ),
         ),
         SizedBox(
-          height: 20,
+          height: 16,
         ),
       ],
     );

@@ -43,6 +43,12 @@ var pageStyle1 = GoogleFonts.poppins(
   fontWeight: FontWeight.bold,
 );
 
+var pageStyleAdminTime = GoogleFonts.poppins(
+  fontSize: 15.0,
+  color: Color(0xff3257FF),
+  fontWeight: FontWeight.normal,
+);
+
 var pageStyle1Extra = GoogleFonts.poppins(
   fontSize: 20.0,
   color: primaryColor,
@@ -88,6 +94,13 @@ var pageStyle4 = GoogleFonts.poppins(
     letterSpacing: 1,
     wordSpacing: 1,
     fontWeight: FontWeight.w700);
+
+var pageStyleAdminAmount = GoogleFonts.poppins(
+    color: Colors.black.withOpacity(0.78),
+    fontSize: 14,
+    letterSpacing: 1,
+    wordSpacing: 1,
+    fontWeight: FontWeight.normal);
 
 var pageStyle5 = GoogleFonts.poppins(
   fontSize: 19.0,

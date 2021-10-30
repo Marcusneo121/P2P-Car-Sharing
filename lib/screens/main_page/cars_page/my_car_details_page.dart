@@ -185,7 +185,7 @@ class _MyCarDetailPageState extends State<MyCarDetailPage> {
                                 ),
                               )),
                           SizedBox(
-                            height: size.height * 0.012,
+                            height: size.height * 0.010,
                           ),
                           Text(
                             'Location',
@@ -335,7 +335,7 @@ class _MyCarDetailPageState extends State<MyCarDetailPage> {
                           //   ],
                           // ),
                           SizedBox(
-                            height: size.height * 0.01,
+                            height: size.height * 0.008,
                           ),
                           Text(
                             'Car Description',
@@ -580,7 +580,7 @@ class _MyCarDetailPageState extends State<MyCarDetailPage> {
             ],
           ),
         ),
-        SizedBox(height: 20),
+        SizedBox(height: 14),
       ],
     );
   }

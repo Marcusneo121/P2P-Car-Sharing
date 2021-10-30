@@ -1,9 +1,11 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_navigation/src/extension_navigation.dart';
 import 'package:get/get_rx/src/rx_types/rx_types.dart';
+import 'package:p2p_car_sharing_app/controllers/authController.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 FirebaseAuth _auth = FirebaseAuth.instance;
@@ -37,12 +39,15 @@ class _SplashscreenState extends State<Splashscreen> {
         Get.offNamed('/login');
       });
     } else {
-      await _auth.signInWithEmailAndPassword(
-          email: obtainedEmail.toString(),
-          password: obtainedPassword.toString());
-      Future.delayed(Duration(milliseconds: 800)).then((value) {
-        Get.offNamed('/login/home');
-      });
+      // await _auth.signInWithEmailAndPassword(
+      //     email: obtainedEmail.toString(),
+      //     password: obtainedPassword.toString());
+      // Future.delayed(Duration(milliseconds: 800)).then((value) {
+      //   Get.offNamed('/login/home');
+      // });
+      AuthController()
+          .login(obtainedEmail.toString(), obtainedPassword.toString());
+      EasyLoading.dismiss();
     }
   }
 
