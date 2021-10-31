@@ -1,8 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
-import 'package:p2p_car_sharing_app/components/admin_trans_view.dart';
-import 'package:p2p_car_sharing_app/models/admin_transaction_model.dart';
+import 'package:p2p_car_sharing_app/components/admin/admin_trans_view.dart';
+import 'package:p2p_car_sharing_app/models/admin/admin_transaction_model.dart';
 
 String transactionID = "",
     createdAt = "",
@@ -42,7 +42,30 @@ class _AdminTransactionsState extends State<AdminTransactions> {
           .get()
           .then((QuerySnapshot querySnapshot) async {
         querySnapshot.docs.forEach((doc) async {
-          //print(doc.id);
+          // await getOwner(doc["ownerID"].toString());
+          // await getRenter(doc["renterID"].toString());
+
+          await _firestore
+              .collection("users")
+              .doc(doc["ownerID"].toString())
+              .get()
+              .then((datasnapshot1) async {
+            await _firestore
+                .collection("users")
+                .doc(doc["renterID"].toString())
+                .get()
+                .then((datasnapshot2) async {
+              setState(() {
+                renterEmail = datasnapshot2.get('email');
+                renterImage = datasnapshot2.get('profilePic');
+              });
+            });
+            setState(() {
+              ownerEmail = datasnapshot1.get('email');
+              ownerImage = datasnapshot1.get('profilePic');
+            });
+          });
+
           setState(() {
             transactionID = doc.id.toString();
             createdAt = doc["date"].toString();
@@ -53,29 +76,6 @@ class _AdminTransactionsState extends State<AdminTransactions> {
             renterID = doc["renterID"].toString();
             renterName = doc["renterName"].toString();
             totalAmount = doc["price"].toString();
-          });
-
-          DocumentReference documentReferenceRenter = _firestore
-              .collection("users")
-              .doc("3FitQFF1naVCUymrnrLDqzhhkme2");
-
-          await documentReferenceRenter.get().then((datasnapshot1) async {
-            setState(() {
-              renterEmail = datasnapshot1.get('email');
-              renterImage = datasnapshot1.get('profilePic');
-              print(renterEmail);
-              print(renterImage);
-            });
-          });
-
-          DocumentReference documentReferenceOwner =
-              _firestore.collection("users").doc(ownerID.toString());
-
-          await documentReferenceOwner.get().then((datasnapshot2) async {
-            setState(() {
-              ownerEmail = datasnapshot2.get('email');
-              ownerImage = datasnapshot2.get('profilePic');
-            });
           });
 
           print(transactionID);
@@ -90,7 +90,7 @@ class _AdminTransactionsState extends State<AdminTransactions> {
           print(renterEmail);
           print(renterName);
           print(renterImage);
-          print(totalAmount);
+          print(totalAmount + "\n");
 
           var eachTransModel = AdminTransModel(
             transactionID: transactionID.toString(),
@@ -107,15 +107,39 @@ class _AdminTransactionsState extends State<AdminTransactions> {
             renterImage: renterImage.toString(),
             totalAmount: totalAmount.toString(),
           );
-
           AdminTransList.adminTransList.add(eachTransModel);
-          print(AdminTransList.adminTransList[0].createdAt.toString());
           print("Transaction List added");
         });
       });
     } else {
       return;
     }
+  }
+
+  Future getOwner(String ownerID) async {
+    await _firestore
+        .collection("users")
+        .doc(ownerID.toString())
+        .get()
+        .then((datasnapshot1) async {
+      setState(() {
+        ownerEmail = datasnapshot1.get('email');
+        ownerImage = datasnapshot1.get('profilePic');
+      });
+    });
+  }
+
+  Future getRenter(String renterID) async {
+    await _firestore
+        .collection("users")
+        .doc(renterID.toString())
+        .get()
+        .then((datasnapshot2) async {
+      setState(() {
+        renterEmail = datasnapshot2.get('email');
+        renterImage = datasnapshot2.get('profilePic');
+      });
+    });
   }
 
   @override
@@ -192,8 +216,7 @@ class _AdminTransactionsState extends State<AdminTransactions> {
       body: SafeArea(
         child: Center(
           child: Padding(
-            padding:
-                const EdgeInsets.only(left: 15.0, right: 15.0, bottom: 15.0),
+            padding: const EdgeInsets.only(left: 15.0, right: 15.0),
             child: Column(
               children: [
                 listViewOrNot,

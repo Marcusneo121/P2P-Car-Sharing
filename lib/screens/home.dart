@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:salomon_bottom_bar/salomon_bottom_bar.dart';
 import 'main_page/mainBottomNavRouter.dart';
 
 class Home extends StatefulWidget {
@@ -34,49 +35,92 @@ class _HomeState extends State<Home> {
         return true;
       },
       child: Scaffold(
-        backgroundColor: Color(0xFFEDEDED),
+        backgroundColor: Color(0xFFFFFFFF),
         body: _children[_currentIndex],
-        bottomNavigationBar: BottomNavigationBar(
-          onTap: onTabTapped,
-          backgroundColor: Color(0xFFFFFFFF),
-          //backgroundColor: Color(0xFF282828),
+        bottomNavigationBar: SalomonBottomBar(
+          currentIndex: _currentIndex,
           selectedItemColor: Color(0xFF7879F1),
           unselectedItemColor: Color(0xFF9A9A9A),
-          showSelectedLabels: false,
-          showUnselectedLabels: false,
-          type: BottomNavigationBarType.fixed,
-          currentIndex: _currentIndex,
+          margin: EdgeInsets.only(left: 20, right: 20, top: 9, bottom: 9),
+          itemPadding:
+              EdgeInsets.only(left: 20, right: 20, top: 13, bottom: 13),
+          onTap: (i) => setState(() => _currentIndex = i),
           items: [
-            BottomNavigationBarItem(
+            SalomonBottomBarItem(
               icon: new Icon(Icons.directions_car_rounded),
-              title: new Text(
-                'Cars',
+              title: Text(
+                "Cars",
                 style: TextStyle(fontSize: 14),
               ),
+              selectedColor: Color(0xFF7879F1),
             ),
-            BottomNavigationBarItem(
+            SalomonBottomBarItem(
               icon: new Icon(Icons.favorite_rounded),
-              title: new Text(
-                'Favourite',
+              title: Text(
+                "Favourite",
                 style: TextStyle(fontSize: 14),
               ),
+              selectedColor: Colors.pink,
             ),
-            BottomNavigationBarItem(
+            SalomonBottomBarItem(
               icon: new Icon(Icons.error_rounded),
-              title: new Text(
-                'Request',
+              title: Text(
+                "Request",
                 style: TextStyle(fontSize: 14),
               ),
+              selectedColor: Colors.orange,
             ),
-            BottomNavigationBarItem(
+            SalomonBottomBarItem(
               icon: new Icon(Icons.person_rounded),
-              title: new Text(
-                'Account',
+              title: Text(
+                "Account",
                 style: TextStyle(fontSize: 14),
               ),
-            )
+              selectedColor: Colors.teal,
+            ),
           ],
         ),
+        // BottomNavigationBar(
+        //   onTap: onTabTapped,
+        //   backgroundColor: Color(0xFFFFFFFF),
+        //   //backgroundColor: Color(0xFF282828),
+        //   selectedItemColor: Color(0xFF7879F1),
+        //   unselectedItemColor: Color(0xFF9A9A9A),
+        //   showSelectedLabels: false,
+        //   showUnselectedLabels: false,
+        //   type: BottomNavigationBarType.fixed,
+        //   currentIndex: _currentIndex,
+        //   items: [
+        //     BottomNavigationBarItem(
+        //       icon: new Icon(Icons.directions_car_rounded),
+        //       title: new Text(
+        //         'Cars',
+        //         style: TextStyle(fontSize: 14),
+        //       ),
+        //     ),
+        //     BottomNavigationBarItem(
+        //       icon: new Icon(Icons.favorite_rounded),
+        //       title: new Text(
+        //         'Favourite',
+        //         style: TextStyle(fontSize: 14),
+        //       ),
+        //     ),
+        //     BottomNavigationBarItem(
+        //       icon: new Icon(Icons.error_rounded),
+        //       title: new Text(
+        //         'Request',
+        //         style: TextStyle(fontSize: 14),
+        //       ),
+        //     ),
+        //     BottomNavigationBarItem(
+        //       icon: new Icon(Icons.person_rounded),
+        //       title: new Text(
+        //         'Account',
+        //         style: TextStyle(fontSize: 14),
+        //       ),
+        //     )
+        //   ],
+        // ),
       ),
     );
   }

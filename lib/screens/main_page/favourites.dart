@@ -180,7 +180,7 @@ class _FavouriteState extends State<Favourite> {
         : Center(
             child: Column(
               children: [
-                SizedBox(height: 200),
+                SizedBox(height: 180),
                 Lottie.asset('assets/favorite.json', width: 160, height: 160),
                 Text(
                   "Oops! No favourite yet.",

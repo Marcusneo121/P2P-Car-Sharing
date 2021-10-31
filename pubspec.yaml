@@ -37,6 +37,7 @@ dependencies:
   flutter_neumorphic:
     git:
       url: https://github.com/tsvillain/Flutter-Neumorphic.git
+  salomon_bottom_bar: ^3.1.0
 
 
 

@@ -42,7 +42,7 @@ class AuthController extends GetxController {
       Map<String, dynamic> userDetails = {
         "username": username,
         "email": email,
-        "createdAt": Timestamp.now(),
+        "createdAt": DateTime.now(),
         "role": "normal",
         "profilePic":
             "https://firebasestorage.googleapis.com/v0/b/p2p-car-sharing.appspot.com/o/defaultProfilePic.jpg?alt=media&token=998c6836-ad5f-49e2-b915-c8872945acc2",

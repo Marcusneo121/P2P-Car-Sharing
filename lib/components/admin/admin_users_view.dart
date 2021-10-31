@@ -1,16 +1,14 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
+import 'package:get/get_navigation/src/extension_navigation.dart';
+import 'package:get/get_navigation/src/routes/transitions_type.dart';
 import 'package:intl/intl.dart';
-import 'package:p2p_car_sharing_app/models/admin_transaction_model.dart';
-import 'package:p2p_car_sharing_app/screens/admin_page/AdminTransDetailsPage.dart';
-import '../constant.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:p2p_car_sharing_app/models/admin/admin_users_model.dart';
+import 'package:p2p_car_sharing_app/screens/admin_page/AdminUsersDetails.dart';
+import '../../constant.dart';
 
-final _firestore = FirebaseFirestore.instance;
-
-Widget buildAdminTransCard(BuildContext context, int index) {
-  final data = AdminTransList.adminTransList[index];
+Widget buildAdminUsersCard(BuildContext context, int index) {
+  final data = AdminUsersList.adminUsersList[index];
   return Padding(
     padding: const EdgeInsets.only(bottom: 12),
     child: Card(
@@ -21,20 +19,13 @@ Widget buildAdminTransCard(BuildContext context, int index) {
       child: InkWell(
         onTap: () async {
           Get.to(
-            AdminTransDetailPage(
-              transactionID: data.transactionID.toString(),
+            AdminUsersDetailPage(
               createdAt: data.createdAt.toString(),
-              paymentMethod: data.paymentMethod.toString(),
-              carID: data.carID.toString(),
-              ownerID: data.ownerID.toString(),
-              ownerEmail: data.ownerEmail.toString(),
-              ownerName: data.ownerName.toString(),
-              ownerImage: data.ownerImage.toString(),
-              renterID: data.renterID.toString(),
-              renterEmail: data.renterEmail.toString(),
-              renterName: data.renterName.toString(),
-              renterImage: data.renterImage.toString(),
-              totalAmount: data.totalAmount.toString(),
+              role: data.role.toString(),
+              userID: data.userID.toString(),
+              profilePic: data.profilePic.toString(),
+              email: data.email.toString(),
+              username: data.username.toString(),
             ),
             transition: Transition.cupertino,
             duration: Duration(milliseconds: 350),
@@ -55,18 +46,18 @@ Widget buildAdminTransCard(BuildContext context, int index) {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            "#" + data.transactionID,
+                            data.username,
                             style: pageStyle1,
                           ),
                           Text(
-                            "Created at : " +
+                            "Joined on : " +
                                 DateFormat('yyyy-MM-dd hh:MM:ss')
                                     .format(DateTime.parse(data.createdAt)),
                             style: pageStyleAdminTime,
                           ),
                           Text(
-                            'Amount : RM ${data.totalAmount}',
-                            style: pageStyleAdminAmount,
+                            'Email : ${data.email}',
+                            style: pageStyleAdminID,
                           ),
                         ],
                       ),
@@ -78,20 +69,13 @@ Widget buildAdminTransCard(BuildContext context, int index) {
                         child: IconButton(
                           onPressed: () async {
                             Get.to(
-                              AdminTransDetailPage(
-                                transactionID: data.transactionID.toString(),
+                              AdminUsersDetailPage(
                                 createdAt: data.createdAt.toString(),
-                                paymentMethod: data.paymentMethod.toString(),
-                                carID: data.carID.toString(),
-                                ownerID: data.ownerID.toString(),
-                                ownerEmail: data.ownerEmail.toString(),
-                                ownerName: data.ownerName.toString(),
-                                ownerImage: data.ownerImage.toString(),
-                                renterID: data.renterID.toString(),
-                                renterEmail: data.renterEmail.toString(),
-                                renterName: data.renterName.toString(),
-                                renterImage: data.renterImage.toString(),
-                                totalAmount: data.totalAmount.toString(),
+                                role: data.role.toString(),
+                                userID: data.userID.toString(),
+                                profilePic: data.profilePic.toString(),
+                                email: data.email.toString(),
+                                username: data.username.toString(),
                               ),
                               transition: Transition.cupertino,
                               duration: Duration(milliseconds: 350),

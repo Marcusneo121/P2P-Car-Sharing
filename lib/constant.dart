@@ -102,6 +102,13 @@ var pageStyleAdminAmount = GoogleFonts.poppins(
     wordSpacing: 1,
     fontWeight: FontWeight.normal);
 
+var pageStyleAdminID = GoogleFonts.poppins(
+    color: Colors.black.withOpacity(0.78),
+    fontSize: 12,
+    letterSpacing: 1,
+    wordSpacing: 1,
+    fontWeight: FontWeight.normal);
+
 var pageStyle5 = GoogleFonts.poppins(
   fontSize: 19.0,
   color: primaryColor.withOpacity(0.8),

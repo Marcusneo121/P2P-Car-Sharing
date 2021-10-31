@@ -38,87 +38,83 @@ class _AdminHomeState extends State<AdminHome> {
             padding: EdgeInsets.only(
               left: 22.0,
               right: 22.0,
-              top: 25.0,
             ),
             child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
                 Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    // ElevatedButton(
-                    //   onPressed: () {
-                    //     AuthBinding().dependencies();
-                    //     AuthController().signOut();
-                    //   },
-                    //   child: Text('Logout'),
-                    // ),
-                    SizedBox(
-                      width: 4.0,
+                    Row(
+                      children: [
+                        SizedBox(
+                          width: 11.0,
+                        ),
+                        Image.asset(
+                          'assets/adminLogo.png',
+                          width: size.width - 300,
+                        ),
+                      ],
                     ),
-                    NeumorphicButton(
-                      onPressed: () {
-                        Get.toNamed('/adminProfile');
-                      },
-                      style: NeumorphicStyle(
-                        color: Color(0xFFE9E9E9),
-                        lightSource: LightSource.topLeft,
-                        shape: NeumorphicShape.flat,
-                        boxShape: NeumorphicBoxShape.circle(),
-                        depth: 7,
-                      ),
-                      padding: const EdgeInsets.all(12.0),
-                      child: Icon(
-                        Icons.settings_rounded,
-                        size: 27.0,
-                        color: Colors.black,
-                      ),
-                    ),
-                    SizedBox(
-                      width: 15.0,
-                    ),
-                    NeumorphicButton(
-                      onPressed: () {
-                        AuthBinding().dependencies();
-                        AuthController().signOut();
-                      },
-                      style: NeumorphicStyle(
-                        color: Color(0xFFE9E9E9),
-                        lightSource: LightSource.topLeft,
-                        shape: NeumorphicShape.flat,
-                        boxShape: NeumorphicBoxShape.circle(),
-                        depth: 7,
-                      ),
-                      padding: const EdgeInsets.all(12.0),
-                      child: Icon(
-                        Icons.logout_rounded,
-                        size: 27,
-                        color: Colors.black,
-                      ),
-                    ),
-                    SizedBox(
-                      width: 15.0,
+                    Row(
+                      children: [
+                        SizedBox(
+                          width: 4.0,
+                        ),
+                        NeumorphicButton(
+                          onPressed: () {
+                            Get.toNamed('/adminProfile');
+                          },
+                          style: NeumorphicStyle(
+                            color: Color(0xFFE9E9E9),
+                            lightSource: LightSource.topLeft,
+                            shape: NeumorphicShape.flat,
+                            boxShape: NeumorphicBoxShape.circle(),
+                            depth: 7,
+                          ),
+                          padding: const EdgeInsets.all(12.0),
+                          child: Icon(
+                            Icons.settings_rounded,
+                            size: 27.0,
+                            color: Colors.black,
+                          ),
+                        ),
+                        SizedBox(
+                          width: 15.0,
+                        ),
+                        NeumorphicButton(
+                          onPressed: () {
+                            AuthBinding().dependencies();
+                            AuthController().signOut();
+                          },
+                          style: NeumorphicStyle(
+                            color: Color(0xFFE9E9E9),
+                            lightSource: LightSource.topLeft,
+                            shape: NeumorphicShape.flat,
+                            boxShape: NeumorphicBoxShape.circle(),
+                            depth: 7,
+                          ),
+                          padding: const EdgeInsets.all(12.0),
+                          child: Icon(
+                            Icons.logout_rounded,
+                            size: 27,
+                            color: Colors.black,
+                          ),
+                        ),
+                        SizedBox(
+                          width: 15.0,
+                        ),
+                      ],
                     ),
                   ],
                 ),
-                // Column(
-                //   children: <Widget>[
-                //     Text(
-                //       'Admin Home',
-                //       style: TextStyle(fontSize: 20),
-                //     ),
-                //     Text(
-                //       obtainedUID,
-                //       style: TextStyle(fontSize: 20),
-                //     ),
-                //   ],
-                // ),
-                SizedBox(height: 15),
-                Column(
-                  children: <Widget>[
-                    SizedBox(height: 11),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
                     ElevatedButton(
                       onPressed: () {
-                        print('Hi there');
+                        Get.toNamed('/adminCars');
                       },
                       style: ElevatedButton.styleFrom(
                           padding: EdgeInsets.zero,
@@ -173,7 +169,11 @@ class _AdminHomeState extends State<AdminHome> {
                         ),
                       ),
                     ),
-                    SizedBox(height: 23),
+                  ],
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
                     ElevatedButton(
                       onPressed: () {
                         Get.toNamed('/adminTransaction');
@@ -231,10 +231,14 @@ class _AdminHomeState extends State<AdminHome> {
                         ),
                       ),
                     ),
-                    SizedBox(height: 23),
+                  ],
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
                     ElevatedButton(
                       onPressed: () {
-                        print('Hi there');
+                        Get.toNamed('/adminUsers');
                       },
                       style: ElevatedButton.styleFrom(
                           padding: EdgeInsets.zero,
@@ -289,28 +293,6 @@ class _AdminHomeState extends State<AdminHome> {
                         ),
                       ),
                     ),
-                    // GestureDetector(
-                    //   onTap: () {},
-                    //   child: Container(
-                    //     margin: EdgeInsets.only(
-                    //         left: 30, top: 100, right: 30, bottom: 50),
-                    //     height: size.height - 570,
-                    //     width: size.width - 70,
-                    //     decoration: BoxDecoration(
-                    //       color: Colors.white,
-                    //       borderRadius: BorderRadius.circular(17.0),
-                    //       boxShadow: [
-                    //         BoxShadow(
-                    //           color: Colors.grey.withOpacity(0.5),
-                    //           spreadRadius: 2,
-                    //           blurRadius: 30,
-                    //           offset:
-                    //               Offset(4, 10), // changes position of shadow
-                    //         ),
-                    //       ],
-                    //     ),
-                    //   ),
-                    // ),
                   ],
                 ),
               ],

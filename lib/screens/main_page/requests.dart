@@ -70,7 +70,7 @@ class _RequestState extends State<Request> {
         : Center(
             child: Column(
               children: [
-                SizedBox(height: 170),
+                SizedBox(height: 155),
                 Lottie.asset('assets/myrequest.json', width: 230, height: 230),
                 Text(
                   "Oops! You got no booking yet.",

@@ -23,6 +23,8 @@ String renterEmail = "";
 String renterContact = "";
 String renterImage = "";
 String transactionID = "";
+int? dayDifference;
+String? finalAmountPrice;
 
 class MyRequestDetailPage extends StatefulWidget {
   final String imagePath,
@@ -80,6 +82,7 @@ class _MyRequestDetailPageState extends State<MyRequestDetailPage> {
   void initState() {
     //obtainedUID = Get.arguments;
     //acceptedOrDeclined = "none";
+    decideWhichDayToEnable();
     setState(() {
       uid = FirebaseAuth.instance.currentUser!.uid.toString();
     });
@@ -359,7 +362,7 @@ class _MyRequestDetailPageState extends State<MyRequestDetailPage> {
                                       ),
                                       SizedBox(width: 10),
                                       Text(
-                                        widget.price,
+                                        widget.price + "/day",
                                         style: pageStyle3.copyWith(
                                           fontSize: 14,
                                           fontWeight: FontWeight.w700,
@@ -475,7 +478,8 @@ class _MyRequestDetailPageState extends State<MyRequestDetailPage> {
           Expanded(
             flex: 1,
             child: Padding(
-              padding: const EdgeInsets.only(top: 10.0),
+              padding: const EdgeInsets.only(
+                  top: 3.0, left: 3.0, right: 3.0, bottom: 3.0),
               child: Container(
                 margin: EdgeInsets.symmetric(horizontal: 18),
                 child: bottomNavButton,
@@ -989,16 +993,51 @@ class _MyRequestDetailPageState extends State<MyRequestDetailPage> {
     );
   }
 
+  void decideWhichDayToEnable() {
+    var day1 = DateTime.parse("2021-10-18 12:39:32.581509");
+    var day2 = DateTime.parse("2021-10-18 12:39:32.581509");
+
+    int daysBetween(DateTime from, DateTime to) {
+      from = DateTime(from.year, from.month, from.day);
+      to = DateTime(to.year, to.month, to.day);
+
+      if ((to.difference(from).inHours / 24).round() == 0) {
+        return 1;
+      } else {
+        return (to.difference(from).inHours / 24).round();
+      }
+    }
+
+    setState(() {
+      dayDifference = daysBetween(
+          DateTime.parse(widget.fromDate), DateTime.parse(widget.toDate));
+      int timesPrice =
+          int.parse(widget.price) * int.parse(dayDifference.toString());
+      finalAmountPrice = timesPrice.toString();
+    });
+    print(dayDifference.toString());
+    print(finalAmountPrice.toString());
+    // var difference =
+    // daysBetween(DateTime.parse(widget.fromDate), DateTime.parse(widget.toDate));
+
+    // if ((day.isAfter(DateTime.now().subtract(Duration(days: 1))) &&
+    //     day.isBefore(DateTime.now().add(Duration(days: difference))))) {
+    //   return true;
+    // }
+    // return false;
+  }
+
   Future<void> makePayment() async {
     try {
-      paymentIntentData = await createPaymentIntent(widget.price + '00', 'MYR');
+      paymentIntentData =
+          await createPaymentIntent(finalAmountPrice.toString() + '00', 'MYR');
 
       await Stripe.instance.initPaymentSheet(
         paymentSheetParameters: SetupPaymentSheetParameters(
             paymentIntentClientSecret: paymentIntentData!['client_secret'],
             applePay: true,
             googlePay: true,
-            style: ThemeMode.light,
+            style: ThemeMode.system,
             merchantCountryCode: 'MYR',
             merchantDisplayName: 'Carro P2P'),
       );
@@ -1074,7 +1113,7 @@ class _MyRequestDetailPageState extends State<MyRequestDetailPage> {
       "method": "Credit Card",
       "ownerID": widget.ownerID.toString(),
       "ownerName": widget.ownerName.toString(),
-      "price": widget.price.toString(),
+      "price": finalAmountPrice.toString(),
       "renterID": uid.toString(),
       "renterName": renterName.toString(),
       "until": widget.toDate.toString()

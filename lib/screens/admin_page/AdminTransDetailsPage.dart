@@ -1,10 +1,8 @@
-import 'package:carousel_slider/carousel_slider.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
+import 'package:p2p_car_sharing_app/screens/admin_page/adminTransactions.dart';
 import '../../../constant.dart';
 
 class AdminTransDetailPage extends StatefulWidget {
@@ -50,6 +48,10 @@ class _AdminTransDetailPageState extends State<AdminTransDetailPage> {
   void initState() {
     setState(() {
       //uid = FirebaseAuth.instance.currentUser!.uid.toString();
+      renterImage =
+          "https://firebasestorage.googleapis.com/v0/b/p2p-car-sharing.appspot.com/o/defaultProfilePic.jpg?alt=media&token=998c6836-ad5f-49e2-b915-c8872945acc2";
+      ownerImage =
+          "https://firebasestorage.googleapis.com/v0/b/p2p-car-sharing.appspot.com/o/defaultProfilePic.jpg?alt=media&token=998c6836-ad5f-49e2-b915-c8872945acc2";
     });
   }
 
@@ -170,7 +172,8 @@ class _AdminTransDetailPageState extends State<AdminTransDetailPage> {
                               ),
                             ),
                             Text(
-                              widget.createdAt,
+                              DateFormat('yyyy-MM-dd hh:MM:ss')
+                                  .format(DateTime.parse(widget.createdAt)),
                               style: TextStyle(
                                 fontSize: 14,
                                 fontWeight: FontWeight.normal,
@@ -261,11 +264,10 @@ class _AdminTransDetailPageState extends State<AdminTransDetailPage> {
                       Text(
                         'From : ',
                         style: pageStyle1.copyWith(
-                          fontSize: 15,
+                          fontSize: 17,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
-                      SizedBox(height: 3),
                     ],
                   ),
                   Column(
@@ -350,10 +352,10 @@ class _AdminTransDetailPageState extends State<AdminTransDetailPage> {
                           ],
                         ),
                       ),
-                      SizedBox(height: 20),
+                      SizedBox(height: 25),
                       Icon(
                         Icons.arrow_downward_rounded,
-                        size: 40,
+                        size: 50,
                         color: Colors.black.withOpacity(0.53),
                       ),
                     ],
@@ -361,11 +363,11 @@ class _AdminTransDetailPageState extends State<AdminTransDetailPage> {
                   Text(
                     'To : ',
                     style: pageStyle1.copyWith(
-                      fontSize: 15,
+                      fontSize: 17,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  SizedBox(height: 3),
+                  //SizedBox(height: 3),
                   Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.center,
@@ -450,7 +452,7 @@ class _AdminTransDetailPageState extends State<AdminTransDetailPage> {
                       ),
                     ],
                   ),
-                  SizedBox(height: 20),
+                  SizedBox(height: 10),
                   Row(
                     children: [
                       SizedBox(
@@ -470,7 +472,7 @@ class _AdminTransDetailPageState extends State<AdminTransDetailPage> {
                             "RM " + widget.totalAmount,
                             style: TextStyle(
                               fontSize: 20,
-                              fontWeight: FontWeight.bold,
+                              fontWeight: FontWeight.w900,
                               color: Color(0xFF03257FF),
                             ),
                           ),
