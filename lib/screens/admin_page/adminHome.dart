@@ -132,7 +132,7 @@ class _AdminHomeState extends State<AdminHome> {
                           padding: EdgeInsets.only(
                               left: 17, right: 25, top: 10, bottom: 10),
                           child: Container(
-                            height: size.height - 580,
+                            height: 170,
                             width: size.width - 114,
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.center,
@@ -194,7 +194,7 @@ class _AdminHomeState extends State<AdminHome> {
                           padding: EdgeInsets.only(
                               left: 17, right: 25, top: 10, bottom: 10),
                           child: Container(
-                            height: size.height - 580,
+                            height: 170,
                             width: size.width - 114,
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.center,
@@ -256,7 +256,7 @@ class _AdminHomeState extends State<AdminHome> {
                           padding: EdgeInsets.only(
                               left: 17, right: 25, top: 10, bottom: 10),
                           child: Container(
-                            height: size.height - 580,
+                            height: 170,
                             width: size.width - 114,
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.center,

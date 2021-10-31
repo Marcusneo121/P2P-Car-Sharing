@@ -188,6 +188,7 @@ class _AdminTransactionsState extends State<AdminTransactions> {
 
     return Scaffold(
       resizeToAvoidBottomInset: false,
+      backgroundColor: Colors.white,
       appBar: AppBar(
         foregroundColor: Colors.black,
         backgroundColor: Colors.white,
