@@ -86,6 +86,7 @@ class _RequestState extends State<Request> {
           );
 
     return Scaffold(
+      backgroundColor: Colors.white,
       body: SafeArea(
         child: Container(
           padding: EdgeInsets.only(

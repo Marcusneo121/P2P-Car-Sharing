@@ -210,10 +210,11 @@ class _MyCarState extends State<MyCar> {
         return false;
       },
       child: Scaffold(
+        backgroundColor: Colors.white,
         appBar: AppBar(
           centerTitle: false,
           foregroundColor: Colors.black,
-          backgroundColor: Color(0xFFFFFFFF),
+          backgroundColor: Colors.white,
           shadowColor: Colors.transparent,
           title: Text(
             'My Car',

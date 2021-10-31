@@ -198,7 +198,7 @@ class _RenterRequestState extends State<RenterRequest> {
 
   getAppBar() {
     return AppBar(
-      backgroundColor: Color(0xffFAFAFA),
+      backgroundColor: Colors.white,
       title: Text(
         'Booking Request',
         style: TextStyle(
