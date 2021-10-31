@@ -111,20 +111,375 @@ class _AdminTransDetailPageState extends State<AdminTransDetailPage> {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           SingleChildScrollView(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              //mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                SizedBox(
-                  height: 10,
-                ),
-                Text(widget.createdAt.toString()),
-                Text(widget.transactionID.toString()),
-                Text(widget.ownerID.toString()),
-                Text(widget.renterID.toString()),
-                Text(widget.totalAmount.toString()),
-                Text(widget.renterImage.toString()),
-              ],
+            child: Padding(
+              padding:
+                  const EdgeInsets.only(left: 25.0, right: 25.0, top: 10.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                //mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  SizedBox(height: 10),
+                  Row(
+                    children: [
+                      Text(
+                        'ID : ',
+                        style: pageStyle1.copyWith(
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      SizedBox(
+                        width: 6,
+                      ),
+                      Text(
+                        widget.transactionID,
+                        style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                          color: Color(0xFF03257FF),
+                        ),
+                      ),
+                    ],
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 7.0, right: 7.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        SizedBox(height: 5),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              'Created At',
+                              style: pageStyle1.copyWith(
+                                fontSize: 15,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            Container(
+                              margin: EdgeInsets.only(bottom: 2),
+                              child: SizedBox(
+                                height: 1.4,
+                                width: 85.0,
+                                child: Container(
+                                  height: 1.4,
+                                  color: Colors.black.withOpacity(0.4),
+                                  //decoration: ,
+                                ),
+                              ),
+                            ),
+                            Text(
+                              widget.createdAt,
+                              style: TextStyle(
+                                fontSize: 14,
+                                fontWeight: FontWeight.normal,
+                                color: Colors.black.withOpacity(0.65),
+                              ),
+                            ),
+                          ],
+                        ),
+                        SizedBox(height: 4),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              'Method',
+                              style: pageStyle1.copyWith(
+                                fontSize: 15,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            Container(
+                              margin: EdgeInsets.only(bottom: 2),
+                              child: SizedBox(
+                                height: 1.4,
+                                width: 60.0,
+                                child: Container(
+                                  height: 1.4,
+                                  color: Colors.black.withOpacity(0.4),
+                                  //decoration: ,
+                                ),
+                              ),
+                            ),
+                            Text(
+                              widget.paymentMethod,
+                              style: TextStyle(
+                                fontSize: 14,
+                                fontWeight: FontWeight.normal,
+                                color: Colors.black.withOpacity(0.65),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                  SizedBox(height: 12),
+                  Row(
+                    children: [
+                      Text(
+                        'Transaction Description',
+                        style: pageStyle1.copyWith(
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ],
+                  ),
+                  SizedBox(
+                    height: 4,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 8.0, right: 8.0),
+                    child: Row(
+                      children: [
+                        Text(
+                          'Car ID : ',
+                          style: pageStyle1.copyWith(
+                            fontSize: 14,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        SizedBox(
+                          width: 6,
+                        ),
+                        Text(
+                          widget.carID,
+                          style: TextStyle(
+                            fontSize: 14,
+                            fontWeight: FontWeight.normal,
+                            color: Colors.black.withOpacity(0.65),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  SizedBox(height: 10),
+                  Row(
+                    children: [
+                      Text(
+                        'From : ',
+                        style: pageStyle1.copyWith(
+                          fontSize: 15,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      SizedBox(height: 3),
+                    ],
+                  ),
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Container(
+                        padding: EdgeInsets.only(left: 10, right: 15),
+                        height: size.height * 0.16,
+                        width: size.width * 0.9,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(25),
+                          gradient: LinearGradient(colors: [
+                            Color(0xFF647dee),
+                            Color(0xffb362f9),
+                            //Color(0xFF7879F1)
+                          ]),
+                        ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            CircleAvatar(
+                              backgroundImage: NetworkImage(
+                                widget.renterImage.toString(),
+                              ),
+                              radius: 38,
+                            ),
+                            SizedBox(width: 2),
+                            Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  widget.renterName,
+                                  style: TextStyle(
+                                      color: Colors.white.withOpacity(1),
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                                Text(
+                                  widget.renterEmail,
+                                  style: TextStyle(
+                                      color: Colors.white.withOpacity(1),
+                                      fontSize: 13,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                                Container(
+                                  margin: EdgeInsets.only(bottom: 4, top: 4),
+                                  child: SizedBox(
+                                    height: 1.4,
+                                    width: 140.0,
+                                    child: Container(
+                                      height: 1.4,
+                                      color: Colors.white.withOpacity(1),
+                                      //decoration: ,
+                                    ),
+                                  ),
+                                ),
+                                SizedBox(height: 4),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Text(
+                                      "ID : ",
+                                      style: TextStyle(
+                                          color: Colors.white.withOpacity(0.80),
+                                          fontSize: 13,
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                    Text(
+                                      widget.renterID,
+                                      style: TextStyle(
+                                          color: Colors.white.withOpacity(0.80),
+                                          fontSize: 12,
+                                          fontWeight: FontWeight.normal),
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                      ),
+                      SizedBox(height: 20),
+                      Icon(
+                        Icons.arrow_downward_rounded,
+                        size: 40,
+                        color: Colors.black.withOpacity(0.53),
+                      ),
+                    ],
+                  ),
+                  Text(
+                    'To : ',
+                    style: pageStyle1.copyWith(
+                      fontSize: 15,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  SizedBox(height: 3),
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Container(
+                        padding: EdgeInsets.only(left: 10, right: 15),
+                        height: size.height * 0.16,
+                        width: size.width * 0.9,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(25),
+                          gradient: LinearGradient(colors: [
+                            Color(0xFF647dee),
+                            Color(0xffb362f9),
+                            //Color(0xFF7879F1)
+                          ]),
+                        ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            CircleAvatar(
+                              backgroundImage: NetworkImage(
+                                widget.ownerImage.toString(),
+                              ),
+                              radius: 38,
+                            ),
+                            SizedBox(width: 2),
+                            Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  widget.ownerName,
+                                  style: TextStyle(
+                                      color: Colors.white.withOpacity(1),
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                                Text(
+                                  widget.ownerEmail,
+                                  style: TextStyle(
+                                      color: Colors.white.withOpacity(1),
+                                      fontSize: 13,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                                Container(
+                                  margin: EdgeInsets.only(bottom: 4, top: 4),
+                                  child: SizedBox(
+                                    height: 1.4,
+                                    width: 140.0,
+                                    child: Container(
+                                      height: 1.4,
+                                      color: Colors.white.withOpacity(1),
+                                      //decoration: ,
+                                    ),
+                                  ),
+                                ),
+                                SizedBox(height: 4),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Text(
+                                      "ID : ",
+                                      style: TextStyle(
+                                          color: Colors.white.withOpacity(0.80),
+                                          fontSize: 13,
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                    Text(
+                                      widget.ownerID,
+                                      style: TextStyle(
+                                          color: Colors.white.withOpacity(0.80),
+                                          fontSize: 12,
+                                          fontWeight: FontWeight.normal),
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                  SizedBox(height: 20),
+                  Row(
+                    children: [
+                      SizedBox(
+                        width: 6,
+                      ),
+                      Row(
+                        children: [
+                          Text(
+                            "Total Amount : ",
+                            style: TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.black,
+                            ),
+                          ),
+                          Text(
+                            "RM " + widget.totalAmount,
+                            style: TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                              color: Color(0xFF03257FF),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ],
+              ),
             ),
           ),
         ],
