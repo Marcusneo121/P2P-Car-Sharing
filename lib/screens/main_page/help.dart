@@ -2,7 +2,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
-import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -16,6 +15,7 @@ final _firestore = FirebaseFirestore.instance;
 String argumentUID = "";
 String imageURL =
     "https://firebasestorage.googleapis.com/v0/b/p2p-car-sharing.appspot.com/o/defaultProfilePic.jpg?alt=media&token=998c6836-ad5f-49e2-b915-c8872945acc2";
+String username = "";
 
 class Help extends StatefulWidget {
   const Help({Key? key}) : super(key: key);
@@ -41,6 +41,14 @@ class _HelpState extends State<Help> {
   void initState() {
     super.initState();
     readData();
+    ChatMessage botMessage = ChatMessage(
+      text: "Good Day, ${username.toString()}",
+      name: "Carro AI",
+      type: false,
+    );
+    setState(() {
+      _messages.insert(0, botMessage);
+    });
     initPlugin();
   }
 
@@ -56,7 +64,8 @@ class _HelpState extends State<Help> {
 
     await documentReference.get().then((datasnapshot) async {
       setState(() {
-        imageURL = datasnapshot.get('profilePic');
+        imageURL = datasnapshot.get('profilePic').toString();
+        username = datasnapshot.get('username').toString();
       });
     });
   }
