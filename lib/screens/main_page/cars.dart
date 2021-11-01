@@ -198,7 +198,7 @@ class _CarsState extends State<Cars> {
                       lightSource: LightSource.topLeft,
                       shape: NeumorphicShape.flat,
                       boxShape: NeumorphicBoxShape.circle(),
-                      depth: 14,
+                      depth: 5,
                     ),
                     padding: const EdgeInsets.all(12.0),
                     child: Icon(
