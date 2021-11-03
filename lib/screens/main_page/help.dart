@@ -3,6 +3,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
 import 'package:flutter/services.dart';
+import 'package:get/get_core/src/get_main.dart';
+import 'package:get/get_navigation/src/extension_navigation.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sound_stream/sound_stream.dart';
@@ -40,6 +42,8 @@ class _HelpState extends State<Help> {
   @override
   void initState() {
     super.initState();
+    username = Get.arguments;
+    print(username);
     readData();
     ChatMessage botMessage = ChatMessage(
       text: "Good Day, ${username.toString()}",
@@ -65,7 +69,7 @@ class _HelpState extends State<Help> {
     await documentReference.get().then((datasnapshot) async {
       setState(() {
         imageURL = datasnapshot.get('profilePic').toString();
-        username = datasnapshot.get('username').toString();
+        //username = datasnapshot.get('username').toString();
       });
     });
   }

@@ -222,7 +222,7 @@ class _ProfileState extends State<Profile> {
                       SizedBox(height: 13),
                       ElevatedButton(
                         onPressed: () {
-                          Get.toNamed('/help');
+                          Get.toNamed('/help', arguments: username.toString());
                         },
                         style: ElevatedButton.styleFrom(
                             padding: EdgeInsets.zero,

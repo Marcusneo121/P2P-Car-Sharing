@@ -33,7 +33,6 @@ class _SplashscreenState extends State<Splashscreen> {
     //   finalEmail = obtainedEmail;
     //   finalPassword = obtainedPassword;
     // });
-
     if (obtainedEmail == null && obtainedPassword == null) {
       Future.delayed(Duration(seconds: 4)).then((value) {
         Get.offNamed('/login');
