@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -7,11 +8,14 @@ import 'package:lottie/lottie.dart';
 import 'package:p2p_car_sharing_app/bindings/authBinding.dart';
 import 'package:p2p_car_sharing_app/components/rounded_button.dart';
 import 'package:p2p_car_sharing_app/controllers/authController.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../../constant.dart';
 
+final _firestore = FirebaseFirestore.instance;
 final TextEditingController resetEmailController = TextEditingController();
 var email = Get.arguments;
 FirebaseAuth _auth = FirebaseAuth.instance;
+String _publicUID = "";
 
 class ForgotPasswordProfile extends StatefulWidget {
   @override
@@ -19,9 +23,28 @@ class ForgotPasswordProfile extends StatefulWidget {
 }
 
 class _ForgotPasswordProfileState extends State<ForgotPasswordProfile> {
+  Future readData() async {
+    final SharedPreferences authSharedPreferences =
+        await SharedPreferences.getInstance();
+    final obtainedUID = authSharedPreferences.get('uidShared');
+    _publicUID = obtainedUID.toString();
+
+    //final authCurrentUser = _auth.currentUser!;
+    DocumentReference documentReference =
+        _firestore.collection("users").doc(obtainedUID.toString());
+
+    await documentReference.get().then((datasnapshot) async {
+      setState(() {
+        email = datasnapshot.get('email');
+        resetEmailController.text = email;
+        print(email);
+      });
+    });
+  }
+
   @override
   void initState() {
-    resetEmailController.text = email;
+    readData();
   }
 
   Widget build(BuildContext context) {

@@ -16,7 +16,8 @@ String imageURL =
     "https://firebasestorage.googleapis.com/v0/b/p2p-car-sharing.appspot.com/o/defaultProfilePic.jpg?alt=media&token=998c6836-ad5f-49e2-b915-c8872945acc2";
 String username = "";
 String email = "";
-Timestamp? createdAt;
+String forgotPassEmail = "";
+String createdAt = "";
 String role = "";
 File? _image;
 String url = "";
@@ -109,11 +110,12 @@ class _EditProfileState extends State<EditProfile> {
         createdAt = datasnapshot.get('createdAt');
         role = datasnapshot.get('role');
         nameController.text = username;
+        forgotPassEmail = email;
 
         print(username);
         print(email);
         print(imageURL);
-        print(createdAt!.toDate());
+        print(createdAt);
         print(role);
       });
     });
@@ -126,203 +128,221 @@ class _EditProfileState extends State<EditProfile> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      resizeToAvoidBottomInset: false,
-      backgroundColor: Colors.white,
-      appBar: AppBar(
-        foregroundColor: Colors.black,
+    return WillPopScope(
+      onWillPop: () async {
+        setState(() {
+          username = "";
+          email = "";
+          imageURL =
+              "https://firebasestorage.googleapis.com/v0/b/p2p-car-sharing.appspot.com/o/defaultProfilePic.jpg?alt=media&token=998c6836-ad5f-49e2-b915-c8872945acc2";
+          createdAt = "";
+          role = "";
+          nameController.text = "";
+        });
+        return true;
+      },
+      child: Scaffold(
+        resizeToAvoidBottomInset: false,
         backgroundColor: Colors.white,
-        elevation: 0,
-        title: Text(
-          'Edit Profile',
-          style: TextStyle(
-            color: Colors.black,
-            fontFamily: 'Poppins',
-            fontSize: 21,
+        appBar: AppBar(
+          foregroundColor: Colors.black,
+          backgroundColor: Colors.white,
+          elevation: 0,
+          title: Text(
+            'Edit Profile',
+            style: TextStyle(
+              color: Colors.black,
+              fontFamily: 'Poppins',
+              fontSize: 21,
+            ),
           ),
+          //centerTitle: true,
         ),
-        //centerTitle: true,
-      ),
-      body: SafeArea(
-        child: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: <Widget>[
-              Column(
-                children: <Widget>[
-                  SizedBox(height: 20),
-                  Center(
-                    child: Stack(children: [
-                      buildImage(),
-                      Positioned(
-                        bottom: 0,
-                        right: 1,
-                        //child: buildEditIcon(color),
-                        child: ClipOval(
-                          child: InkWell(
-                            onTap: () {
-                              getGalleryImage();
-                              //getImage();
-                            },
-                            child: Container(
-                              padding: EdgeInsets.all(4),
-                              color: Colors.white,
-                              child: ClipOval(
-                                child: Container(
-                                  padding: EdgeInsets.all(7),
-                                  color: Color(0xFF7879F1),
-                                  child: Icon(
-                                    Icons.add_a_photo,
-                                    color: Colors.white,
-                                    size: 17,
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ]),
-                  ),
-                  SizedBox(height: 20),
-                  buildName(email, username),
-                  SizedBox(height: 20),
-                  Container(
-                    child: Padding(
-                      padding: EdgeInsets.only(left: 50, right: 50),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          SizedBox(
-                            height: 10.0,
-                          ),
-                          Hero(
-                            tag: 'submit',
-                            child: ElevatedButton(
-                              onPressed: () {
-                                Get.toNamed(
-                                    '/login/home/profile/editProfile/changePass',
-                                    arguments: email);
+        body: SafeArea(
+          child: Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                Column(
+                  children: <Widget>[
+                    SizedBox(height: 20),
+                    Center(
+                      child: Stack(children: [
+                        buildImage(),
+                        Positioned(
+                          bottom: 0,
+                          right: 1,
+                          //child: buildEditIcon(color),
+                          child: ClipOval(
+                            child: InkWell(
+                              onTap: () {
+                                getGalleryImage();
+                                //getImage();
                               },
-                              style: ElevatedButton.styleFrom(
-                                  padding: EdgeInsets.zero,
-                                  shape: RoundedRectangleBorder(
-                                      borderRadius:
-                                          BorderRadius.circular(10.0))),
-                              child: Ink(
-                                decoration: BoxDecoration(
-                                    gradient: LinearGradient(colors: [
-                                      Color(0xFF647dee),
-                                      Color(0xffb362f9),
-                                    ]),
-                                    borderRadius: BorderRadius.circular(10)),
-                                child: Padding(
-                                  padding: EdgeInsets.only(
-                                      left: 25, right: 25, top: 10, bottom: 10),
+                              child: Container(
+                                padding: EdgeInsets.all(4),
+                                color: Colors.white,
+                                child: ClipOval(
                                   child: Container(
-                                    height: 33,
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: <Widget>[
-                                        Text(
-                                          'Change Password',
-                                          style: TextStyle(
-                                            fontSize: 17,
-                                            fontWeight: FontWeight.w700,
-                                            color: Colors.white,
-                                          ),
-                                        ),
-                                        Icon(
-                                          Icons.arrow_forward,
-                                          color: Colors.white,
-                                          size: 27,
-                                        )
-                                      ],
+                                    padding: EdgeInsets.all(7),
+                                    color: Color(0xFF7879F1),
+                                    child: Icon(
+                                      Icons.add_a_photo,
+                                      color: Colors.white,
+                                      size: 17,
                                     ),
                                   ),
                                 ),
                               ),
                             ),
-                            // ElevatedButton(
-                            //   style: ButtonStyle(
-                            //     shape: MaterialStateProperty.all<
-                            //         RoundedRectangleBorder>(
-                            //       RoundedRectangleBorder(
-                            //         borderRadius: BorderRadius.circular(10.0),
-                            //       ),
-                            //     ),
-                            //     backgroundColor: MaterialStateProperty.all(
-                            //         Color(0xFF7879F1)),
-                            //   ),
-                            //   onPressed: () {
-                            //     Get.toNamed(
-                            //         '/login/home/profile/editProfile/changePass',
-                            //         arguments: email);
-                            //   },
-                            //   child: Padding(
-                            //     padding: EdgeInsets.all(10),
-                            //     child: Row(
-                            //       mainAxisAlignment:
-                            //           MainAxisAlignment.spaceBetween,
-                            //       children: <Widget>[
-                            //         Text(
-                            //           'Change Password',
-                            //           style: TextStyle(
-                            //             fontSize: 16,
-                            //             fontWeight: FontWeight.w700,
-                            //             color: Colors.white,
-                            //           ),
-                            //         ),
-                            //         Icon(
-                            //           Icons.arrow_forward,
-                            //           color: Colors.white,
-                            //         )
-                            //       ],
-                            //     ),
-                            //   ),
-                            // ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-              Column(
-                children: <Widget>[
-                  Padding(
-                    padding: const EdgeInsets.only(left: 50.0, right: 50.0),
-                    child: ElevatedButton(
-                      onPressed: () {
-                        AuthBinding().dependencies();
-                        AuthController().signOut();
-                      },
-                      style: ButtonStyle(
-                        fixedSize: MaterialStateProperty.all(Size(340, 55)),
-                        shape: MaterialStateProperty.all(
-                          RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(15),
-                            side: BorderSide(color: Colors.red, width: 2),
                           ),
                         ),
-                        backgroundColor:
-                            MaterialStateProperty.all(Colors.transparent),
-                        shadowColor:
-                            MaterialStateProperty.all(Colors.transparent),
-                      ),
-                      child: Text(
-                        "Logout",
-                        style: TextStyle(fontSize: 21, color: Colors.red),
+                      ]),
+                    ),
+                    SizedBox(height: 20),
+                    buildName(email, username),
+                    SizedBox(height: 20),
+                    Container(
+                      child: Padding(
+                        padding: EdgeInsets.only(left: 50, right: 50),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+                            SizedBox(
+                              height: 10.0,
+                            ),
+                            Hero(
+                              tag: 'submit',
+                              child: ElevatedButton(
+                                onPressed: () {
+                                  print(forgotPassEmail.toString());
+                                  Get.toNamed(
+                                      '/login/home/profile/editProfile/changePass',
+                                      arguments: forgotPassEmail);
+                                },
+                                style: ElevatedButton.styleFrom(
+                                    padding: EdgeInsets.zero,
+                                    shape: RoundedRectangleBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(10.0))),
+                                child: Ink(
+                                  decoration: BoxDecoration(
+                                      gradient: LinearGradient(colors: [
+                                        Color(0xFF647dee),
+                                        Color(0xffb362f9),
+                                      ]),
+                                      borderRadius: BorderRadius.circular(10)),
+                                  child: Padding(
+                                    padding: EdgeInsets.only(
+                                        left: 25,
+                                        right: 25,
+                                        top: 10,
+                                        bottom: 10),
+                                    child: Container(
+                                      height: 33,
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: <Widget>[
+                                          Text(
+                                            'Change Password',
+                                            style: TextStyle(
+                                              fontSize: 17,
+                                              fontWeight: FontWeight.w700,
+                                              color: Colors.white,
+                                            ),
+                                          ),
+                                          Icon(
+                                            Icons.arrow_forward,
+                                            color: Colors.white,
+                                            size: 27,
+                                          )
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              // ElevatedButton(
+                              //   style: ButtonStyle(
+                              //     shape: MaterialStateProperty.all<
+                              //         RoundedRectangleBorder>(
+                              //       RoundedRectangleBorder(
+                              //         borderRadius: BorderRadius.circular(10.0),
+                              //       ),
+                              //     ),
+                              //     backgroundColor: MaterialStateProperty.all(
+                              //         Color(0xFF7879F1)),
+                              //   ),
+                              //   onPressed: () {
+                              //     Get.toNamed(
+                              //         '/login/home/profile/editProfile/changePass',
+                              //         arguments: email);
+                              //   },
+                              //   child: Padding(
+                              //     padding: EdgeInsets.all(10),
+                              //     child: Row(
+                              //       mainAxisAlignment:
+                              //           MainAxisAlignment.spaceBetween,
+                              //       children: <Widget>[
+                              //         Text(
+                              //           'Change Password',
+                              //           style: TextStyle(
+                              //             fontSize: 16,
+                              //             fontWeight: FontWeight.w700,
+                              //             color: Colors.white,
+                              //           ),
+                              //         ),
+                              //         Icon(
+                              //           Icons.arrow_forward,
+                              //           color: Colors.white,
+                              //         )
+                              //       ],
+                              //     ),
+                              //   ),
+                              // ),
+                            ),
+                          ],
+                        ),
                       ),
                     ),
-                  ),
-                  SizedBox(
-                    height: 20.0,
-                  ),
-                ],
-              ),
-            ],
+                  ],
+                ),
+                Column(
+                  children: <Widget>[
+                    Padding(
+                      padding: const EdgeInsets.only(left: 50.0, right: 50.0),
+                      child: ElevatedButton(
+                        onPressed: () {
+                          AuthBinding().dependencies();
+                          AuthController().signOut();
+                        },
+                        style: ButtonStyle(
+                          fixedSize: MaterialStateProperty.all(Size(340, 55)),
+                          shape: MaterialStateProperty.all(
+                            RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(15),
+                              side: BorderSide(color: Colors.red, width: 2),
+                            ),
+                          ),
+                          backgroundColor:
+                              MaterialStateProperty.all(Colors.transparent),
+                          shadowColor:
+                              MaterialStateProperty.all(Colors.transparent),
+                        ),
+                        child: Text(
+                          "Logout",
+                          style: TextStyle(fontSize: 21, color: Colors.red),
+                        ),
+                      ),
+                    ),
+                    SizedBox(
+                      height: 20.0,
+                    ),
+                  ],
+                ),
+              ],
+            ),
           ),
         ),
       ),

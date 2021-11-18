@@ -720,7 +720,7 @@ class _SearchCarDetailPageState extends State<SearchCarDetailPage> {
           ),
         ),
         SizedBox(
-          height: 20,
+          height: 9,
         ),
       ],
     );

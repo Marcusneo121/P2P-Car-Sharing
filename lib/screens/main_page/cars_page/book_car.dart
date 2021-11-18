@@ -98,6 +98,7 @@ class _BookCarState extends State<BookCar> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: getAppBar(),
       body: getBody(),
     );
