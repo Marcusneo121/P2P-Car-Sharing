@@ -124,7 +124,7 @@ class _ForgotPasswordProfileState extends State<ForgotPasswordProfile> {
                             style: TextStyle(
                               color: Colors.white,
                               fontFamily: 'Poppins',
-                              fontSize: 20.0,
+                              fontSize: 18.0,
                             ),
                             enabled: false,
                             controller: resetEmailController,

@@ -116,6 +116,25 @@ class _RenterRequestState extends State<RenterRequest> {
               .get()
               .then((QuerySnapshot querySnapshot) {
             querySnapshot.docs.forEach((doc) async {
+              await _firestore
+                  .collection('cars')
+                  .doc(doc["carID"].toString())
+                  .get()
+                  .then((dataSnapshot) {
+                setState(() {
+                  imagePath = dataSnapshot.get('carPic').toString();
+                  carName = dataSnapshot.get('carName').toString();
+                  carPlate = dataSnapshot.get('plateNumber').toString();
+                  originalPrice = dataSnapshot.get('price').toString();
+                  location = dataSnapshot.get('location').toString();
+
+                  print(imagePath.toString());
+                  print(carName.toString());
+                  print(carPlate.toString());
+                  print(originalPrice.toString());
+                  print(location.toString());
+                });
+              });
               setState(() {
                 carID = doc["carID"].toString();
                 renterID = doc["userID"].toString();
@@ -138,26 +157,6 @@ class _RenterRequestState extends State<RenterRequest> {
                 print(renterImage.toString());
                 print(renterName.toString());
                 print(status.toString());
-              });
-
-              await _firestore
-                  .collection('cars')
-                  .doc(carID.toString())
-                  .get()
-                  .then((dataSnapshot) {
-                setState(() {
-                  imagePath = dataSnapshot.get('carPic').toString();
-                  carName = dataSnapshot.get('carName').toString();
-                  carPlate = dataSnapshot.get('plateNumber').toString();
-                  originalPrice = dataSnapshot.get('price').toString();
-                  location = dataSnapshot.get('location').toString();
-
-                  print(imagePath.toString());
-                  print(carName.toString());
-                  print(carPlate.toString());
-                  print(originalPrice.toString());
-                  print(location.toString());
-                });
               });
 
               var eachRenterRequestModel = RenterRequestModel(

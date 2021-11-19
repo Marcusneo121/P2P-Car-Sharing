@@ -393,16 +393,30 @@ class _ProfileState extends State<Profile> {
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          Text(
-            username,
-            style: TextStyle(
-                fontWeight: FontWeight.bold, fontSize: 24, color: Colors.white),
+          Flexible(
+            child: Container(
+              child: Text(
+                username,
+                overflow: TextOverflow.ellipsis,
+                style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 24,
+                    color: Colors.white),
+              ),
+            ),
           ),
           const SizedBox(height: 1),
-          Text(
-            email,
-            style: TextStyle(color: Colors.white70, fontSize: 14),
-          )
+          Flexible(
+            child: Container(
+                child: Text(
+              email,
+              overflow: TextOverflow.ellipsis,
+              style: TextStyle(
+                color: Colors.white70,
+                fontSize: 13,
+              ),
+            )),
+          ),
         ],
       );
 }

@@ -126,54 +126,52 @@ class _RequestState extends State<Request> {
           .get()
           .then((QuerySnapshot querySnapshotMaster) {
         querySnapshotMaster.docs.forEach((doc) async {
-          carID = doc["carID"].toString();
-          price = doc["desirePrice"].toString();
-          fromDate = doc["rentFrom"].toString();
-          toDate = doc["rentUntil"].toString();
-          status = doc["status"].toString();
-
           await _firestore
               .collection('cars')
               .doc(doc.id.toString())
               .get()
               .then((dataSnapshotMaster) async {
-            setState(() {
-              imagePath = dataSnapshotMaster.get('carPic').toString();
-              carName = dataSnapshotMaster.get('carName').toString();
-              carPlate = dataSnapshotMaster.get('plateNumber').toString();
-              originalPrice = dataSnapshotMaster.get('price').toString();
-              location = dataSnapshotMaster.get('location').toString();
-              ownerID = dataSnapshotMaster.get('ownerID').toString();
+            // setState(() {
+            //   imagePath = dataSnapshotMaster.get('carPic').toString();
+            //   carName = dataSnapshotMaster.get('carName').toString();
+            //   carPlate = dataSnapshotMaster.get('plateNumber').toString();
+            //   originalPrice = dataSnapshotMaster.get('price').toString();
+            //   location = dataSnapshotMaster.get('location').toString();
+            //   ownerID = dataSnapshotMaster.get('ownerID').toString();
+            // });
+            await _firestore
+                .collection('users')
+                .doc(dataSnapshotMaster.get('ownerID').toString())
+                .get()
+                .then((dataSnapshot) {
+              setState(() {
+                carID = doc["carID"].toString();
+                price = doc["desirePrice"].toString();
+                fromDate = doc["rentFrom"].toString();
+                toDate = doc["rentUntil"].toString();
+                status = doc["status"].toString();
+
+                imagePath = dataSnapshotMaster.get('carPic').toString();
+                carName = dataSnapshotMaster.get('carName').toString();
+                carPlate = dataSnapshotMaster.get('plateNumber').toString();
+                originalPrice = dataSnapshotMaster.get('price').toString();
+                location = dataSnapshotMaster.get('location').toString();
+                ownerID = dataSnapshotMaster.get('ownerID').toString();
+
+                ownerEmail = dataSnapshot.get('email').toString();
+                ownerName = dataSnapshot.get('username').toString();
+                ownerImage = dataSnapshot.get('profilePic').toString();
+              });
             });
           });
 
-          await _firestore
-              .collection('users')
-              .doc(ownerID.toString())
-              .get()
-              .then((dataSnapshot) {
-            setState(() {
-              ownerEmail = dataSnapshot.get('email').toString();
-              ownerName = dataSnapshot.get('username').toString();
-              ownerImage = dataSnapshot.get('profilePic').toString();
-            });
-          });
-
-          var eachMyRequestModel = MyRequestModel(
-              imagePath: imagePath,
-              carID: carID,
-              carName: carName,
-              carPlate: carPlate,
-              price: price,
-              originalPrice: originalPrice,
-              location: location,
-              fromDate: fromDate,
-              toDate: toDate,
-              ownerEmail: ownerEmail,
-              ownerID: ownerID,
-              ownerName: ownerName,
-              ownerImage: ownerImage,
-              status: status);
+          // setState(() {
+          //   carID = doc["carID"].toString();
+          //   price = doc["desirePrice"].toString();
+          //   fromDate = doc["rentFrom"].toString();
+          //   toDate = doc["rentUntil"].toString();
+          //   status = doc["status"].toString();
+          // });
 
           print(carID.toString());
           print(ownerID.toString());
@@ -190,6 +188,21 @@ class _RequestState extends State<Request> {
           print(originalPrice.toString());
           print(location.toString());
 
+          var eachMyRequestModel = MyRequestModel(
+              imagePath: imagePath,
+              carID: carID,
+              carName: carName,
+              carPlate: carPlate,
+              price: price,
+              originalPrice: originalPrice,
+              location: location,
+              fromDate: fromDate,
+              toDate: toDate,
+              ownerEmail: ownerEmail,
+              ownerID: ownerID,
+              ownerName: ownerName,
+              ownerImage: ownerImage,
+              status: status);
           MyRequestList.myRequestList.add(eachMyRequestModel);
         });
       }).catchError((onError) {
