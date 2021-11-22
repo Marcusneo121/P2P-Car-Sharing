@@ -85,6 +85,12 @@ class _EditProfileState extends State<EditProfile> {
     DocumentReference documentReference =
         _firestore.collection("users").doc(_publicUID.toString());
 
+    print(username);
+    print(email);
+    print(url);
+    print(createdAt);
+    print(role);
+
     documentReference.set(updateUser).whenComplete(
       () {
         print('$username updated');
